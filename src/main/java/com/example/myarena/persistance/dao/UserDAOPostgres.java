@@ -8,7 +8,7 @@ import java.sql.*;
 
 public class UserDAOPostgres implements UserDAO {
 
-    private static final String URL = "jdbc:postgresql://localhost:5432/myarena";
+    private static final String URL = "jdbc:postgresql://localhost:5430/myarena";
     private static final String USER = "postgres";
     private static final String PASSWORD = "postgres";
 
