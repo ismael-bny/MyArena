@@ -1,6 +1,6 @@
 package com.example.myarena.services;
 
-import com.example.myarena.dao.UserDAO;
+import com.example.myarena.persistance.dao.UserDAO;
 import com.example.myarena.domain.User;
 
 public class UserManager {
