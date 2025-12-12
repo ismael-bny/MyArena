@@ -1,7 +1,7 @@
 package com.example.myarena.domain;
 
 public class User {
-    private String id;
+    private Long id;
     private String name;
     private String email;
     private String pwdHash;
@@ -9,7 +9,9 @@ public class User {
     private UserRole role;
     private UserStatus status;
 
-    public User(String email, String id, String name, String pwdHash, String phone, UserRole role, UserStatus userStatus) {
+    public User() {}
+
+    public User(String email, Long id, String name, String pwdHash, String phone, UserRole role, UserStatus userStatus) {
         this.email = email;
         this.id = id;
         this.name = name;
@@ -19,33 +21,35 @@ public class User {
         this.status = userStatus;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
-
     public String getName() {
         return name;
     }
-
     public String getEmail() {
         return email;
     }
-
     public String getPwdHash() {
         return pwdHash;
     }
-
     public String getPhone() {
         return phone;
     }
-
     public UserRole getRole() {
         return role;
     }
-
     public UserStatus getUserStatus() {
         return status;
     }
+
+    public void setId(Long id) { this.id = id; }
+    public void setName(String name) { this.name = name; }
+    public void setEmail(String email) { this.email = email; }
+    public void setPwdHash(String pwdHash) { this.pwdHash = pwdHash; }
+    public void setPhone(String phone) { this.phone = phone; }
+    public void setRole(UserRole role) { this.role = role; }
+    public void setStatus(UserStatus status) { this.status = status; }
 
     public boolean isActive() {
         return status == UserStatus.ACTIVE;
