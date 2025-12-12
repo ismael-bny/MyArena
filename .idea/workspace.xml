@@ -6,8 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="2f701746-b727-4275-9818-bea990ea29c6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/myarena/Launcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/myarena/Launcher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/myarena/facade/SessionFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/myarena/facade/SessionFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/myarena/services/UserManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/myarena/services/UserManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/myarena/ui/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/myarena/ui/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/myarena/ui/LoginFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/myarena/ui/LoginFrame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/myarena/login-page.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/myarena/login-page.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -60,6 +63,7 @@
     "Application.Launcher.executor": "Run",
     "Application.TestLogin.executor": "Run",
     "Maven.MyArena [clean].executor": "Run",
+    "Maven.MyArena [compile].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "dev",
@@ -122,7 +126,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1765533615353</updated>
-      <workItem from="1765533616646" duration="3245000" />
+      <workItem from="1765533616646" duration="5736000" />
     </task>
     <servers />
   </component>

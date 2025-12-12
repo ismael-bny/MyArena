@@ -17,6 +17,8 @@
 
     <Label text="MyArena Login" style="-fx-font-size: 24px;"/>
 
+    <Label fx:id="messageLabel" text="" style="-fx-font-size: 14px;"/>
+
     <TextField fx:id="usernameField" promptText="Username"/>
 
     <PasswordField fx:id="pwdField" promptText="Password"/>

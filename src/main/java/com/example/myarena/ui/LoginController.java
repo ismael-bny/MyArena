@@ -22,8 +22,10 @@ public class LoginController {
         boolean success = sessionFacade.login(username, password);
 
         if (success) {
+            view.showMessage("Login successful for user: " + username, true);
             System.out.println("Login successful for user: " + username);
         } else {
+            view.showMessage("Login failed. Check your credentials.", false);
             System.out.println("Login failed.");
         }
     }

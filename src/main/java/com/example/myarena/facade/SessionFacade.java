@@ -1,4 +1,5 @@
 package com.example.myarena.facade;
+import com.example.myarena.domain.User;
 import com.example.myarena.services.UserManager;
 
 public class SessionFacade {
@@ -18,6 +19,7 @@ public class SessionFacade {
     }
 
     public boolean login(String id, String pwd) {
-        return userManager.login(id, pwd).isActive();
+        User currentUser = userManager.login(id, pwd);  // ← Stocke le user
+        return currentUser != null;
     }
 }
