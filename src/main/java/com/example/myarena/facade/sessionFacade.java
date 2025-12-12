@@ -17,6 +17,6 @@ public class SessionFacade {
     }
 
     public boolean login(String id, String pwd) {
-        return false;
+        return userManager.login(id, pwd);
     }
 }
