@@ -2,14 +2,16 @@ package com.example.myarena.services;
 
 import com.example.myarena.persistance.dao.UserDAO;
 import com.example.myarena.domain.User;
+import com.example.myarena.persistance.factory.AbstractFactory;
+import com.example.myarena.persistance.factory.PostgresFactory;
 
 public class UserManager {
     private final UserDAO userDAO;
     private User currentUser;
 
-    public UserManager(UserDAO userDAO) {
-        if (userDAO == null) throw new IllegalArgumentException("userDAO cannot be null");
-        this.userDAO = userDAO;
+    public UserManager() {
+        AbstractFactory factory = new PostgresFactory();
+        this.userDAO = factory.createUserDAO();
     }
 
     /**

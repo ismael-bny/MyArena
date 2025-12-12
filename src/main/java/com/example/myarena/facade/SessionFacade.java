@@ -1,8 +1,9 @@
 package com.example.myarena.facade;
+import com.example.myarena.services.UserManager;
 
 public class SessionFacade {
     private static SessionFacade instance;
-    private UserManager userManager;
+    private final UserManager userManager;
 
     private SessionFacade() {
         this.userManager = new UserManager();
@@ -17,6 +18,6 @@ public class SessionFacade {
     }
 
     public boolean login(String id, String pwd) {
-        return userManager.login(id, pwd);
+        return userManager.login(id, pwd).isActive();
     }
 }
