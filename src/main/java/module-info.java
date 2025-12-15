@@ -10,4 +10,9 @@ module com.example.myarena {
     exports com.example.myarena.ui;
 
     exports com.example.myarena.domain;  // Pour User, UserRole, UserStatus
+
+    exports com.example.myarena.facade;
+    exports com.example.myarena.services;
+    exports com.example.myarena.persistance.dao;
+    exports com.example.myarena.persistance.factory;
 }
