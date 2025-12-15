@@ -1,0 +1,120 @@
+@startuml
+
+' =======================
+'        PACKAGES
+' =======================
+
+package "ui" {
+    class TerrainMaintenanceFrame {
+        - nameField : TextField
+        - typeComboBox : ComboBox
+        - locationField : TextField
+        - priceField : TextField
+        - capacityField : TextField
+        - descriptionArea : TextArea
+        - saveButton : Button
+        - deleteButton : Button
+        - controller : TerrainController
+        + displayTerrain(t : Terrain)
+    }
+
+    class TerrainController {
+        - view : TerrainMaintenanceFrame
+        - terrainFacade : TerrainFacade
+        + createTerrain()
+        + updateTerrain()
+        + deleteTerrain()
+    }
+}
+
+package "façade" {
+    class TerrainFacade {
+        - instance : TerrainFacade
+        - terrainManager : TerrainManager
+        + createTerrain(t : Terrain) : boolean
+        + updateTerrain(t : Terrain) : boolean
+        + deleteTerrain(id : Long) : boolean
+    }
+}
+
+package "domain" {
+    class Terrain {
+        - id : Long
+        - name : String
+        - type : TerrainType
+        - description : String
+        - location : String
+        - pricePerHour : double
+        - capacity : int
+        - available : boolean
+        - ownerId : Long
+    }
+
+    enum TerrainType {
+        FOOTBALL
+        TENNIS
+        BASKETBALL
+        SWIMMING
+        OTHER
+    }
+}
+
+package "persistance" {
+
+    package "dao" {
+        interface TerrainDAO {
+            + getTerrainByID(id : Long) : Terrain
+            + saveTerrain(t : Terrain)
+            + updateTerrain(t : Terrain)
+            + deleteTerrain(id : Long)
+        }
+
+        class TerrainDAOPostgres {
+            + getTerrainByID(id : Long) : Terrain
+            + saveTerrain(t : Terrain)
+            + updateTerrain(t : Terrain)
+            + deleteTerrain(id : Long)
+        }
+    }
+
+    package "factory" {
+        class AbstractFactory {
+            + createUserDAO() : UserDAO
+            + createTerrainDAO() : TerrainDAO
+        }
+
+        class PostgresFactory {
+            + createUserDAO() : UserDAO
+            + createTerrainDAO() : TerrainDAO
+        }
+    }
+}
+
+package "services" {
+    class TerrainManager {
+        - terrainDAO : TerrainDAO
+        + createTerrain(t : Terrain) : Terrain
+        + updateTerrain(t : Terrain) : Terrain
+        + deleteTerrain(id : Long)
+    }
+}
+
+' =======================
+'     RELATIONSHIPS
+' =======================
+
+TerrainMaintenanceFrame --> TerrainController
+TerrainController --> TerrainFacade : uses
+
+TerrainFacade --> TerrainManager
+TerrainManager --> TerrainDAO
+
+AbstractFactory <|-- PostgresFactory
+TerrainDAO <|-- TerrainDAOPostgres
+
+PostgresFactory --> TerrainDAOPostgres : createTerrainDAO()
+
+TerrainManager --> Terrain : manages
+Terrain ..> TerrainType
+
+@enduml
