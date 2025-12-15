@@ -8,9 +8,9 @@ import java.sql.*;
 
 public class UserDAOPostgres implements UserDAO {
 
-    private static final String URL = "jdbc:postgresql://localhost:5430/myarena";
-    private static final String USER = "postgres";
-    private static final String PASSWORD = "postgres";
+    private static final String URL = "jdbc:postgresql://ep-gentle-term-ag1gorm7-pooler.c-2.eu-central-1.aws.neon.tech/myarena?sslmode=require&channel_binding=require";
+    private static final String USER = "neondb_owner";
+    private static final String PASSWORD = "npg_Zym8Fjrpg4iz";
 
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);
