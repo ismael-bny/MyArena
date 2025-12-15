@@ -1,0 +1,78 @@
+@startuml
+
+package "ui" {
+    class CancelSubscriptionFrame {
+        - controller : CancelSubscriptionController
+    }
+
+    class CancelSubscriptionController {
+        - view : CancelSubscriptionFrame
+        - sessionFacade : SessionFacade
+        + cancelSubscription()
+    }
+}
+
+package "façade" {
+    class SessionFacade {
+        - subscriptionManager : SubscriptionManager
+        + cancelSubscription() : boolean
+    }
+}
+
+package "services" {
+    class SubscriptionManager {
+        - subscriptionDAO : SubscriptionDAO
+        + cancelSubscription(userId : Long) : Subscription
+    }
+}
+
+package "domain" {
+    class Subscription {
+        - id : Long
+        - autoRenew : boolean
+        - status : SubscriptionStatus
+    }
+
+    enum SubscriptionStatus {
+        ACTIVE
+        CANCELLED
+        EXPIRED
+    }
+}
+
+package "persistance" {
+
+    package "dao" {
+        interface SubscriptionDAO {
+            + findActiveByUserId(userId : Long) : Subscription
+            + update(s : Subscription) : Subscription
+        }
+
+        class SubscriptionDAOPostgres
+    }
+
+    package "factory" {
+        class AbstractFactory {
+            + createSubscriptionDAO() : SubscriptionDAO
+        }
+
+        class PostgresFactory {
+            + createSubscriptionDAO() : SubscriptionDAO
+        }
+    }
+}
+
+CancelSubscriptionFrame --> CancelSubscriptionController
+CancelSubscriptionController --> SessionFacade : uses
+
+SessionFacade --> SubscriptionManager
+SubscriptionManager --> SubscriptionDAO
+
+AbstractFactory <|-- PostgresFactory
+SubscriptionDAO <|-- SubscriptionDAOPostgres
+
+PostgresFactory --> SubscriptionDAOPostgres
+
+SubscriptionManager --> Subscription : returns
+
+@enduml

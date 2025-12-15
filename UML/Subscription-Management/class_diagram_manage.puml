@@ -1,0 +1,81 @@
+@startuml
+
+package "ui" {
+    class PlanManagementFrame {
+        - controller : PlanAdminController
+    }
+
+    class PlanAdminController {
+        - view : PlanManagementFrame
+        - sessionFacade : SessionFacade
+        + createPlan()
+        + updatePlan()
+        + deletePlan()
+    }
+}
+
+package "façade" {
+    class SessionFacade {
+        - subscriptionManager : SubscriptionManager
+        + createPlan(p : SubscriptionPlan)
+        + updatePlan(p : SubscriptionPlan)
+        + deletePlan(planId : Long)
+    }
+}
+
+package "services" {
+    class SubscriptionManager {
+        - subscriptionPlanDAO : SubscriptionPlanDAO
+        + createPlan(p : SubscriptionPlan)
+        + updatePlan(p : SubscriptionPlan)
+        + deletePlan(planId : Long)
+    }
+}
+
+package "domain" {
+    class SubscriptionPlan {
+        - id : Long
+        - name : String
+        - price : double
+        - durationMonths : int
+        - active : boolean
+    }
+}
+
+package "persistance" {
+
+    package "dao" {
+        interface SubscriptionPlanDAO {
+            + create(p : SubscriptionPlan)
+            + update(p : SubscriptionPlan)
+            + delete(id : Long)
+        }
+
+        class SubscriptionPlanDAOPostgres
+    }
+
+    package "factory" {
+        class AbstractFactory {
+            + createSubscriptionPlanDAO() : SubscriptionPlanDAO
+        }
+
+        class PostgresFactory {
+            + createSubscriptionPlanDAO() : SubscriptionPlanDAO
+        }
+    }
+}
+
+PlanManagementFrame --> PlanAdminController
+PlanAdminController --> SessionFacade : uses
+
+SessionFacade --> SubscriptionManager
+SubscriptionManager --> SubscriptionPlanDAO
+
+AbstractFactory <|-- PostgresFactory
+SubscriptionPlanDAO <|-- SubscriptionPlanDAOPostgres
+
+PostgresFactory --> SubscriptionPlanDAOPostgres
+
+SubscriptionManager --> SubscriptionPlan : returns
+
+@enduml

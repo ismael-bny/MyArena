@@ -1,0 +1,100 @@
+@startuml
+
+package "ui" {
+    class SubscribeFrame {
+        - controller : SubscribeController
+    }
+
+    class SubscribeController {
+        - view : SubscribeFrame
+        - sessionFacade : SessionFacade
+        + subscribe(planId : Long)
+    }
+}
+
+package "façade" {
+    class SessionFacade {
+        - subscriptionManager : SubscriptionManager
+        + subscribe(planId : Long) : boolean
+    }
+}
+
+package "services" {
+    class SubscriptionManager {
+        - subscriptionDAO : SubscriptionDAO
+        - subscriptionPlanDAO : SubscriptionPlanDAO
+        + subscribe(userId : Long, planId : Long) : Subscription
+    }
+}
+
+package "domain" {
+    class Subscription {
+        - id : Long
+        - startDate : LocalDate
+        - endDate : LocalDate
+        - autoRenew : boolean
+        - status : SubscriptionStatus
+        - plan : SubscriptionPlan
+    }
+
+    class SubscriptionPlan {
+        - id : Long
+        - name : String
+        - price : double
+        - durationMonths : int
+    }
+
+    enum SubscriptionStatus {
+        ACTIVE
+        CANCELLED
+        EXPIRED
+    }
+}
+
+package "persistance" {
+
+    package "dao" {
+        interface SubscriptionDAO {
+            + save(s : Subscription) : Subscription
+        }
+
+        interface SubscriptionPlanDAO {
+            + getById(id : Long) : SubscriptionPlan
+        }
+
+        class SubscriptionDAOPostgres
+        class SubscriptionPlanDAOPostgres
+    }
+
+    package "factory" {
+        class AbstractFactory {
+            + createSubscriptionDAO() : SubscriptionDAO
+            + createSubscriptionPlanDAO() : SubscriptionPlanDAO
+        }
+
+        class PostgresFactory {
+            + createSubscriptionDAO() : SubscriptionDAO
+            + createSubscriptionPlanDAO() : SubscriptionPlanDAO
+        }
+    }
+}
+
+SubscribeFrame --> SubscribeController
+SubscribeController --> SessionFacade : uses
+
+SessionFacade --> SubscriptionManager
+SubscriptionManager --> SubscriptionDAO
+SubscriptionManager --> SubscriptionPlanDAO
+
+AbstractFactory <|-- PostgresFactory
+SubscriptionDAO <|-- SubscriptionDAOPostgres
+SubscriptionPlanDAO <|-- SubscriptionPlanDAOPostgres
+
+PostgresFactory --> SubscriptionDAOPostgres
+PostgresFactory --> SubscriptionPlanDAOPostgres
+
+SubscriptionManager --> Subscription : returns
+
+Subscription --> SubscriptionPlan : plan
+
+@enduml
