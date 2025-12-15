@@ -1,0 +1,71 @@
+@startuml
+
+actor User as UI
+
+participant "ReservationFrame\n(ui)" as ReservationFrame
+participant "ReservationController\n(ui)" as ReservationController
+participant "ReservationFacade\n(façade)" as ReservationFacade
+participant "ReservationManager\n(services)" as ReservationManager
+participant "AbstractFactory\n(persistance.factory)" as AbsFactory
+participant "PostgresFactory\n(persistance.factory)" as PGFactory
+participant "ReservationDAOPostgres\n(persistance.dao)" as ReservationDAOPG
+database "Postgres DB" as DB
+participant "Reservation\n(domain)" as ReservationObj
+
+== User Initiates Reservation ==
+UI -> ReservationFrame: selectTerrain(), chooseDates()
+ReservationFrame -> ReservationController: createReservation()
+
+== Controller delegates to Facade ==
+ReservationController -> ReservationFacade: createReservation(userId, terrainId, startDate, endDate)
+
+== Facade delegates to ReservationManager ==
+ReservationFacade -> ReservationManager: createReservation(userId, terrainId, startDate, endDate)
+
+== ReservationManager checks availability ==
+ReservationManager -> ReservationManager: checkAvailability(terrainId, startDate, endDate)
+
+== ReservationManager obtains DAO through Factory ==
+ReservationManager -> AbsFactory: createReservationDAO()
+AbsFactory -> PGFactory: new PostgresFactory()
+activate PGFactory
+PGFactory -> ReservationDAOPG: new ReservationDAOPostgres()
+activate ReservationDAOPG
+PGFactory --> ReservationManager: ReservationDAOPostgres
+deactivate PGFactory
+
+== DAO checks conflicts in Database ==
+ReservationManager -> ReservationDAOPG: getReservationsByTerrainId(terrainId)
+ReservationDAOPG -> DB: SELECT * FROM reservations WHERE terrain_id = ?
+DB --> ReservationDAOPG: existing reservations
+
+alt No Conflict Found
+    == Create Reservation ==
+    ReservationManager -> ReservationObj: new Reservation(userId, terrainId, startDate, endDate, ...)
+    activate ReservationObj
+
+    == Save to Database ==
+    ReservationManager -> ReservationDAOPG: saveReservation(reservation)
+    ReservationDAOPG -> DB: INSERT INTO reservations ...
+    DB --> ReservationDAOPG: success
+
+    ReservationDAOPG --> ReservationManager: void
+    deactivate ReservationDAOPG
+
+    == Return Success ==
+    ReservationManager --> ReservationFacade: Reservation
+    deactivate ReservationObj
+
+    ReservationFacade --> ReservationController: true
+    ReservationController --> ReservationFrame: showSuccess()
+
+    UI <-- ReservationFrame: "Reservation confirmed!"
+
+else Conflict Found
+    ReservationManager --> ReservationFacade: null
+    ReservationFacade --> ReservationController: false
+    ReservationController --> ReservationFrame: showError()
+    UI <-- ReservationFrame: "Terrain unavailable for selected dates"
+end
+
+@enduml

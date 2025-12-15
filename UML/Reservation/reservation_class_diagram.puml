@@ -1,0 +1,137 @@
+@startuml
+
+' =======================
+'        PACKAGES
+' =======================
+
+package "ui" {
+    class ReservationFrame {
+        - terrainIdField : TextField
+        - startDatePicker : DatePicker
+        - endDatePicker : DatePicker
+        - createButton : Button
+        - controller : ReservationController
+    }
+
+    class ReservationController {
+        - view : ReservationFrame
+        - reservationFacade : ReservationFacade
+        + createReservation()
+        + modifyReservation()
+        + cancelReservation()
+        + viewHistory()
+    }
+}
+
+package "façade" {
+    class ReservationFacade {
+        - instance : ReservationFacade
+        - reservationManager : ReservationManager
+        + createReservation(userId, terrainId, startDate, endDate) : boolean
+        + modifyReservation(reservationId, newStartDate, newEndDate) : boolean
+        + cancelReservation(reservationId) : boolean
+        + getReservationHistory(userId) : List<Reservation>
+    }
+}
+
+package "domain" {
+    class Reservation {
+        - id : Long
+        - userId : Long
+        - terrainId : Long
+        - startDate : Date
+        - endDate : Date
+        - totalPrice : BigDecimal
+        - status : ReservationStatus
+        - createdAt : Date
+        + getId()
+        + setId(Long)
+        + getUserId()
+        + setUserId(Long)
+        + getTerrainId()
+        + setTerrainId(Long)
+        + getStartDate()
+        + setStartDate(Date)
+        + getEndDate()
+        + setEndDate(Date)
+        + getTotalPrice()
+        + setTotalPrice(BigDecimal)
+        + getStatus()
+        + setStatus(ReservationStatus)
+        + getCreatedAt()
+        + setCreatedAt(Date)
+    }
+
+    enum ReservationStatus {
+        PENDING
+        CONFIRMED
+        CANCELLED
+        COMPLETED
+    }
+}
+
+package "persistance" {
+
+    package "dao" {
+        interface ReservationDAO {
+            + getReservationById(id : Long) : Reservation
+            + getReservationsByUserId(userId : Long) : List<Reservation>
+            + getReservationsByTerrainId(terrainId : Long) : List<Reservation>
+            + saveReservation(r : Reservation) : void
+            + updateReservation(r : Reservation) : void
+            + deleteReservation(id : Long) : void
+        }
+
+        class ReservationDAOPostgres {
+            + getReservationById(id : Long) : Reservation
+            + getReservationsByUserId(userId : Long) : List<Reservation>
+            + getReservationsByTerrainId(terrainId : Long) : List<Reservation>
+            + saveReservation(r : Reservation) : void
+            + updateReservation(r : Reservation) : void
+            + deleteReservation(id : Long) : void
+        }
+    }
+
+    package "factory" {
+        class AbstractFactory {
+            + createUserDAO() : UserDAO
+            + createReservationDAO() : ReservationDAO
+        }
+
+        class PostgresFactory {
+            + createUserDAO() : UserDAO
+            + createReservationDAO() : ReservationDAO
+        }
+    }
+}
+
+package "services" {
+    class ReservationManager {
+        - reservationDAO : ReservationDAO
+        + createReservation(userId, terrainId, startDate, endDate) : Reservation
+        + modifyReservation(reservationId, newStartDate, newEndDate) : Reservation
+        + cancelReservation(reservationId) : boolean
+        + getReservationHistory(userId) : List<Reservation>
+        + checkAvailability(terrainId, startDate, endDate) : boolean
+    }
+}
+
+' =======================
+'     RELATIONSHIPS
+' =======================
+
+ReservationFrame --> ReservationController
+ReservationController --> ReservationFacade : uses
+
+ReservationFacade --> ReservationManager
+ReservationManager --> ReservationDAO
+
+AbstractFactory <|-- PostgresFactory
+ReservationDAO <|-- ReservationDAOPostgres
+
+PostgresFactory --> ReservationDAOPostgres : createReservationDAO()
+
+ReservationManager --> Reservation : creates/returns
+Reservation --> ReservationStatus : has
+
+@enduml

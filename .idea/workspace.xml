@@ -62,7 +62,7 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "reservation__diagram",
     "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/home/syrine/Desktop/S7/SD/Project/MyArena/UML",
@@ -75,6 +75,13 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\wassi\Desktop\IG4\Software Design\MyArena\UML\Reservation" />
+      <recent name="C:\Users\wassi\Desktop\IG4\Software Design\MyArena\UML\Login" />
+      <recent name="C:\Users\wassi\Desktop\IG4\Software Design\MyArena\UML" />
+    </key>
+  </component>
   <component name="RunManager" selected="Application.Launcher">
     <configuration name="Launcher" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.example.myarena.Launcher" />
