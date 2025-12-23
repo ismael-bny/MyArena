@@ -1,0 +1,74 @@
+@startuml
+autonumber
+
+' Actors and Participants
+actor "Owner" as Owner
+participant "View:\nTerrainMaintenanceFrame" as View
+participant "Controller:\nTerrainController" as Ctrl
+participant "Facade:\nTerrainFacade" as Facade
+participant "Service:\nTerrainManager" as Mgr
+participant "Factory:\nPostgresFactory" as Factory
+participant "DAO:\nTerrainDAOPostgres" as DAO
+
+' -- UI Layer --
+Owner -> View : Enter info (Name, Price, etc.) & Click "Save"
+activate View
+
+    View -> View : gatherData()
+    create participant "t: Terrain" as Terrain
+    View -> Terrain : new(name, type, price...)
+
+    View -> Ctrl : createTerrain(t)
+    activate Ctrl
+
+        ' -- Facade Layer --
+        Ctrl -> Facade : createTerrain(t)
+        activate Facade
+
+            ' -- Service Layer (Business Logic) --
+            Facade -> Mgr : createTerrain(t)
+            activate Mgr
+
+                ' LOGIC: Validation Block
+                alt isDataValid(t) == false
+                    Mgr --> Facade : throw ValidationException (Missing/Invalid Info)
+                    Facade --> Ctrl : error
+                    Ctrl -> View : displayError("Invalid Data")
+
+                else Data is Valid
+
+                    ' LOGIC: Persistence Setup
+                    Mgr -> Factory : createTerrainDAO()
+                    activate Factory
+                        create DAO
+                        Factory -> DAO : new()
+                        Factory --> Mgr : return dao
+                    deactivate Factory
+
+                    ' LOGIC: Saving & ID Generation
+                    Mgr -> DAO : saveTerrain(t)
+                    activate DAO
+                        DAO -> DAO : INSERT INTO terrains...
+                        note right: DB generates Unique ID
+                        DAO --> Mgr : return newTerrainID
+                    deactivate DAO
+
+                    ' Update the object with the new ID
+                    Mgr -> Terrain : setId(newTerrainID)
+
+                    Mgr --> Facade : return success
+                    Facade --> Ctrl : return success
+
+                    ' -- UI Update --
+                    Ctrl -> View : displaySuccess("Terrain Created with ID: " + newTerrainID)
+                    View -> View : clearForm()
+                end
+
+            deactivate Mgr
+        deactivate Facade
+    deactivate Ctrl
+
+    View --> Owner : Show Success Message
+deactivate View
+
+@enduml

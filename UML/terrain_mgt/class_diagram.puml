@@ -79,12 +79,10 @@ package "persistance" {
 
     package "factory" {
         class AbstractFactory {
-            + createUserDAO() : UserDAO
             + createTerrainDAO() : TerrainDAO
         }
 
         class PostgresFactory {
-            + createUserDAO() : UserDAO
             + createTerrainDAO() : TerrainDAO
         }
     }
