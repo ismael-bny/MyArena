@@ -5,8 +5,42 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2f701746-b727-4275-9818-bea990ea29c6" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FullLogo_Transparent (1).png" beforeDir="false" afterPath="$PROJECT_DIR$/FullLogo_Transparent (1).png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FullLogo_Transparent.png" beforeDir="false" afterPath="$PROJECT_DIR$/FullLogo_Transparent.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README(Login Sprint).md" beforeDir="false" afterPath="$PROJECT_DIR$/README(Login Sprint).md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UML/class_diagram.png" beforeDir="false" afterPath="$PROJECT_DIR$/UML/class_diagram.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UML/class_diagram.puml" beforeDir="false" afterPath="$PROJECT_DIR$/UML/class_diagram.puml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UML/domain_class_diagram.puml" beforeDir="false" afterPath="$PROJECT_DIR$/UML/domain_class_diagram.puml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UML/sequence_diagram.png" beforeDir="false" afterPath="$PROJECT_DIR$/UML/sequence_diagram.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UML/sequence_diagram.puml" beforeDir="false" afterPath="$PROJECT_DIR$/UML/sequence_diagram.puml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UML/terrain_mgt/class_diagram.puml" beforeDir="false" afterPath="$PROJECT_DIR$/UML/terrain_mgt/class_diagram.puml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UML/terrain_mgt/sequence_diagram.puml" beforeDir="false" afterPath="$PROJECT_DIR$/UML/terrain_mgt/sequence_diagram.puml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/mvnw.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/myarena/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/myarena/HelloApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/myarena/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/myarena/HelloController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/myarena/Launcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/myarena/Launcher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/myarena/domain/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/myarena/domain/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/myarena/domain/UserRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/myarena/domain/UserRole.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/myarena/domain/UserStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/myarena/domain/UserStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/myarena/facade/SessionFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/myarena/facade/SessionFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/myarena/persistance/dao/UserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/myarena/persistance/dao/UserDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/myarena/persistance/dao/UserDAOPostgres.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/myarena/persistance/dao/UserDAOPostgres.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/myarena/persistance/factory/AbstractFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/myarena/persistance/factory/AbstractFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/myarena/persistance/factory/PostgresFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/myarena/persistance/factory/PostgresFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/myarena/services/UserManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/myarena/services/UserManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/myarena/ui/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/myarena/ui/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/myarena/ui/LoginFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/myarena/ui/LoginFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/myarena/hello-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/myarena/hello-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/myarena/login-page.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/myarena/login-page.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,29 +87,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Launcher.executor&quot;: &quot;Run&quot;,
-    &quot;Application.TestLogin.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.MyArena [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.MyArena [compile].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;terrain__diagram&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/syrine/Desktop/S7/SD/Project/MyArena/UML&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.tools&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Launcher.executor": "Run",
+    "Application.TestLogin.executor": "Run",
+    "Maven.MyArena [clean].executor": "Run",
+    "Maven.MyArena [compile].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "terrain__diagram",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/media/syrine/Data HDD/2025/old Linux/Desktop/S7/SD/Project/MyArena",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "configurable.group.tools",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Application.Launcher">
     <configuration name="Launcher" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.example.myarena.Launcher" />
@@ -113,7 +151,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-30f59d01ecdd-cffe25b9f5b3-intellij.indexing.shared.core-IU-253.28294.334" />
+        <option value="bundled-jdk-30f59d01ecdd-26cb7f24e5b0-intellij.indexing.shared.core-IU-253.29346.138" />
       </set>
     </attachedChunks>
   </component>
@@ -126,11 +164,23 @@
       <option name="presentableId" value="Default" />
       <updated>1765533615353</updated>
       <workItem from="1765533616646" duration="5736000" />
+      <workItem from="1766946915681" duration="697000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <option name="LAST_COMMIT_MESSAGE" value="" />
