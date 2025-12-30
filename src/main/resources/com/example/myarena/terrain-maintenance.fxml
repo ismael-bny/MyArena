@@ -7,27 +7,45 @@
 <VBox xmlns="http://javafx.com/javafx/20"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.example.myarena.ui.TerrainMaintenanceFrame"
-      spacing="10">
+      spacing="10"
+      style="-fx-background-color: #f5f7fb;">
 
     <padding>
-        <Insets top="10" left="10" right="10" bottom="10"/>
+        <Insets top="20" left="40" right="40" bottom="20"/>
     </padding>
 
-    <Label text="Terrain Management" style="-fx-font-size: 20px;"/>
+    <!-- Titre + sous-titre -->
+    <VBox spacing="4">
+        <Label text="My Fields Management"
+               style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
+        <Label text="Manage your fields and facilities"
+               style="-fx-font-size: 13px; -fx-text-fill: #6b7280;"/>
+    </VBox>
 
-    <Label fx:id="messageLabel" text=""/>
+    <!-- Message global (succès / erreur) -->
+    <Label fx:id="messageLabel"
+           style="-fx-font-size: 13px;"/>
 
-    <!-- Ligne avec boutons -->
-    <HBox spacing="10">
-        <Button fx:id="addButton" text="Add Terrain"/>
+    <!-- Bouton Create New Field aligné à droite -->
+    <HBox alignment="CENTER_RIGHT">
+        <Button fx:id="addButton"
+                text="+  Create New Field"
+                style="-fx-background-color: #ff8c00; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 6 18; -fx-background-radius: 999;"/>
     </HBox>
 
-    <!-- Liste de cartes dans un ScrollPane -->
-    <ScrollPane fitToWidth="true">
+    <!-- Zone de cartes -->
+    <ScrollPane fitToWidth="true"
+                style="-fx-background-color: transparent;"
+                VBox.vgrow="ALWAYS">
         <content>
             <FlowPane fx:id="cardsContainer"
-                      hgap="15" vgap="15"
-                      prefWrapLength="600"/>
+                      hgap="16" vgap="16"
+                      prefWrapLength="900"
+                      style="-fx-background-color: transparent;">
+                <padding>
+                    <Insets top="10" left="10" right="10" bottom="10"/>
+                </padding>
+            </FlowPane>
         </content>
     </ScrollPane>
 
