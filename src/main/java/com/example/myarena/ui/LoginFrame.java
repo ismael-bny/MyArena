@@ -70,7 +70,7 @@ public class LoginFrame {
             Stage stage = (Stage) loginButton.getScene().getWindow();
 
             // Load Main Menu
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/myarena/main-menu-view.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/myarena/main-menu.fxml"));
             Parent root = fxmlLoader.load();
             Scene scene = new Scene(root, 800, 600);
 

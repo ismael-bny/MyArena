@@ -19,7 +19,7 @@ public class MainMenuFrame {
     @FXML
     public void initialize() {
         // Navigate to Reservation Page
-        reservationButton.setOnAction(event -> navigateTo("/com/example/myarena/reservation-view.fxml", "MyArena - Reservation"));
+        reservationButton.setOnAction(event -> navigateTo("/com/example/myarena/reservation-page.fxml", "MyArena - Reservation"));
 
         // Logout (Navigate back to Login)
         logoutButton.setOnAction(event -> navigateTo("/com/example/myarena/login-page.fxml", "MyArena - Login"));
@@ -32,16 +32,17 @@ public class MainMenuFrame {
             Parent root = fxmlLoader.load();
             Scene scene = new Scene(root, 800, 600);
 
-            // Add CSS if it exists
+            // Ensure this path matches the location in resources
             if (getClass().getResource("/com/example/myarena/application.css") != null) {
                 scene.getStylesheets().add(getClass().getResource("/com/example/myarena/application.css").toExternalForm());
+            } else {
+                System.out.println("⚠️ CSS NOT FOUND: Check /src/main/resources/com/example/myarena/application.css");
             }
 
             stage.setTitle(title);
             stage.setScene(scene);
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Failed to load: " + fxmlPath);
         }
     }
 }
