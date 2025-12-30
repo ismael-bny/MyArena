@@ -13,91 +13,52 @@ public class Reservation {
     private ReservationStatus status;
     private Date createdAt;
 
+    // New fields
+//    private int participants;
+//    private String purpose;
+
     public Reservation() {}
 
     public Reservation(Long userId, Long terrainId, Date startDate, Date endDate, BigDecimal totalPrice) {
-        this.id = id;
         this.userId = userId;
         this.terrainId = terrainId;
         this.startDate = startDate;
         this.endDate = endDate;
         this.totalPrice = totalPrice;
-        this.status = status;
-        this.createdAt = createdAt;
+//        this.participants = participants;
+//        this.purpose = purpose;
+        this.status = ReservationStatus.Pending;
+        this.createdAt = new Date();
     }
 
-    public Long getId() {
-        return id;
-    }
+    // --- Getters and Setters ---
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public Long getUserId() { return userId; }
+    public void setUserId(Long userId) { this.userId = userId; }
 
-    public Long getUserId() {
-        return userId;
-    }
+    public Long getTerrainId() { return terrainId; }
+    public void setTerrainId(Long terrainId) { this.terrainId = terrainId; }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
+    public Date getStartDate() { return startDate; }
+    public void setStartDate(Date startDate) { this.startDate = startDate; }
 
-    public Long getTerrainId() {
-        return terrainId;
-    }
+    public Date getEndDate() { return endDate; }
+    public void setEndDate(Date endDate) { this.endDate = endDate; }
 
-    public void setTerrainId(Long terrainId) {
-        this.terrainId = terrainId;
-    }
+    public BigDecimal getTotalPrice() { return totalPrice; }
+    public void setTotalPrice(BigDecimal totalPrice) { this.totalPrice = totalPrice; }
 
-    public Date getStartDate() {
-        return startDate;
-    }
+    public ReservationStatus getStatus() { return status; }
+    public void setStatus(ReservationStatus status) { this.status = status; }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
+    public Date getCreatedAt() { return createdAt; }
+    public void setCreatedAt(Date createdAt) { this.createdAt = createdAt; }
 
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
-    public BigDecimal getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public ReservationStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(ReservationStatus status) {
-        this.status = status;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    @Override
-    public String toString() {
-        return "Reservation Summary: " +
-                "\nID: " + (id != null ? id : "NEW") +
-                "\nTerrain ID: " + terrainId +
-                "\nStart: " + startDate +
-                "\nEnd: " + endDate +
-                "\nStatus: " + status;
-    }
+//    public int getParticipants() { return participants; }
+//    public void setParticipants(int participants) { this.participants = participants; }
+//
+//    public String getPurpose() { return purpose; }
+//    public void setPurpose(String purpose) { this.purpose = purpose; }
 }
-
