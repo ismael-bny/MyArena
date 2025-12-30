@@ -23,16 +23,15 @@ public class TerrainController {
     public void onAddTerrain() {
         Terrain newTerrain = view.openTerrainForm(null);
         if (newTerrain == null) {
-            // cancel ou invalid
-            return;
+            return; // cancel ou invalide
         }
 
         boolean success = terrainFacade.createTerrain(newTerrain);
         if (success) {
-            view.showMessage("Terrain created with ID: " + newTerrain.getId(), true);
+            view.showMessage("Field created with ID: " + newTerrain.getId(), true);
             loadTerrains();
         } else {
-            view.showMessage("Failed to create terrain.", false);
+            view.showMessage("Failed to create field.", false);
         }
     }
 
@@ -44,27 +43,30 @@ public class TerrainController {
 
         boolean success = terrainFacade.updateTerrain(edited);
         if (success) {
-            view.showMessage("Terrain updated (ID: " + edited.getId() + ")", true);
+            view.showMessage("Field updated (ID: " + edited.getId() + ")", true);
             loadTerrains();
         } else {
-            view.showMessage("Failed to update terrain.", false);
+            view.showMessage("Failed to update field.", false);
         }
     }
 
     public void onDeleteTerrain(Terrain t) {
         if (t == null || t.getId() == null) {
-            view.showMessage("No terrain selected to delete.", false);
+            view.showMessage("No field selected to delete.", false);
             return;
         }
 
-        // petite confirmation
-        // (tu peux l'améliorer plus tard)
         boolean success = terrainFacade.deleteTerrain(t.getId());
         if (success) {
-            view.showMessage("Terrain deleted (ID: " + t.getId() + ")", true);
+            view.showMessage("Field deleted (ID: " + t.getId() + ")", true);
             loadTerrains();
         } else {
-            view.showMessage("Failed to delete terrain.", false);
+            view.showMessage("Failed to delete field.", false);
         }
     }
+
+    public void onViewTerrain(Terrain t) {
+        view.openTerrainDetails(t);
+    }
+
 }
