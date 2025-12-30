@@ -1,0 +1,100 @@
+@startuml Register Sequence Diagram
+
+title Register Use Case - Diagramme de Séquence
+
+actor User
+participant RegisterFrame
+participant RegisterController
+participant RegistrationFacade
+participant PasswordHasher
+participant UserManager
+participant UserDAO
+participant User as UserEntity
+database Database
+
+User -> RegisterFrame : remplit formulaire
+activate RegisterFrame
+User -> RegisterFrame : clique "S'inscrire"
+
+RegisterFrame -> RegisterController : register()
+activate RegisterController
+
+RegisterController -> RegistrationFacade : register(fullName, email,\nphone, pwd, confirmPwd)
+activate RegistrationFacade
+
+RegistrationFacade -> RegistrationFacade : validateRegistrationData()
+note right
+  Validations:
+  - Email format
+  - Password >= 6 chars
+  - pwd == confirmPwd
+  - Champs requis
+end note
+
+alt Validation échoue
+    RegistrationFacade --> RegisterController : false + errors
+    RegisterController -> RegisterFrame : afficherErreurs()
+    RegisterFrame --> User : ❌ Erreurs de validation
+else Validation OK
+    RegistrationFacade -> UserManager : emailExists(email)
+    activate UserManager
+
+    UserManager -> UserDAO : emailExists(email)
+    activate UserDAO
+
+    UserDAO -> Database : SELECT COUNT(*)\nWHERE email = ?
+    activate Database
+    Database --> UserDAO : count
+    deactivate Database
+
+    UserDAO --> UserManager : boolean
+    deactivate UserDAO
+
+    UserManager --> RegistrationFacade : boolean
+    deactivate UserManager
+
+    alt Email existe déjà
+        RegistrationFacade --> RegisterController : false + "EMAIL_EXISTS"
+        RegisterController -> RegisterFrame : afficherErreur()
+        RegisterFrame --> User : ❌ Email déjà utilisé
+    else Email disponible
+        RegistrationFacade -> PasswordHasher : hashPassword(pwd)
+        activate PasswordHasher
+        PasswordHasher --> RegistrationFacade : pwdHash
+        deactivate PasswordHasher
+
+        RegistrationFacade -> UserManager : createUser(fullName,\nemail, phone, pwdHash)
+        activate UserManager
+
+        UserManager -> UserEntity ** : new User()
+        note right
+          role = CLIENT
+          status = ACTIVE
+        end note
+
+        UserManager -> UserDAO : saveUser(user)
+        activate UserDAO
+
+        UserDAO -> Database : INSERT INTO users\n(fullName, email, phone,\npwdHash, role, status)
+        activate Database
+        Database --> UserDAO : user_id
+        deactivate Database
+
+        UserDAO --> UserManager : void
+        deactivate UserDAO
+
+        UserManager --> RegistrationFacade : user
+        deactivate UserManager
+
+        RegistrationFacade --> RegisterController : true
+        deactivate RegistrationFacade
+
+        RegisterController -> RegisterFrame : afficherSucces()
+        deactivate RegisterController
+
+        RegisterFrame --> User : ✅ Compte créé avec succès
+        deactivate RegisterFrame
+    end
+end
+
+@enduml
