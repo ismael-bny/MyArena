@@ -14,27 +14,20 @@ import java.io.IOException;
 
 public class LoginFrame {
 
-    @FXML
-    private TextField usernameField;
-
-    @FXML
-    private PasswordField pwdField;
-
-    @FXML
-    private Button loginButton;
-
-    @FXML
-    private Label messageLabel;
+    @FXML private TextField usernameField;
+    @FXML private PasswordField pwdField;
+    @FXML private Button loginButton;
+    @FXML private Label messageLabel;
 
     private LoginController controller;
 
     public LoginFrame() {
+        // This line causes the error if LoginController doesn't have the constructor saved/compiled
         this.controller = new LoginController(this);
     }
 
     @FXML
     public void initialize() {
-        // JavaFX initialization if needed
         loginButton.setOnAction(event -> handleLogin());
     }
 
@@ -44,7 +37,7 @@ public class LoginFrame {
         }
     }
 
-    // Getters for the controller to access data
+    // --- Getters for the Logic Controller ---
     public String getUsername() {
         return usernameField.getText();
     }
@@ -55,8 +48,6 @@ public class LoginFrame {
 
     public void showMessage(String message, boolean isSuccess) {
         messageLabel.setText(message);
-
-        // Change la couleur selon succès ou échec
         if (isSuccess) {
             messageLabel.setStyle("-fx-text-fill: green; -fx-font-size: 14px;");
         } else {
@@ -66,15 +57,13 @@ public class LoginFrame {
 
     public void navigateToMainMenu() {
         try {
-            // Get current stage
             Stage stage = (Stage) loginButton.getScene().getWindow();
-
-            // Load Main Menu
+            // Ensure this path matches your FXML file location exactly
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/myarena/main-menu.fxml"));
             Parent root = fxmlLoader.load();
             Scene scene = new Scene(root, 800, 600);
 
-            // Add CSS
+            // Add CSS if available
             if (getClass().getResource("/com/example/myarena/application.css") != null) {
                 scene.getStylesheets().add(getClass().getResource("/com/example/myarena/application.css").toExternalForm());
             }

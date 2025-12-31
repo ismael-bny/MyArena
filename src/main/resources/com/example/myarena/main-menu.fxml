@@ -6,21 +6,20 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.example.myarena.ui.MainMenuFrame" styleClass="root">
+      fx:controller="com.example.myarena.ui.MainMenuFrame" styleClass="root" style="-fx-background-color: #f5f7fb;">
 
     <padding>
         <Insets bottom="40.0" left="40.0" right="40.0" top="40.0"/>
     </padding>
 
     <Label text="Welcome to MyArena" styleClass="label, h1"/>
-    <Label text="Select an option to continue" styleClass="label, text-muted"/>
+    <Label fx:id="welcomeLabel" text="Select an option to continue" styleClass="label, text-muted"/>
 
-    <VBox spacing="15.0" maxWidth="300.0" styleClass="card">
-        <padding>
-            <Insets top="20" right="20" bottom="20" left="20"/>
-        </padding>
+    <VBox spacing="15.0" maxWidth="300.0" styleClass="card" style="-fx-padding: 20; -fx-background-color: white;">
 
-        <Button fx:id="reservationButton" text="📅 Make a Reservation" maxWidth="Infinity" styleClass="button"/>
-        <Button fx:id="logoutButton" text="🚪 Logout" maxWidth="Infinity" styleClass="button, destructive"/>
+        <Button text="📅 Make a Reservation" fx:id="reservationButton" maxWidth="Infinity" styleClass="button"/>
+        <Button text="⛳ Manage Terrains" fx:id="terrainButton" maxWidth="Infinity" styleClass="button, secondary"/>
+        <Button text="🚪 Logout" fx:id="logoutButton" maxWidth="Infinity" styleClass="button, destructive"/>
+
     </VBox>
 </VBox>
