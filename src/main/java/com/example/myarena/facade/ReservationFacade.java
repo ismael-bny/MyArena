@@ -3,6 +3,7 @@ package com.example.myarena.facade;
 import com.example.myarena.domain.Reservation;
 import com.example.myarena.services.ReservationManager;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -33,5 +34,9 @@ public class ReservationFacade {
 
     public List<Reservation> getReservationHistory(Long userId) {
         return reservationManager.getReservationHistory(userId);
+    }
+
+    public List<String> getAvailableSlots(Long terrainId, LocalDate date) {
+        return reservationManager.getAvailableSlots(terrainId, date);
     }
 }
