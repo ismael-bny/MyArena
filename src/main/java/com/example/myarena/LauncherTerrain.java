@@ -9,7 +9,7 @@ public class LauncherTerrain extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(LauncherTerrain.class.getResource("terrain-maintenance.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(LauncherTerrain.class.getResource("terrain-management.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
         stage.setTitle("MyArena - Terrain Management");
         stage.setScene(scene);

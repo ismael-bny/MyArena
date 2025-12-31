@@ -14,7 +14,7 @@ import javafx.scene.layout.VBox;
 import java.util.List;
 import java.util.Optional;
 
-public class TerrainMaintenanceFrame {
+public class TerrainManagementFrame {
 
     @FXML
     private Label messageLabel;
@@ -27,7 +27,7 @@ public class TerrainMaintenanceFrame {
 
     private final TerrainController controller;
 
-    public TerrainMaintenanceFrame() {
+    public TerrainManagementFrame() {
         this.controller = new TerrainController(this);
     }
 

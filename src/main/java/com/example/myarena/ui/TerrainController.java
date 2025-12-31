@@ -7,10 +7,10 @@ import java.util.List;
 
 public class TerrainController {
 
-    private final TerrainMaintenanceFrame view;
+    private final TerrainManagementFrame view;
     private final TerrainFacade terrainFacade;
 
-    public TerrainController(TerrainMaintenanceFrame view) {
+    public TerrainController(TerrainManagementFrame view) {
         this.view = view;
         this.terrainFacade = TerrainFacade.getInstance();
     }
