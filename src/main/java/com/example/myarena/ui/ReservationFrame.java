@@ -93,11 +93,11 @@ public class ReservationFrame {
             User currentUser = UserSession.getInstance().getUser();
 
             // ✅ 2. Security Check: Is the User valid?
-            if (currentUser == null) {
-                showError("You are not logged in. Please restart.");
+            if (currentUser == null || currentUser.getId() == null) {
+                showError("Session error: User ID is NULL. Please Logout and Login again");
                 return;
             }
-            if (currentUser.getId() == null || currentUser.getId() == 0) {
+            if (currentUser.getId() == 0) {
                 // This explains the error to you
                 showError("Database Error: User ID is missing. Check 'users' table.");
                 System.err.println("User ID is NULL/0 for email: " + currentUser.getEmail());
@@ -122,6 +122,7 @@ public class ReservationFrame {
             int participants = Integer.parseInt(partText);
 
             controller.createReservation(userId, terrain.getId(), start, end, participants, purposeField.getText());
+            navigateToMyReservations();
 
             showSuccess("Reservation Confirmed!");
             updateSlots();
@@ -131,6 +132,25 @@ public class ReservationFrame {
         } catch (Exception e) {
             showError("Error: " + e.getMessage());
             e.printStackTrace();
+        }
+    }
+
+    private void navigateToMyReservations() {
+        try {
+            // Load the new FXML
+            Parent root = FXMLLoader.load(getClass().getResource("/com/example/myarena/my-reservations.fxml"));
+            Stage stage = (Stage) createButton.getScene().getWindow();
+
+            Scene scene = new Scene(root);
+            // Apply CSS
+            String css = getClass().getResource("/com/example/myarena/application.css").toExternalForm();
+            scene.getStylesheets().add(css);
+
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            showError("Reservation created, but failed to load history page.");
         }
     }
 

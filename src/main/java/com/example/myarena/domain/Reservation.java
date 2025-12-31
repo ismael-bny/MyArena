@@ -31,6 +31,15 @@ public class Reservation {
     }
 
     public Reservation(Long userId, Long terrainId, Date startDate, Date endDate, int participants, String purpose) {
+        this.userId = userId;
+        this.terrainId = terrainId;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.participants = participants;
+        this.purpose = purpose;
+        this.totalPrice = BigDecimal.ZERO;
+        this.status = ReservationStatus.Pending;
+        this.createdAt = new Date();
     }
 
     // --- Getters and Setters ---
