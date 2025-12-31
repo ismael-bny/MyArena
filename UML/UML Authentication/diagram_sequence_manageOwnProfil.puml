@@ -1,0 +1,150 @@
+@startuml Manage Profile Sequence Diagram
+
+title Manage Own Profile Use Case
+
+actor User
+participant ProfileFrame
+participant ProfileController
+participant SessionFacade
+participant ProfileFacade
+participant UserManager
+participant NotificationService
+participant UserDAO
+participant User as UserEntity
+database Database
+
+User -> ProfileFrame : accède "Mon Profil"
+activate ProfileFrame
+
+ProfileFrame -> ProfileController : loadCurrentUserData()
+activate ProfileController
+
+ProfileController -> SessionFacade : getCurrentUser()
+activate SessionFacade
+
+SessionFacade -> UserManager : getCurrentUser()
+activate UserManager
+UserManager --> SessionFacade : user
+deactivate UserManager
+
+SessionFacade --> ProfileController : user
+deactivate SessionFacade
+
+ProfileController -> ProfileFrame : displayProfile(user)
+ProfileFrame --> User : affiche profil actuel
+deactivate ProfileController
+
+User -> ProfileFrame : modifie données\n(email, phone)
+User -> ProfileFrame : clique "Mettre à jour"
+
+ProfileFrame -> ProfileController : updateProfile()
+activate ProfileController
+
+ProfileController -> ProfileFacade : updateProfile(userId,\nfullName, email, phone)
+activate ProfileFacade
+
+ProfileFacade -> ProfileFacade : validateProfileData()
+note right
+  Validations:
+  - Email format
+  - Phone format
+  - Champs non vides
+end note
+
+alt Validation échoue
+    ProfileFacade --> ProfileController : false + errors
+    ProfileController -> ProfileFrame : afficherErreurs()
+    ProfileFrame --> User : ❌ Erreurs de validation
+else Validation OK
+    ProfileFacade -> UserManager : emailExists(email)
+    activate UserManager
+
+    UserManager -> UserDAO : emailExists(email)
+    activate UserDAO
+
+    UserDAO -> Database : SELECT COUNT(*)\nWHERE email = ?\nAND id != userId
+    activate Database
+    Database --> UserDAO : count
+    deactivate Database
+
+    UserDAO --> UserManager : boolean
+    deactivate UserDAO
+
+    UserManager --> ProfileFacade : boolean
+    deactivate UserManager
+
+    alt Email déjà utilisé
+        ProfileFacade --> ProfileController : false + "EMAIL_EXISTS"
+        ProfileController -> ProfileFrame : afficherErreur()
+        ProfileFrame --> User : ❌ Email déjà utilisé
+    else Email disponible
+        ProfileFacade -> UserManager : getUserById(userId)
+        activate UserManager
+
+        UserManager -> UserDAO : getUserById(userId)
+        activate UserDAO
+
+        UserDAO -> Database : SELECT *\nWHERE id = ?
+        activate Database
+        Database --> UserDAO : user
+        deactivate Database
+
+        UserDAO --> UserManager : user
+        deactivate UserDAO
+
+        UserManager --> ProfileFacade : user (oldEmail)
+        deactivate UserManager
+
+        ProfileFacade -> ProfileFacade : emailChanged =\n(oldEmail != newEmail)
+
+        ProfileFacade -> UserEntity : setEmail(newEmail)
+        activate UserEntity
+        ProfileFacade -> UserEntity : setPhone(newPhone)
+        deactivate UserEntity
+
+        ProfileFacade -> UserManager : updateUser(user)
+        activate UserManager
+
+        UserManager -> UserDAO : updateUser(user)
+        activate UserDAO
+
+        UserDAO -> Database : UPDATE users\nSET email=?, phone=?,\nupdatedAt=NOW()\nWHERE id=?
+        activate Database
+        Database --> UserDAO : success
+        deactivate Database
+
+        UserDAO --> UserManager : void
+        deactivate UserDAO
+
+        UserManager --> ProfileFacade : true
+        deactivate UserManager
+
+        alt Email a changé
+            ProfileFacade -> NotificationService : sendEmailVerification(\nuser, newEmail)
+            activate NotificationService
+            NotificationService --> ProfileFacade : void
+            deactivate NotificationService
+        end
+
+        ProfileFacade -> NotificationService : sendProfileUpdateNotification(user)
+        activate NotificationService
+        NotificationService --> ProfileFacade : void
+        deactivate NotificationService
+
+        ProfileFacade --> ProfileController : true
+        deactivate ProfileFacade
+
+        ProfileController -> SessionFacade : refreshCurrentUser()
+        activate SessionFacade
+        SessionFacade --> ProfileController : void
+        deactivate SessionFacade
+
+        ProfileController -> ProfileFrame : afficherSucces()
+        deactivate ProfileController
+
+        ProfileFrame --> User : ✅ Profil mis à jour
+        deactivate ProfileFrame
+    end
+end
+
+@enduml

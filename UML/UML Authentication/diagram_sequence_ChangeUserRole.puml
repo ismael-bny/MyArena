@@ -1,0 +1,164 @@
+@startuml Change User Role Sequence Diagram
+
+title Change User Role Use Case - Diagramme de Séquence (Sans logs)
+
+actor Admin
+participant UserManagementFrame
+participant ChangeRoleDialog
+participant UserManagementController
+participant SessionFacade
+participant AdminFacade
+participant UserManager
+participant NotificationService
+participant UserDAO
+participant User as UserEntity
+database Database
+
+Admin -> UserManagementFrame : accède "Gestion Utilisateurs"
+activate UserManagementFrame
+
+UserManagementFrame -> UserManagementController : loadUserList()
+activate UserManagementController
+
+UserManagementController -> AdminFacade : getAllUsers()
+activate AdminFacade
+
+AdminFacade -> UserManager : getAllUsers()
+activate UserManager
+
+UserManager -> UserDAO : getAllUsers()
+activate UserDAO
+
+UserDAO -> Database : SELECT * FROM users\nORDER BY registrationDate DESC
+activate Database
+Database --> UserDAO : List<User>
+deactivate Database
+
+UserDAO --> UserManager : List<User>
+deactivate UserDAO
+
+UserManager --> AdminFacade : List<User>
+deactivate UserManager
+
+AdminFacade --> UserManagementController : List<User>
+deactivate AdminFacade
+
+UserManagementController -> UserManagementFrame : displayUserList(users)
+UserManagementFrame --> Admin : affiche liste utilisateurs
+deactivate UserManagementController
+
+Admin -> UserManagementFrame : sélectionne utilisateur\n(John Doe, id=42)
+Admin -> UserManagementFrame : clique "Changer Rôle"
+
+UserManagementFrame -> ChangeRoleDialog : display(user)
+activate ChangeRoleDialog
+ChangeRoleDialog --> Admin : affiche dialogue\n(rôle actuel: OLDROLE)
+
+Admin -> ChangeRoleDialog : sélectionne NEWROLE
+Admin -> ChangeRoleDialog : clique "Confirmer"
+
+ChangeRoleDialog -> UserManagementController : changeUserRole(userId=42,\nnewRole=NEWROLE, reason)
+activate UserManagementController
+deactivate ChangeRoleDialog
+
+UserManagementController -> SessionFacade : getCurrentUser()
+activate SessionFacade
+
+SessionFacade -> UserManager : getCurrentUser()
+activate UserManager
+UserManager --> SessionFacade : admin (id=1)
+deactivate UserManager
+
+SessionFacade --> UserManagementController : admin
+deactivate SessionFacade
+
+UserManagementController -> AdminFacade : changeUserRole(adminId=1,\nuserId=42, newRole=NEWROLE, reason)
+activate AdminFacade
+
+AdminFacade -> AdminFacade : validateRoleChange(adminId, userId)
+note right
+  Validations:
+  - Admin a rôle ADMINISTRATOR
+  - adminId != userId
+  - Nouveau rôle valide
+end note
+
+alt Admin = User (même ID)
+    AdminFacade --> UserManagementController : false +\n"CANNOT_MODIFY_OWN_ROLE"
+    UserManagementController -> UserManagementFrame : afficherErreur()
+    activate UserManagementFrame
+    UserManagementFrame --> Admin : Impossible de modifier\nvotre propre rôle
+    deactivate UserManagementFrame
+    deactivate UserManagementController
+else Validation OK
+    AdminFacade -> UserManager : getUserById(42)
+    activate UserManager
+
+    UserManager -> UserDAO : getUserById(42)
+    activate UserDAO
+
+    UserDAO -> Database : SELECT * FROM users\nWHERE id = 42
+    activate Database
+    Database --> UserDAO : user (role=OLDROLE)
+    deactivate Database
+
+    UserDAO --> UserManager : user
+    deactivate UserDAO
+
+    UserManager --> AdminFacade : user
+    deactivate UserManager
+
+    AdminFacade -> UserEntity : setRole(NEWROLE)
+    activate UserEntity
+    deactivate UserEntity
+
+    AdminFacade -> UserManager : updateUserRole(userId, NEWROLE)
+    activate UserManager
+
+    UserManager -> UserDAO : updateUser(user)
+    activate UserDAO
+
+    UserDAO -> Database : UPDATE users\nSET role='NEWROLE',\nupdatedAt=NOW()\nWHERE id=42
+    activate Database
+    Database --> UserDAO : success
+    deactivate Database
+
+    UserDAO --> UserManager : void
+    deactivate UserDAO
+
+    UserManager --> AdminFacade : true
+    deactivate UserManager
+
+    AdminFacade -> NotificationService : sendRoleChangeNotification(\nuser, oldRole, newRole, admin)
+    activate NotificationService
+    note right
+      Email à John Doe:
+      "Votre rôle a été modifié
+      OLDROLE → NEWROLE"
+    end note
+    NotificationService --> AdminFacade : void
+    deactivate NotificationService
+
+    AdminFacade -> NotificationService : sendAdminActionConfirmation(\nadmin, "ROLE_CHANGE")
+    activate NotificationService
+    NotificationService --> AdminFacade : void
+    deactivate NotificationService
+
+    AdminFacade --> UserManagementController : true
+    deactivate AdminFacade
+
+    UserManagementController -> UserManagementFrame : afficherSucces()
+    activate UserManagementFrame
+    deactivate UserManagementController
+
+    UserManagementFrame --> Admin : ✅ Rôle modifié avec succès\nOLDROLE → NEWROLE
+
+    UserManagementFrame -> UserManagementController : loadUserList()
+    activate UserManagementController
+    note right: Rafraîchit la liste
+    deactivate UserManagementController
+
+    deactivate UserManagementFrame
+end
+
+@enduml
