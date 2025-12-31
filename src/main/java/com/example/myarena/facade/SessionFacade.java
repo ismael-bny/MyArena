@@ -20,6 +20,10 @@ public class SessionFacade {
 
     public boolean login(String id, String pwd) {
         User currentUser = userManager.login(id, pwd);  // ← Stocke le user
-        return currentUser != null;
+        if (currentUser != null) {
+            UserSession.setSession(currentUser);  // Set the user session
+            return true;
+        }
+        return false;
     }
 }

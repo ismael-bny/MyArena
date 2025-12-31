@@ -1,48 +1,50 @@
 package com.example.myarena.ui;
 
+import com.example.myarena.facade.UserSession;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import java.io.IOException;
 
 public class MainMenuFrame {
 
-    @FXML
-    private Button reservationButton;
-
-    @FXML
-    private Button logoutButton;
+    @FXML private Button reservationButton;
+    @FXML private Button terrainButton;
+    @FXML private Button logoutButton;
+    @FXML private Label welcomeLabel;
 
     @FXML
     public void initialize() {
-        // Navigate to Reservation Page
-        reservationButton.setOnAction(event -> navigateTo("/com/example/myarena/reservation-page.fxml", "MyArena - Reservation"));
+        // Personalize welcome message
+        String username = UserSession.getInstance().getUser().getName();
+        welcomeLabel.setText("Welcome back, " + username);
 
-        // Logout (Navigate back to Login)
-        logoutButton.setOnAction(event -> navigateTo("/com/example/myarena/login-page.fxml", "MyArena - Login"));
+        // Bind Actions
+        reservationButton.setOnAction(e -> navigate(e, "/com/example/myarena/reservation-page.fxml"));
+        terrainButton.setOnAction(e -> navigate(e, "/com/example/myarena/terrain-management.fxml"));
+        logoutButton.setOnAction(this::handleLogout);
     }
 
-    private void navigateTo(String fxmlPath, String title) {
+    private void navigate(ActionEvent event, String fxmlPath) {
         try {
-            Stage stage = (Stage) reservationButton.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlPath));
-            Parent root = fxmlLoader.load();
-            Scene scene = new Scene(root, 800, 600);
-
-            // Ensure this path matches the location in resources
-            if (getClass().getResource("/com/example/myarena/application.css") != null) {
-                scene.getStylesheets().add(getClass().getResource("/com/example/myarena/application.css").toExternalForm());
-            } else {
-                System.out.println("⚠️ CSS NOT FOUND: Check /src/main/resources/com/example/myarena/application.css");
-            }
-
-            stage.setTitle(title);
-            stage.setScene(scene);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Parent root = loader.load();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void handleLogout(ActionEvent event) {
+        UserSession.cleanSession(); // Clear session
+        navigate(event, "/com/example/myarena/login-page.fxml"); // Go back to login
     }
 }

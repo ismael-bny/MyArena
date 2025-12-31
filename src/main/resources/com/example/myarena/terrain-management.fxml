@@ -33,6 +33,11 @@
                 style="-fx-background-color: #ff8c00; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 6 18; -fx-background-radius: 999;"/>
     </HBox>
 
+    <HBox spacing="10">
+        <Button fx:id="backButton" text="← Back" styleClass="button, secondary" onAction="#goBack"/>
+        <Label text="My Fields Management" style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
+    </HBox>
+
     <!-- Zone de cartes -->
     <ScrollPane fitToWidth="true"
                 style="-fx-background-color: transparent;"

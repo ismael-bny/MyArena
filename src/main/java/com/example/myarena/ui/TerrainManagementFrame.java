@@ -2,14 +2,20 @@ package com.example.myarena.ui;
 
 import com.example.myarena.domain.Terrain;
 import com.example.myarena.domain.TerrainType;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +27,9 @@ public class TerrainManagementFrame {
 
     @FXML
     private Button addButton;
+
+    @FXML
+    private Button backButton;
 
     @FXML
     private FlowPane cardsContainer;
@@ -35,6 +44,19 @@ public class TerrainManagementFrame {
     public void initialize() {
         addButton.setOnAction(e -> controller.onAddTerrain());
         controller.loadTerrains(); // charge la liste au démarrage
+
+        if (backButton != null) {
+            backButton.setOnAction(this::goBack);
+        }
+    }
+
+    @FXML
+    private void goBack(ActionEvent event) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/com/example/myarena/main-menu.fxml"));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+        } catch (Exception e) { e.printStackTrace(); }
     }
 
     // ===== Méthodes appelées par le controller =====
