@@ -39,4 +39,8 @@ public class ReservationFacade {
     public List<String> getAvailableSlots(Long terrainId, LocalDate date) {
         return reservationManager.getAvailableSlots(terrainId, date);
     }
+
+    public List<Reservation> getUserReservations(Long userId) {
+        return reservationManager.getReservationHistory(userId);
+    }
 }

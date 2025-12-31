@@ -18,6 +18,7 @@ public class MainMenuFrame {
     @FXML private Button terrainButton;
     @FXML private Button logoutButton;
     @FXML private Label welcomeLabel;
+    @FXML private Button myReservationsButton;
 
     @FXML
     public void initialize() {
@@ -27,6 +28,9 @@ public class MainMenuFrame {
 
         // Bind Actions
         reservationButton.setOnAction(e -> navigate(e, "/com/example/myarena/reservation-page.fxml"));
+        if (myReservationsButton != null) {
+            myReservationsButton.setOnAction(e -> navigate(e, "/com/example/myarena/my-reservations.fxml"));
+        }
         terrainButton.setOnAction(e -> navigate(e, "/com/example/myarena/terrain-management.fxml"));
         logoutButton.setOnAction(this::handleLogout);
     }
@@ -44,7 +48,7 @@ public class MainMenuFrame {
     }
 
     private void handleLogout(ActionEvent event) {
-        UserSession.cleanSession(); // Clear session
+        UserSession.getInstance().cleanSession(); // Clear session
         navigate(event, "/com/example/myarena/login-page.fxml"); // Go back to login
     }
 }

@@ -18,6 +18,7 @@
     <VBox spacing="15.0" maxWidth="300.0" styleClass="card" style="-fx-padding: 20; -fx-background-color: white;">
 
         <Button text="📅 Make a Reservation" fx:id="reservationButton" maxWidth="Infinity" styleClass="button"/>
+        <Button text="📅 My Reservations" fx:id="myReservationsButton" maxWidth="Infinity" styleClass="button, secondary"/>
         <Button text="⛳ Manage Terrains" fx:id="terrainButton" maxWidth="Infinity" styleClass="button, secondary"/>
         <Button text="🚪 Logout" fx:id="logoutButton" maxWidth="Infinity" styleClass="button, destructive"/>
 

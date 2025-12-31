@@ -17,8 +17,8 @@ public class LoginController {
         String username = view.getUsername();
         String password = view.getPassword();
 
-        if (sessionFacade.login(username, password)) {
-            System.out.println("Login Successful");
+        if (SessionFacade.getInstance().login(username, password)) {
+            System.out.println("Login Successful - Redirecting ...");
             view.navigateToMainMenu(); // Navigate on success
         } else {
             System.out.println("Login Failed");
