@@ -13,10 +13,14 @@
         <Insets top="40" left="40" right="40" bottom="40"/>
     </padding>
 
-    <VBox spacing="5">
-        <Label text="Make a Reservation" styleClass="label, h1" style="-fx-text-fill: #111827;"/>
-        <Label text="Fill in the details to book your field." styleClass="label, text-muted"/>
-    </VBox>
+    <HBox spacing="15" alignment="CENTER_LEFT">
+        <Button fx:id="backButton" text="← Back" styleClass="button, secondary"/>
+
+        <VBox spacing="5">
+            <Label text="Make a Reservation" styleClass="label, h1" style="-fx-text-fill: #111827;"/>
+            <Label text="Fill in the details to book your field." styleClass="label, text-muted"/>
+        </VBox>
+    </HBox>
 
     <VBox spacing="20" maxWidth="600" styleClass="card" style="-fx-background-color: white; -fx-padding: 30;">
 

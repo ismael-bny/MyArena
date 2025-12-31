@@ -58,15 +58,22 @@ public class ReservationFrame {
         }
     }
 
+    @FXML
     private void goBack(ActionEvent event) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/com/example/myarena/main-menu.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-        } catch (Exception e) { e.printStackTrace(); }
+
+            Scene scene = new Scene(root);
+
+            String css = getClass().getResource("/com/example/myarena/application.css").toExternalForm();
+            scene.getStylesheets().add(css);
+
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    // ... helper methods (showSuccess, showError) ...
-    public void showSuccess(String msg) { statusLabel.setText(msg); }
-    public void showError(String msg) { statusLabel.setText(msg); }
 }
