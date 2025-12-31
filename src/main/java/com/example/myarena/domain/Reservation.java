@@ -12,23 +12,25 @@ public class Reservation {
     private BigDecimal totalPrice;
     private ReservationStatus status;
     private Date createdAt;
+    private int participants;
+    private String purpose;
 
-    // New fields
-//    private int participants;
-//    private String purpose;
 
     public Reservation() {}
 
-    public Reservation(Long userId, Long terrainId, Date startDate, Date endDate, BigDecimal totalPrice) {
+    public Reservation(Long userId, Long terrainId, Date startDate, Date endDate, BigDecimal totalPrice, int participants, String purpose) {
         this.userId = userId;
         this.terrainId = terrainId;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.totalPrice = totalPrice;
-//        this.participants = participants;
-//        this.purpose = purpose;
+        this.participants = participants;
+        this.purpose = purpose;
+        this.totalPrice = BigDecimal.ZERO;
         this.status = ReservationStatus.Pending;
         this.createdAt = new Date();
+    }
+
+    public Reservation(Long userId, Long terrainId, Date startDate, Date endDate, int participants, String purpose) {
     }
 
     // --- Getters and Setters ---
@@ -56,9 +58,9 @@ public class Reservation {
     public Date getCreatedAt() { return createdAt; }
     public void setCreatedAt(Date createdAt) { this.createdAt = createdAt; }
 
-//    public int getParticipants() { return participants; }
-//    public void setParticipants(int participants) { this.participants = participants; }
-//
-//    public String getPurpose() { return purpose; }
-//    public void setPurpose(String purpose) { this.purpose = purpose; }
+    public int getParticipants() { return participants; }
+    public void setParticipants(int participants) { this.participants = participants; }
+
+    public String getPurpose() { return purpose; }
+    public void setPurpose(String purpose) { this.purpose = purpose; }
 }

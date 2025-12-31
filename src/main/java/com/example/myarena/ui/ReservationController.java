@@ -13,8 +13,8 @@ public class ReservationController {
         this.reservationFacade = ReservationFacade.getInstance();
     }
 
-    public void createReservation(Long userId, Long terrainId, Date startDate, Date endDate) {
-        boolean success = reservationFacade.createReservation(userId, terrainId, startDate, endDate);
+    public void createReservation(Long userId, Long terrainId, Date startDate, Date endDate, int participants, String purpose) {
+        boolean success = reservationFacade.createReservation(userId, terrainId, startDate, endDate, participants, purpose);
         if (success) {
             System.out.println("Reservation created successfully!");
         } else {
