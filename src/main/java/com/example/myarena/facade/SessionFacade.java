@@ -26,4 +26,9 @@ public class SessionFacade {
         }
         return false;
     }
+
+    public User getUser() {
+        // Delegates to your existing UserSession class
+        return UserSession.getInstance().getUser();
+    }
 }

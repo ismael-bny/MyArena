@@ -63,9 +63,18 @@ public class ReservationDAOPostgres implements ReservationDAO{
 
     @Override
     public void saveReservation(Reservation r) {
-        String sql = "INSERT INTO reservations (user_id, terrain_id, start_date, end_date, total_price, status, created_at VALUES (?, ?, ?, ?, ?, ?, ?)";
+        // ✅ FIXED: Added missing ')' before VALUES
+        String sql = "INSERT INTO reservations (user_id, terrain_id, start_date, end_date, total_price, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            // ✅ SAFETY CHECK: Prevent the App from Crashing if ID is missing
+            if (r.getUserId() == null) {
+                System.err.println("CRITICAL ERROR: Cannot save reservation. User ID is NULL.");
+                return; // Stop execution instead of crashing
+            }
+
             stmt.setLong(1, r.getUserId());
             stmt.setLong(2, r.getTerrainId());
             stmt.setTimestamp(3, new Timestamp(r.getStartDate().getTime()));
