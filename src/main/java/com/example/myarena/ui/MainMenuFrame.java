@@ -40,7 +40,14 @@ public class MainMenuFrame {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
+            Scene scene = new Scene(root);
+
+            // Add CSS stylesheet
+            if (getClass().getResource("/com/example/myarena/application.css") != null) {
+                scene.getStylesheets().add(getClass().getResource("/com/example/myarena/application.css").toExternalForm());
+            }
+
+            stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
