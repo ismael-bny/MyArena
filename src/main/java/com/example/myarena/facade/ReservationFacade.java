@@ -21,8 +21,8 @@ public class ReservationFacade {
         return instance;
     }
 
-    public boolean createReservation(Long userId, Long terrainId, Date startDate, Date endDate){
-        Reservation r = reservationManager.createReservation(userId, terrainId, startDate, endDate);
+    public boolean createReservation(Long userId, Long terrainId, Date startDate, Date endDate, int participants, String purpose){
+        Reservation r = reservationManager.createReservation(userId, terrainId, startDate, endDate, participants, purpose);
         return r != null;
     }
 

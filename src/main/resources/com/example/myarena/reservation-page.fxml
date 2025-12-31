@@ -1,25 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.example.myarena.ui.MainMenuFrame" styleClass="root">
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.myarena.ui.ReservationFrame"
+      spacing="20" styleClass="root"
+      style="-fx-background-color: #f5f7fb;">
 
     <padding>
-        <Insets bottom="40.0" left="40.0" right="40.0" top="40.0"/>
+        <Insets top="40" left="40" right="40" bottom="40"/>
     </padding>
 
-    <Label text="Welcome to MyArena" styleClass="label, h1"/>
-    <Label text="Select an option to continue" styleClass="label, text-muted"/>
+    <VBox spacing="5">
+        <Label text="Make a Reservation" styleClass="label, h1" style="-fx-text-fill: #111827;"/>
+        <Label text="Fill in the details to book your field." styleClass="label, text-muted"/>
+    </VBox>
 
-    <VBox spacing="15.0" maxWidth="300.0" styleClass="card">
-        <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+    <VBox spacing="20" maxWidth="600" styleClass="card" style="-fx-background-color: white; -fx-padding: 30;">
 
-        <Button text="📅 Make a Reservation" fx:id="reservationButton" maxWidth="Infinity" styleClass="button"/>
-        <Button text="👤 My Profile" maxWidth="Infinity" styleClass="button, secondary"/>
-        <Button text="🚪 Logout" fx:id="logoutButton" maxWidth="Infinity" styleClass="button, destructive"/>
+        <VBox spacing="8">
+            <Label text="Terrain ID" styleClass="label" style="-fx-font-weight: bold;"/>
+            <TextField fx:id="terrainIdField" promptText="Enter Terrain ID (e.g. 1)" styleClass="text-field"/>
+        </VBox>
+
+        <HBox spacing="20">
+            <VBox spacing="8" HBox.hgrow="ALWAYS">
+                <Label text="Start Date" styleClass="label" style="-fx-font-weight: bold;"/>
+                <DatePicker fx:id="startDatePicker" maxWidth="Infinity" styleClass="date-picker"/>
+            </VBox>
+            <VBox spacing="8" HBox.hgrow="ALWAYS">
+                <Label text="End Date" styleClass="label" style="-fx-font-weight: bold;"/>
+                <DatePicker fx:id="endDatePicker" maxWidth="Infinity" styleClass="date-picker"/>
+            </VBox>
+        </HBox>
+
+        <HBox spacing="20">
+            <VBox spacing="8" HBox.hgrow="ALWAYS">
+                <Label text="Participants" styleClass="label" style="-fx-font-weight: bold;"/>
+                <TextField fx:id="participantsField" promptText="Number of players" styleClass="text-field"/>
+            </VBox>
+            <VBox spacing="8" HBox.hgrow="ALWAYS">
+                <Label text="Purpose" styleClass="label" style="-fx-font-weight: bold;"/>
+                <TextField fx:id="purposeField" promptText="e.g. Training, Match" styleClass="text-field"/>
+            </VBox>
+        </HBox>
+
+        <Button fx:id="createButton" text="Confirm Reservation"
+                maxWidth="Infinity"
+                styleClass="button"
+                style="-fx-background-color: #18181b; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 12;"/>
+
+        <Label fx:id="statusLabel" text="" styleClass="label, text-muted" alignment="CENTER" maxWidth="Infinity"/>
     </VBox>
 </VBox>
