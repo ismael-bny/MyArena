@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!--
+    Vue pour afficher l'abonnement actuel et permettre son annulation.
+    Use Case : Cancel Subscription (Client)
+    Structure identique à login-page.fxml et subscribe.fxml
+-->
+
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+      xmlns="http://javafx.com/javafx/20"
+      fx:controller="com.example.myarena.ui.subscription.CancelSubscriptionFrame"
+      alignment="CENTER"
+      spacing="20"
+      style="-fx-background-color: #F8F9FA; -fx-padding: 30;">
+
+    <!-- Titre principal -->
+    <Label text="Mon Abonnement Actuel" 
+           style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2E3A59;"/>
+
+    <!-- Card principale avec les infos de l'abonnement -->
+    <VBox fx:id="subscriptionCard" 
+          spacing="15" 
+          style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 30; -fx-border-color: #2E3A59; -fx-border-width: 2; -fx-border-radius: 12;"
+          maxWidth="600">
+
+        <!-- En-tête avec nom du plan et badge statut -->
+        <HBox alignment="CENTER_LEFT" spacing="15">
+            <Label fx:id="planNameLabel" text="Abonnement Mensuel" 
+                   style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2E3A59;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="statusBadge" text="ACTIF" 
+                   style="-fx-background-color: #28A745; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 15; -fx-font-size: 11px; -fx-font-weight: bold;"/>
+        </HBox>
+
+        <Separator/>
+
+        <!-- Grille avec les informations -->
+        <GridPane hgap="20" vgap="12">
+            
+            <!-- Prix -->
+            <Label text="Prix" style="-fx-font-size: 13px; -fx-text-fill: #6C757D;" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <Label fx:id="priceLabel" text="29.99 € / mois" 
+                   style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2E3A59;" 
+                   GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+            <!-- Date de début -->
+            <Label text="Date de début" style="-fx-font-size: 13px; -fx-text-fill: #6C757D;" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <Label fx:id="startDateLabel" text="01/01/2025" 
+                   style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2E3A59;" 
+                   GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+            <!-- Date de fin -->
+            <Label text="Date de fin" style="-fx-font-size: 13px; -fx-text-fill: #6C757D;" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <Label fx:id="endDateLabel" text="01/02/2025" 
+                   style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2E3A59;" 
+                   GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+            <!-- Renouvellement automatique -->
+            <Label text="Renouvellement auto" style="-fx-font-size: 13px; -fx-text-fill: #6C757D;" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+            <HBox spacing="8" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                <Label fx:id="autoRenewLabel" text="Activé" 
+                       style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2E3A59;"/>
+                <Label fx:id="autoRenewIcon" text="✓" 
+                       style="-fx-text-fill: #28A745; -fx-font-weight: bold; -fx-font-size: 18px;"/>
+            </HBox>
+
+            <!-- Jours restants -->
+            <Label text="Temps restant" style="-fx-font-size: 13px; -fx-text-fill: #6C757D;" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+            <Label fx:id="remainingDaysLabel" text="15 jours" 
+                   style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2E3A59;" 
+                   GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+        </GridPane>
+
+        <Separator/>
+
+        <!-- Message d'avertissement -->
+        <VBox spacing="10" style="-fx-background-color: rgba(220, 53, 69, 0.05); -fx-padding: 15; -fx-background-radius: 8;">
+            <Label text="⚠️ Attention" 
+                   style="-fx-font-weight: bold; -fx-text-fill: #DC3545; -fx-font-size: 14px;"/>
+            <Label text="En annulant votre abonnement :" 
+                   style="-fx-font-size: 12px; -fx-text-fill: #333;" wrapText="true"/>
+            <Label text="• Vous conservez l'accès jusqu'à la date de fin" 
+                   style="-fx-font-size: 12px; -fx-text-fill: #333; -fx-padding: 0 0 0 15;" wrapText="true"/>
+            <Label text="• Le renouvellement automatique sera désactivé" 
+                   style="-fx-font-size: 12px; -fx-text-fill: #333; -fx-padding: 0 0 0 15;" wrapText="true"/>
+            <Label text="• Aucun remboursement ne sera effectué" 
+                   style="-fx-font-size: 12px; -fx-text-fill: #333; -fx-padding: 0 0 0 15;" wrapText="true"/>
+        </VBox>
+
+        <Separator/>
+
+        <!-- Bouton Annuler l'abonnement -->
+        <HBox spacing="10" alignment="CENTER">
+            <Button text="Annuler mon Abonnement" 
+                    prefWidth="250"
+                    style="-fx-background-color: #DC3545; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 12 24; -fx-background-radius: 8; -fx-cursor: hand;"
+                    onAction="#handleCancelSubscription"/>
+        </HBox>
+
+    </VBox>
+
+    <!-- Message si aucun abonnement actif -->
+    <VBox fx:id="noSubscriptionBox" 
+          spacing="15" 
+          alignment="CENTER"
+          style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 40; -fx-border-color: #6C757D; -fx-border-width: 2; -fx-border-radius: 12;"
+          visible="false"
+          managed="false"
+          maxWidth="500">
+        
+        <Label text="📋" style="-fx-font-size: 48px;"/>
+        <Label text="Aucun abonnement actif" 
+               style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2E3A59;"/>
+        <Label text="Vous n'avez pas d'abonnement en cours." 
+               style="-fx-font-size: 14px; -fx-text-fill: #6C757D;"/>
+        
+        <Button text="Voir les Plans Disponibles" 
+                style="-fx-background-color: #2E3A59; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 12 24; -fx-background-radius: 8; -fx-cursor: hand;"
+                onAction="#handleViewPlans"/>
+    </VBox>
+
+    <!-- Bouton Fermer -->
+    <Button text="Fermer" 
+            style="-fx-background-color: #6C757D; -fx-text-fill: white; -fx-padding: 10 20; -fx-background-radius: 8; -fx-cursor: hand;"
+            onAction="#handleClose"/>
+
+    <!-- Label de statut (comme LoginFrame) -->
+    <Label fx:id="statusLabel" text="" style="-fx-font-size: 14px;"/>
+
+</VBox>

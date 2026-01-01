@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class LoginFrame {
 
@@ -49,12 +50,15 @@ public class LoginFrame {
 
     public void showMessage(String message, boolean isSuccess) {
         messageLabel.setText(message);
-
-        // Change la couleur selon succès ou échec
         if (isSuccess) {
             messageLabel.setStyle("-fx-text-fill: green; -fx-font-size: 14px;");
         } else {
             messageLabel.setStyle("-fx-text-fill: red; -fx-font-size: 14px;");
         }
+    }
+
+    public void closeWindow() {
+        Stage stage = (Stage) loginButton.getScene().getWindow();
+        stage.close();
     }
 }

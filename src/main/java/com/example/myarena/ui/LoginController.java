@@ -1,8 +1,9 @@
 package com.example.myarena.ui;
 
+import com.example.myarena.domain.UserRole;
 import com.example.myarena.facade.SessionFacade;
-
-import javax.net.ssl.SSLSession;
+import com.example.myarena.ui.subscription.PlanManagementFrame;
+import com.example.myarena.ui.subscription.SubscriptionPlansFrame;
 
 public class LoginController {
 
@@ -24,6 +25,15 @@ public class LoginController {
         if (success) {
             view.showMessage("Login successful for user: " + username, true);
             System.out.println("Login successful for user: " + username);
+            
+            view.closeWindow();
+            
+            UserRole role = sessionFacade.getCurrentUser().getRole();
+            if (role == UserRole.ADMIN || role == UserRole.OWNER) {
+                PlanManagementFrame.show();
+            } else {
+                SubscriptionPlansFrame.show();
+            }
         } else {
             view.showMessage("Login failed. Check your credentials.", false);
             System.out.println("Login failed.");
