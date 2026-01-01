@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -22,12 +23,12 @@ public class LoginFrame {
     private LoginController controller;
 
     public LoginFrame() {
-        // This line causes the error if LoginController doesn't have the constructor saved/compiled
         this.controller = new LoginController(this);
     }
 
     @FXML
     public void initialize() {
+        // JavaFX initialization if needed
         loginButton.setOnAction(event -> handleLogin());
     }
 
@@ -37,7 +38,7 @@ public class LoginFrame {
         }
     }
 
-    // --- Getters for the Logic Controller ---
+    // Getters for the controller to access data
     public String getUsername() {
         return usernameField.getText();
     }
@@ -54,6 +55,12 @@ public class LoginFrame {
             messageLabel.setStyle("-fx-text-fill: red; -fx-font-size: 14px;");
         }
     }
+
+    public void closeWindow() {
+        Stage stage = (Stage) loginButton.getScene().getWindow();
+        stage.close();
+    }
+}
 
     public void navigateToMainMenu() {
         try {
