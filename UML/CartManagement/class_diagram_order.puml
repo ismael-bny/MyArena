@@ -1,0 +1,182 @@
+@startuml
+package ui {
+    class OrderValidationFrame {
+        - controller : OrderValidationController
+    }
+}
+
+package control {
+    class OrderValidationController  {
+        - view : OrderValidationFrame
+        - orderFacade : OrderFacade
+        + loadOrders()
+        + validateOrder(orderId : Long)
+        + rejectOrder(orderId : Long, reason : String)
+        + requestInformation(orderId : Long, message : String)
+    }
+}
+
+package facade {
+    class OrderFacade  {
+        - instance : OrderFacade
+        - orderManager : OrderManager
+        - notificationManager : NotificationManager
+        - productManager : ProductManager
+        + getOrdersByStatus(status : OrderStatus) : List<Order>
+        + getOrderDetails(orderId : Long) : Order
+        + validateOrder(orderId : Long) : boolean
+        + rejectOrder(orderId : Long, reason : String) : boolean
+        + requestClientInfo(orderId : Long, message : String) : boolean
+        + updateInventory(orderId : Long) : boolean
+    }
+}
+
+package services {
+    class OrderManager  {
+        - orderDAO : OrderDAO
+        + getOrderById(orderId : Long) : Order
+        + getOrdersByStatus(status : OrderStatus) : List<Order>
+        + updateOrderStatus(orderId : Long, status : OrderStatus) : boolean
+        + setRejectionReason(orderId : Long, reason : String) : boolean
+    }
+
+    class NotificationManager  {
+        + notifyClient(orderId : Long, message : String) : void
+    }
+
+    class ProductManager  {
+        - productDAO : ProductDAO
+        + updateStock(productId : Long, quantity : int) : boolean
+    }
+}
+
+package domain {
+    class User  {
+        - id : Long
+        - name : String
+        - email : String
+        - passwordHash : String
+        - phone : String
+        - role : Role
+        - status : Status
+    }
+
+    class Order  {
+        - id : Long
+        - userId : Long
+        - referenceNumber : String
+        - totalAmount : Decimal
+        - status : OrderStatus
+        - rejectionReason : String
+    }
+
+    class CartItem  {
+        - id : Long
+        - orderId : Long
+        - productId : Long
+        - quantity : Integer
+        - unitPrice : Decimal
+    }
+
+    class Product  {
+        - id : Long
+        - name : String
+        - description : String
+        - price : Decimal
+        - availableQuantity : Integer
+    }
+
+    enum OrderStatus {
+        PENDING_VALIDATION
+        VALIDATED
+        REJECTED
+        AWAITING_CLIENT_RESPONSE
+    }
+
+    enum Role {
+        ADMIN
+        OWNER
+        CLIENT
+    }
+
+    enum Status {
+        ACTIVE
+        INACTIVE
+        BANNED
+    }
+}
+
+package dao {
+    interface OrderDAO  {
+        + getOrderById(orderId : Long) : Order
+        + getOrdersByStatus(status : OrderStatus) : List<Order>
+        + updateOrder(order : Order) : Order
+        + setRejectionReason(orderId : Long, reason : String) : boolean
+    }
+
+    interface ProductDAO  {
+        + getProductById(productId : Long) : Product
+        + updateProductStock(productId : Long, quantity : int) : boolean
+    }
+
+    class OrderDAOPostgres  {
+        + getOrderById(orderId : Long) : Order
+        + getOrdersByStatus(status : OrderStatus) : List<Order>
+        + updateOrder(order : Order) : Order
+        + setRejectionReason(orderId : Long, reason : String) : boolean
+    }
+
+    class ProductDAOPostgres  {
+        + getProductById(productId : Long) : Product
+        + updateProductStock(productId : Long, quantity : int) : boolean
+    }
+}
+
+package persistance.factory {
+    class AbstractFactory  {
+        + {static} createOrderDAO() : OrderDAO
+        + {static} createProductDAO() : ProductDAO
+    }
+
+    class PostgresFactory  {
+        + createOrderDAO() : OrderDAO
+        + createProductDAO() : ProductDAO
+    }
+}
+
+' Relationships UI
+OrderValidationFrame --> OrderValidationController
+
+' Relationships Control
+OrderValidationController --> OrderFacade : uses
+
+' Relationships Facade
+OrderFacade --> OrderManager
+OrderFacade --> NotificationManager
+OrderFacade --> ProductManager
+
+' Relationships Services
+OrderManager --> OrderDAO
+ProductManager --> ProductDAO
+
+' Relationships Services to Domain
+OrderManager --> Order : manages
+
+' Relationships Domain
+Order --> User
+Order --> OrderStatus
+Order "1" *-- "1..*" CartItem
+CartItem --> Product
+User --> Role
+User --> Status
+
+' Relationships DAO
+OrderDAOPostgres ..|> OrderDAO : implements
+ProductDAOPostgres ..|> ProductDAO : implements
+
+' Relationships Factory
+PostgresFactory --|> AbstractFactory
+PostgresFactory ..> OrderDAOPostgres : creates
+PostgresFactory ..> ProductDAOPostgres : creates
+
+@enduml

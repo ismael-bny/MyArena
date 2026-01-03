@@ -1,0 +1,238 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+package ui {
+    class CartFrame {
+        - controller : CartController
+    }
+}
+
+package control {
+    class CartController  {
+        - view : CartFrame
+        - cartFacade : CartFacade
+        + addItemToCart()
+        + removeItemFromCart()
+        + submitOrder()
+    }
+}
+
+package facade {
+    class CartFacade {
+        - instance : CartFacade
+        - cartManager : CartManager
+        - orderManager : OrderManager
+        - productManager : ProductManager
+        - discountManager : DiscountManager
+        + addProduct(productId : Long, quantity : int, duration : int) : boolean
+        + removeProduct(productId : Long) : boolean
+        + submitOrder(userId : Long) : Order
+        + checkProductAvailability(productId : Long) : boolean
+        + clearCart(userId : Long) : void
+    }
+}
+
+package services {
+    class CartManager {
+        - cartDAO : CartDAO
+        + addCartItem(product : Product, quantity : int, duration : int) : CartItem
+        + removeCartItem(productId : Long) : boolean
+        + getCart(userId : Long) : Cart
+        + clearCart(cartId : Long) : void
+    }
+
+    class OrderManager {
+        - orderDAO : OrderDAO
+        - notificationManager : NotificationManager
+        + createOrder(cart : Cart, user : User) : Order
+        + assignToOwner(order : Order) : boolean
+    }
+
+    class ProductManager {
+        - productDAO : ProductDAO
+        + getProductById(productId : Long) : Product
+        + checkAvailability(productId : Long, quantity : int) : boolean
+        + getAllProducts() : List<Product>
+    }
+
+    class DiscountManager {
+        - discountDAO : DiscountDAO
+        + getApplicableDiscounts(cart : Cart) : List<Discount>
+        + applyDiscount(cart : Cart, discount : Discount) : void
+    }
+
+    class NotificationManager {
+        + sendOrderConfirmation(order : Order) : void
+        + notifyOwner(order : Order) : void
+    }
+}
+
+package domain {
+    class User {
+        - id : Long
+        - name : String
+        - email : String
+        - passwordHash : String
+        - phone : String
+        - role : Role
+        - status : Status
+    }
+
+    class Cart {
+        - id : Long
+        - userId : Long
+    }
+
+    class CartItem {
+        - id : Long
+        - cartId : Long
+        - productId : Long
+        - quantity : Integer
+        - rentalDuration : Integer
+        - unitPrice : Decimal
+        - subtotal : Decimal
+    }
+
+    class Product {
+        - id : Long
+        - name : String
+        - description : String
+        - price : Decimal
+        - availableQuantity : Integer
+    }
+
+    class Order {
+        - id : Long
+        - userId : Long
+        - referenceNumber : String
+        - totalAmount : Decimal
+        - status : OrderStatus
+    }
+
+    class Discount {
+        - id : Long
+        - code : String
+        - discountValue : Decimal
+    }
+
+    enum OrderStatus {
+        PENDING_VALIDATION
+        VALIDATED
+        REJECTED
+        AWAITING_CLIENT_RESPONSE
+    }
+
+    enum Role {
+        ADMIN
+        OWNER
+        CLIENT
+    }
+
+    enum Status {
+        ACTIVE
+        INACTIVE
+        BANNED
+    }
+}
+
+package dao {
+    interface CartDAO <<interface>> {
+        + getCartByUserId(userId : Long) : Cart
+        + saveCart(cart : Cart) : Cart
+        + clearCart(cartId : Long) : boolean
+    }
+
+    interface ProductDAO <<interface>> {
+        + getProductById(productId : Long) : Product
+        + getAllProducts() : List<Product>
+        + checkAvailability(productId : Long, quantity : int) : boolean
+    }
+
+    interface OrderDAO <<interface>> {
+        + saveOrder(order : Order) : Order
+        + getOrderById(orderId : Long) : Order
+    }
+
+    interface DiscountDAO <<interface>> {
+        + getActiveDiscounts() : List<Discount>
+    }
+
+    class CartDAOPostgres  {
+        + getCartByUserId(userId : Long) : Cart
+        + saveCart(cart : Cart) : Cart
+        + clearCart(cartId : Long) : boolean
+    }
+
+    class ProductDAOPostgres  {
+        + getProductById(productId : Long) : Product
+        + getAllProducts() : List<Product>
+        + checkAvailability(productId : Long, quantity : int) : boolean
+    }
+
+    class OrderDAOPostgres  {
+        + saveOrder(order : Order) : Order
+        + getOrderById(orderId : Long) : Order
+    }
+}
+
+package persistance.factory {
+    class AbstractFactory  {
+        + {static} createCartDAO() : CartDAO
+        + {static} createProductDAO() : ProductDAO
+        + {static} createOrderDAO() : OrderDAO
+        + {static} createDiscountDAO() : DiscountDAO
+    }
+
+    class PostgresFactory  {
+        + createCartDAO() : CartDAO
+        + createProductDAO() : ProductDAO
+        + createOrderDAO() : OrderDAO
+        + createDiscountDAO() : DiscountDAO
+    }
+}
+
+' Relationships UI
+CartFrame --> CartController
+
+' Relationships Control
+CartController --> CartFacade : uses
+
+' Relationships Facade
+CartFacade --> CartManager
+CartFacade --> OrderManager
+CartFacade --> ProductManager
+CartFacade --> DiscountManager
+
+' Relationships Services
+CartManager --> CartDAO
+OrderManager --> OrderDAO
+OrderManager --> NotificationManager
+ProductManager --> ProductDAO
+DiscountManager --> DiscountDAO
+
+' Relationships Services to Domain
+CartManager --> Cart : manages
+OrderManager --> Order : manages
+ProductManager --> Product : manages
+
+' Relationships Domain
+Cart --> User
+Cart "1" *-- "0..*" CartItem
+CartItem --> Product
+Order --> User
+Order --> OrderStatus
+User --> Role
+User --> Status
+
+' Relationships DAO
+CartDAOPostgres ..|> CartDAO : implements
+ProductDAOPostgres ..|> ProductDAO : implements
+OrderDAOPostgres ..|> OrderDAO : implements
+
+' Relationships Factory
+PostgresFactory --|> AbstractFactory
+PostgresFactory ..> CartDAOPostgres : creates
+PostgresFactory ..> ProductDAOPostgres : creates
+PostgresFactory ..> OrderDAOPostgres : creates
+
+@enduml

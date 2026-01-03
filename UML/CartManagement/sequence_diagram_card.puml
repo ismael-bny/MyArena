@@ -1,0 +1,186 @@
+@startuml
+actor "Owner/Admin" as Owner
+participant "OrderValidationFrame\n(ui)" as UI
+participant "OrderValidationController\n(control)" as Controller
+participant "OrderFacade\n(facade)" as Facade
+participant "OrderManager\n(services)" as OrderMgr
+participant "NotificationManager\n(services)" as NotifMgr
+participant "ProductManager\n(services)" as ProductMgr
+participant "AbstractFactory\n(persistance.factory)" as Factory
+participant "PostgresFactory\n(persistance.factory)" as PgFactory
+participant "OrderDAOPostgres\n(dao)" as OrderDAO
+participant "ProductDAOPostgres\n(dao)" as ProductDAO
+database "Postgres DB" as DB
+participant "Order\n(domain)" as Order
+participant "User\n(domain)" as User
+
+== Owner Opens Order Management ==
+
+Owner -> UI : openOrderManagement()
+UI -> Controller : loadOrders()
+Controller -> Facade : getOrdersByStatus(PENDING_VALIDATION)
+Facade -> OrderMgr : getOrdersByStatus(PENDING_VALIDATION)
+
+
+OrderMgr -> Factory : createOrderDAO()
+Factory -> PgFactory : new PostgresFactory()
+PgFactory -> OrderDAO : new OrderDAOPostgres()
+OrderDAO --> OrderMgr : OrderDAOPostgres
+
+OrderMgr -> OrderDAO : getOrdersByStatus(PENDING_VALIDATION)
+OrderDAO -> DB : SELECT * FROM orders\nWHERE status = 'PENDING_VALIDATION'
+DB --> OrderDAO : order data
+
+
+OrderDAO -> Order : new Order(id, userId, referenceNumber,\ntotalAmount, status, rejectionReason)
+Order --> OrderDAO : Order
+OrderDAO --> OrderMgr : List<Order>
+OrderMgr --> Facade : List<Order>
+Facade --> Controller : List<Order>
+Controller --> UI : List<Order>
+UI --> Owner : display order list
+
+== Owner Selects and Reviews Order ==
+
+Owner -> UI : selectOrder(orderId)
+UI -> Controller : loadOrderDetails(orderId)
+Controller -> Facade : getOrderDetails(orderId)
+Facade -> OrderMgr : getOrderById(orderId)
+OrderMgr -> OrderDAO : getOrderById(orderId)
+OrderDAO -> DB : SELECT o.*, ci.*, p.*\nFROM orders o\nJOIN cart_items ci ON o.id = ci.order_id\nJOIN products p ON ci.product_id = p.id\nWHERE o.id = orderId
+DB --> OrderDAO : order, items and product data
+OrderDAO -> Order : new Order(...)
+Order --> OrderDAO : Order
+OrderDAO --> OrderMgr : Order
+OrderMgr --> Facade : Order
+Facade --> Controller : Order
+Controller --> UI : Order
+UI --> Owner : display order details\n(client info, items, total amount)
+
+== Basic Flow: Owner Validates Order ==
+
+Owner -> UI : clickValidateButton()
+UI -> Controller : validateOrder(orderId)
+
+
+UI -> Owner : requestConfirmation()
+Owner -> UI : confirm()
+
+UI -> Controller : confirmValidation()
+Controller -> Facade : validateOrder(orderId)
+
+
+Facade -> OrderMgr : updateOrderStatus(orderId, VALIDATED)
+OrderMgr -> OrderDAO : updateOrder(order)
+OrderDAO -> DB : UPDATE orders\nSET status = 'VALIDATED'\nWHERE id = orderId
+DB --> OrderDAO : success
+OrderDAO --> OrderMgr : Order
+OrderMgr --> Facade : boolean (success)
+
+
+Facade -> OrderMgr : getOrderById(orderId)
+OrderMgr -> OrderDAO : getOrderById(orderId)
+OrderDAO --> OrderMgr : Order (with items)
+OrderMgr --> Facade : Order
+
+Facade -> ProductMgr : updateInventory(orderItems)
+
+
+ProductMgr -> Factory : createProductDAO()
+Factory -> PgFactory : new PostgresFactory()
+PgFactory -> ProductDAO : new ProductDAOPostgres()
+ProductDAO --> ProductMgr : ProductDAOPostgres
+
+loop for each item in order
+    ProductMgr -> ProductDAO : updateProductStock(productId, -quantity)
+    ProductDAO -> DB : UPDATE products\nSET availableQuantity = availableQuantity - quantity\nWHERE id = productId
+    DB --> ProductDAO : success
+    ProductDAO --> ProductMgr : boolean
+end
+ProductMgr --> Facade : boolean (success)
+
+
+Facade -> NotifMgr : notifyClient(orderId, "Order Validated")
+NotifMgr -> DB : INSERT INTO notifications (user_id, message, ...)
+DB --> NotifMgr : success
+NotifMgr --> Facade : void
+
+Facade --> Controller : boolean (success)
+Controller --> UI : displaySuccess()
+UI --> Owner : show success message
+
+== Alternative Flow 1: Reject Order ==
+
+Owner -> UI : clickRejectButton()
+UI -> Controller : rejectOrder(orderId)
+UI -> Owner : requestRejectionReason()
+Owner -> UI : selectReason(reason)
+UI -> Controller : confirmRejection(orderId, reason)
+
+
+UI -> Owner : requestConfirmation()
+Owner -> UI : confirm()
+
+Controller -> Facade : rejectOrder(orderId, reason)
+
+
+Facade -> OrderMgr : updateOrderStatus(orderId, REJECTED)
+OrderMgr -> OrderDAO : updateOrder(order)
+OrderDAO -> DB : UPDATE orders\nSET status = 'REJECTED'\nWHERE id = orderId
+DB --> OrderDAO : success
+OrderDAO --> OrderMgr : Order
+OrderMgr --> Facade : boolean
+
+
+Facade -> OrderMgr : setRejectionReason(orderId, reason)
+OrderMgr -> OrderDAO : setRejectionReason(orderId, reason)
+OrderDAO -> DB : UPDATE orders\nSET rejection_reason = reason\nWHERE id = orderId
+DB --> OrderDAO : success
+OrderDAO --> OrderMgr : boolean
+OrderMgr --> Facade : boolean
+
+
+Facade -> NotifMgr : notifyClient(orderId, "Order Rejected: " + reason)
+NotifMgr -> DB : INSERT INTO notifications (...)
+DB --> NotifMgr : success
+NotifMgr --> Facade : void
+
+
+Facade --> Controller : boolean (success)
+Controller --> UI : displaySuccess()
+UI --> Owner : show confirmation message
+
+
+Owner -> UI : clickRequestInfoButton()
+UI -> Controller : requestInformation(orderId)
+UI -> Owner : displayMessageForm()
+Owner -> UI : typeMessage(message)
+UI -> Controller : sendInfoRequest(orderId, message)
+
+
+Controller -> Facade : requestClientInfo(orderId, message)
+
+
+Facade -> OrderMgr : updateOrderStatus(orderId, AWAITING_CLIENT_RESPONSE)
+OrderMgr -> OrderDAO : updateOrder(order)
+OrderDAO -> DB : UPDATE orders\nSET status = 'AWAITING_CLIENT_RESPONSE'\nWHERE id = orderId
+DB --> OrderDAO : success
+OrderDAO --> OrderMgr : Order
+OrderMgr --> Facade : boolean
+
+Facade -> NotifMgr : notifyClient(orderId, message)
+NotifMgr -> DB : INSERT INTO notifications (user_id, message, ...)
+DB --> NotifMgr : success
+NotifMgr --> Facade : void
+
+Facade --> Controller : boolean (success)
+Controller --> UI : displaySuccess()
+UI --> Owner : show confirmation message
+
+
+User -> NotifMgr : respondToRequest(orderId, response)
+NotifMgr -> Owner : notifyOwner("Client Responded")
+Owner -> UI : viewClientResponse()
+
+
+@endumlc
