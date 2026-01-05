@@ -5,10 +5,12 @@ import com.example.myarena.domain.SubscriptionPlan;
 import com.example.myarena.domain.UserRole;
 import com.example.myarena.facade.SessionFacade;
 import com.example.myarena.facade.SubscriptionFacade; // Import the new Facade
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -27,11 +29,9 @@ import java.util.List;
 
 public class SubscriptionPlansFrame {
 
-    @FXML
-    private TilePane cardsContainer;
-
-    @FXML
-    private Label statusLabel;
+    @FXML private TilePane cardsContainer;
+    @FXML private Label statusLabel;
+    @FXML private VBox activePlanSection; // Matches the fx:id in FXML
 
     private SubscriptionPlansController controller;
 
@@ -41,8 +41,42 @@ public class SubscriptionPlansFrame {
 
     @FXML
     public void initialize() {
-        System.out.println("SubscriptionPlansFrame : initialize() appelé");
         controller.loadPlans();
+        displayActiveSubscription(); // This will no longer crash
+    }
+
+    public void displayActiveSubscription() {
+        SubscriptionFacade subFacade = SubscriptionFacade.getInstance();
+        Subscription active = subFacade.getActiveSubscription();
+
+        activePlanSection.getChildren().clear();
+        if (active != null && active.getPlan() != null) {
+            Label info = new Label("⭐ Your current plan: " + active.getPlan().getName());
+            info.setStyle("-fx-text-fill: #2ecc71; -fx-font-weight: bold;");
+            activePlanSection.getChildren().add(info);
+        } else {
+            Label info = new Label("You don't have an active subscription yet.");
+            info.getStyleClass().add("page-subtitle");
+            activePlanSection.getChildren().add(info);
+        }
+    }
+
+    @FXML
+    private void handleBackToMenu(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/myarena/main-menu.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root, 800, 600);
+
+            // Standardize CSS
+            scene.getStylesheets().add(getClass().getResource("/com/example/myarena/application.css").toExternalForm());
+
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void updateCards(List<SubscriptionPlan> plans) {
@@ -229,4 +263,5 @@ public class SubscriptionPlansFrame {
             e.printStackTrace();
         }
     }
+
 }

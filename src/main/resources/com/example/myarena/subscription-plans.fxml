@@ -19,11 +19,18 @@
     <!-- Header -->
     <top>
         <HBox alignment="CENTER_LEFT" spacing="20" styleClass="page-header">
+            <Button text="← Back to Menu" onAction="#handleBackToMenu" styleClass="button, secondary" style="-fx-font-weight: bold;"/>
             
             <!-- Titre -->
             <VBox spacing="5" HBox.hgrow="ALWAYS">
                 <Label text="Plans d'Abonnement" styleClass="page-title"/>
                 <Label text="Choisissez le plan qui corresponds à vos besoins" styleClass="page-subtitle"/>
+
+                <VBox fx:id="activePlanSection" spacing="5">
+                    <padding>
+                        <Insets top="10"/>
+                    </padding>
+                </VBox>
             </VBox>
         </HBox>
     </top>

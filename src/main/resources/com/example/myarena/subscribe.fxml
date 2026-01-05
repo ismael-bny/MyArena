@@ -15,7 +15,8 @@
       fx:controller="com.example.myarena.ui.SubscribeFrame"
       alignment="CENTER"
       spacing="25"
-      style="-fx-background-color: #F8F9FA; -fx-padding: 40;">
+      style="-fx-background-color: #F8F9FA; -fx-padding: 40;"
+      stylesheets="@styles/myarena-styles.css">
 
     <!-- Titre principal -->
     <Label text="Confirmer votre Abonnement" 
