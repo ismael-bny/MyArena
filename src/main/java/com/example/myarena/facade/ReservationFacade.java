@@ -1,0 +1,46 @@
+package com.example.myarena.facade;
+
+import com.example.myarena.domain.Reservation;
+import com.example.myarena.services.ReservationManager;
+
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
+
+public class ReservationFacade {
+    private static ReservationFacade instance;
+    private final ReservationManager reservationManager;
+
+    private ReservationFacade() {
+        this.reservationManager = new ReservationManager();
+    }
+
+    public static ReservationFacade getInstance() {
+        if (instance == null){
+            instance = new ReservationFacade();
+        }
+        return instance;
+    }
+
+    public boolean createReservation(Long userId, Long terrainId, Date startDate, Date endDate, int participants, String purpose){
+        Reservation r = reservationManager.createReservation(userId, terrainId, startDate, endDate, participants, purpose);
+        return r != null;
+    }
+
+    public boolean cancelReservation(Long reservationId) {
+        reservationManager.cancelReservation(reservationId);
+        return true;
+    }
+
+    public List<Reservation> getReservationHistory(Long userId) {
+        return reservationManager.getReservationHistory(userId);
+    }
+
+    public List<String> getAvailableSlots(Long terrainId, LocalDate date) {
+        return reservationManager.getAvailableSlots(terrainId, date);
+    }
+
+    public List<Reservation> getUserReservations(Long userId) {
+        return reservationManager.getReservationHistory(userId);
+    }
+}

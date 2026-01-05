@@ -1,24 +1,18 @@
 package com.example.myarena.ui;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
+import java.io.IOException;
 
 public class LoginFrame {
-
-    @FXML
-    private TextField usernameField;
-
-    @FXML
-    private PasswordField pwdField;
-
-    @FXML
-    private Button loginButton;
-
-    @FXML
-    private Label messageLabel;
+    @FXML private TextField usernameField;
+    @FXML private PasswordField pwdField;
+    @FXML private Button loginButton;
+    @FXML private Label messageLabel;
 
     private LoginController controller;
 
@@ -28,33 +22,35 @@ public class LoginFrame {
 
     @FXML
     public void initialize() {
-        // JavaFX initialization if needed
         loginButton.setOnAction(event -> handleLogin());
     }
 
     private void handleLogin() {
-        if (controller != null) {
-            controller.login();
-        }
+        if (controller != null) controller.login();
     }
 
-    // Getters for the controller to access data
-    public String getUsername() {
-        return usernameField.getText();
-    }
-
-    public String getPassword() {
-        return pwdField.getText();
-    }
+    public String getUsername() { return usernameField.getText(); }
+    public String getPassword() { return pwdField.getText(); }
 
     public void showMessage(String message, boolean isSuccess) {
         messageLabel.setText(message);
+        messageLabel.setStyle(isSuccess ? "-fx-text-fill: green;" : "-fx-text-fill: red;");
+    }
 
-        // Change la couleur selon succès ou échec
-        if (isSuccess) {
-            messageLabel.setStyle("-fx-text-fill: green; -fx-font-size: 14px;");
-        } else {
-            messageLabel.setStyle("-fx-text-fill: red; -fx-font-size: 14px;");
+    public void navigateToMainMenu() {
+        try {
+            Stage stage = (Stage) loginButton.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/myarena/main-menu.fxml"));
+            Parent root = loader.load();
+            stage.setTitle("MyArena - Dashboard");
+            stage.setScene(new Scene(root, 800, 600));
+        } catch (IOException e) {
+            System.err.println("Failed to load Main Menu: " + e.getMessage());
         }
+    }
+
+    public void closeWindow() {
+        Stage stage = (Stage) loginButton.getScene().getWindow();
+        if (stage != null) stage.close();
     }
 }

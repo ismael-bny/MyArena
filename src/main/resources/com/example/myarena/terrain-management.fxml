@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/20"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.myarena.ui.TerrainManagementFrame"
+      spacing="10"
+      style="-fx-background-color: #f5f7fb;"
+      stylesheets="@styles/myarena-styles.css">
+
+    <padding>
+        <Insets top="20" left="40" right="40" bottom="20"/>
+    </padding>
+
+    <!-- Titre + sous-titre -->
+    <VBox spacing="4">
+        <Label text="My Fields Management"
+               style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
+        <Label text="Manage your fields and facilities"
+               style="-fx-font-size: 13px; -fx-text-fill: #6b7280;"/>
+    </VBox>
+
+    <!-- Message global (succès / erreur) -->
+    <Label fx:id="messageLabel"
+           style="-fx-font-size: 13px;"/>
+
+    <!-- Bouton Create New Field aligné à droite -->
+    <HBox alignment="CENTER_RIGHT">
+        <Button fx:id="addButton"
+                text="+  Create New Field"
+                style="-fx-background-color: #ff8c00; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 6 18; -fx-background-radius: 999;"/>
+    </HBox>
+
+    <HBox spacing="10">
+        <Button fx:id="backButton" text="← Back" styleClass="button, secondary" onAction="#goBack"/>
+        <Label text="My Fields Management" style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
+    </HBox>
+
+    <!-- Zone de cartes -->
+    <ScrollPane fitToWidth="true"
+                style="-fx-background-color: transparent;"
+                VBox.vgrow="ALWAYS">
+        <content>
+            <FlowPane fx:id="cardsContainer"
+                      hgap="16" vgap="16"
+                      prefWrapLength="900"
+                      style="-fx-background-color: transparent;">
+                <padding>
+                    <Insets top="10" left="10" right="10" bottom="10"/>
+                </padding>
+            </FlowPane>
+        </content>
+    </ScrollPane>
+
+</VBox>

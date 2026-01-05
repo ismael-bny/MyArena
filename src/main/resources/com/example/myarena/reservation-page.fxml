@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.myarena.ui.ReservationFrame"
+      spacing="20" styleClass="root"
+      style="-fx-background-color: #f5f7fb;"
+      stylesheets="@styles/myarena-styles.css">
+
+    <padding>
+        <Insets top="40" left="40" right="40" bottom="40"/>
+    </padding>
+
+    <HBox spacing="15" alignment="CENTER_LEFT">
+        <Button fx:id="backButton" text="← Back to Menu" styleClass="button, secondary"/>
+        <VBox spacing="5">
+            <Label text="Make a Reservation" styleClass="label, h1" style="-fx-text-fill: #111827;"/>
+            <Label text="Select a field and date to see available times." styleClass="label, text-muted"/>
+        </VBox>
+    </HBox>
+
+    <HBox spacing="20">
+        <VBox spacing="20" maxWidth="400" HBox.hgrow="ALWAYS" styleClass="card" style="-fx-background-color: white; -fx-padding: 30;">
+
+            <VBox spacing="8">
+                <Label text="1. Select Field" styleClass="label" style="-fx-font-weight: bold;"/>
+                <ComboBox fx:id="terrainComboBox" promptText="Choose a field..." maxWidth="Infinity" styleClass="combo-box"/>
+            </VBox>
+
+            <VBox spacing="8">
+                <Label text="2. Select Date" styleClass="label" style="-fx-font-weight: bold;"/>
+                <DatePicker fx:id="datePicker" maxWidth="Infinity" styleClass="date-picker"/>
+            </VBox>
+
+            <HBox spacing="10">
+                <VBox spacing="5" HBox.hgrow="ALWAYS">
+                    <Label text="Participants" styleClass="label"/>
+                    <TextField fx:id="participantsField" promptText="Num" styleClass="text-field"/>
+                </VBox>
+                <VBox spacing="5" HBox.hgrow="ALWAYS">
+                    <Label text="Purpose" styleClass="label"/>
+                    <TextField fx:id="purposeField" promptText="e.g. Match" styleClass="text-field"/>
+                </VBox>
+            </HBox>
+
+            <Button fx:id="createButton" text="Confirm Reservation"
+                    maxWidth="Infinity"
+                    styleClass="button"
+                    style="-fx-background-color: #18181b; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 12;"/>
+
+            <Label fx:id="statusLabel" text="" styleClass="label, text-muted" alignment="CENTER" maxWidth="Infinity"/>
+        </VBox>
+
+        <VBox spacing="10" maxWidth="300" HBox.hgrow="ALWAYS" styleClass="card" style="-fx-background-color: white; -fx-padding: 20;">
+            <Label text="Available Times" styleClass="label, h3"/>
+            <Label text="Click a slot to select it" styleClass="label, text-muted"/>
+
+            <ListView fx:id="slotsListView" VBox.vgrow="ALWAYS" style="-fx-border-color: #e4e4e7; -fx-background-radius: 5;"/>
+        </VBox>
+    </HBox>
+</VBox>

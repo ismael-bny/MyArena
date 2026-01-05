@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!--
+    Vue pour confirmer la souscription à un plan d'abonnement.
+    Use Case : Subscribe to a Plan (Client)
+    Structure identique à login-page.fxml
+-->
+
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+      xmlns="http://javafx.com/javafx/20"
+      fx:controller="com.example.myarena.ui.SubscribeFrame"
+      alignment="CENTER"
+      spacing="25"
+      style="-fx-background-color: #F8F9FA; -fx-padding: 40;"
+      stylesheets="@styles/myarena-styles.css">
+
+    <!-- Titre principal -->
+    <Label text="Confirmer votre Abonnement" 
+           style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2E3A59;"/>
+
+    <!-- Card principale avec les détails -->
+    <VBox spacing="20" 
+          style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 30; -fx-border-color: #2E3A59; -fx-border-width: 2; -fx-border-radius: 12;"
+          maxWidth="500">
+
+        <!-- Nom du plan -->
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Label text="Plan sélectionné :" style="-fx-font-size: 13px; -fx-text-fill: #6C757D;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="planNameLabel" text="Abonnement Mensuel" 
+                   style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2E3A59;"/>
+        </HBox>
+
+        <Separator/>
+
+        <!-- Prix -->
+        <HBox alignment="CENTER">
+            <Label fx:id="planPriceLabel" text="29.99€" 
+                   style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #B71C3C;"/>
+            <Label fx:id="planDurationLabel" text="/ mois" 
+                   style="-fx-font-size: 16px; -fx-text-fill: #6C757D; -fx-padding: 20 0 0 5;"/>
+        </HBox>
+
+        <Separator/>
+
+        <!-- Durée -->
+        <VBox spacing="8">
+            <Label text="Durée de l'engagement" style="-fx-font-size: 13px; -fx-text-fill: #6C757D;"/>
+            <Label fx:id="durationDetailsLabel" text="1 mois" 
+                   style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2E3A59;"/>
+        </VBox>
+
+        <!-- Date de début -->
+        <VBox spacing="8">
+            <Label text="Date de début" style="-fx-font-size: 13px; -fx-text-fill: #6C757D;"/>
+            <Label fx:id="startDateLabel" text="Aujourd'hui" 
+                   style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2E3A59;"/>
+        </VBox>
+
+        <!-- Date de fin -->
+        <VBox spacing="8">
+            <Label text="Date de fin" style="-fx-font-size: 13px; -fx-text-fill: #6C757D;"/>
+            <Label fx:id="endDateLabel" text="31/01/2025" 
+                   style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2E3A59;"/>
+        </VBox>
+
+        <Separator/>
+
+        <!-- Case à cocher renouvellement automatique -->
+        <CheckBox fx:id="autoRenewCheckBox" 
+                  text="Activer le renouvellement automatique" 
+                  selected="true"
+                  style="-fx-font-size: 13px; -fx-font-weight: bold;"/>
+
+        <Separator/>
+
+        <!-- Message d'information -->
+        <VBox spacing="10" style="-fx-background-color: rgba(46, 58, 89, 0.05); -fx-padding: 15; -fx-background-radius: 8;">
+            <Label text="ℹ️ Informations importantes" 
+                   style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2E3A59;"/>
+            <Label text="• Votre abonnement sera activé immédiatement" 
+                   style="-fx-font-size: 12px; -fx-text-fill: #333;" wrapText="true"/>
+            <Label text="• Vous serez débité aujourd'hui" 
+                   style="-fx-font-size: 12px; -fx-text-fill: #333;" wrapText="true"/>
+            <Label text="• Le renouvellement automatique peut être désactivé à tout moment" 
+                   style="-fx-font-size: 12px; -fx-text-fill: #333;" wrapText="true"/>
+        </VBox>
+
+    </VBox>
+
+    <!-- Boutons d'action -->
+    <HBox spacing="15" alignment="CENTER">
+        <Button fx:id="confirmButton" text="Confirmer l'Abonnement" 
+                prefWidth="220"
+                style="-fx-background-color: #2E3A59; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 12 24; -fx-background-radius: 8; -fx-cursor: hand;"
+                onAction="#handleConfirm"/>
+        
+        <Button text="Annuler" 
+                prefWidth="120"
+                style="-fx-background-color: transparent; -fx-border-color: #6C757D; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8; -fx-text-fill: #6C757D; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 12 24; -fx-cursor: hand;"
+                onAction="#handleCancel"/>
+    </HBox>
+
+    <!-- Label de statut (comme LoginFrame) -->
+    <Label fx:id="statusLabel" text="" style="-fx-font-size: 14px;"/>
+
+</VBox>

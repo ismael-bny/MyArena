@@ -18,7 +18,8 @@ public class UserDAOPostgres implements UserDAO {
 
     @Override
     public User getUserByCredentials(String login, String pwd) {
-        String sql = "SELECT * FROM users WHERE email = ? AND password_hash = ?";
+        // ✅ Changed SELECT * to explicit columns to ensure 'id' is found
+        String sql = "SELECT id, name, email, password_hash, phone, role, status FROM users WHERE email = ? AND password_hash = ?";
 
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -29,13 +30,15 @@ public class UserDAOPostgres implements UserDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                return mapResultSetToUser(rs);
+                User u = mapResultSetToUser(rs);
+                // ✅ DEBUG: Print the ID to console so you can verify it
+                System.out.println("DEBUG: Found User ID = " + u.getId());
+                return u;
             }
-
             return null;
-
         } catch (SQLException e) {
-            throw new RuntimeException("Erreur lors de la récupération de l'utilisateur", e);
+            e.printStackTrace(); // Print full error
+            throw new RuntimeException("Error fetching user", e);
         }
     }
 
@@ -51,7 +54,8 @@ public class UserDAOPostgres implements UserDAO {
 
     private User mapResultSetToUser(ResultSet rs) throws SQLException {
         User user = new User();
-        user.setId(rs.getLong("id"));
+        long dbId = rs.getLong("id");
+        user.setId(dbId);
         user.setName(rs.getString("name"));
         user.setEmail(rs.getString("email"));
         user.setPwdHash(rs.getString("password_hash"));

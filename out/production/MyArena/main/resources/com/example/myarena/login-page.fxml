@@ -10,8 +10,7 @@
 <VBox alignment="CENTER" spacing="20.0"
       xmlns:fx="http://javafx.com/fxml/1"
       xmlns="http://javafx.com/javafx/20"
-      fx:controller="com.example.myarena.ui.LoginFrame"
-      stylesheets="@styles/myarena-styles.css">
+      fx:controller="com.example.myarena.ui.LoginFrame">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>

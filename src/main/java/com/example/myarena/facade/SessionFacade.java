@@ -1,4 +1,5 @@
 package com.example.myarena.facade;
+
 import com.example.myarena.domain.User;
 import com.example.myarena.services.UserManager;
 
@@ -9,8 +10,7 @@ public class SessionFacade {
     private SessionFacade() {
         this.userManager = new UserManager();
     }
-    
-    // Méthode pour obtenir l'instance unique
+
     public static SessionFacade getInstance() {
         if (instance == null) {
             instance = new SessionFacade();
@@ -18,8 +18,24 @@ public class SessionFacade {
         return instance;
     }
 
-    public boolean login(String id, String pwd) {
-        User currentUser = userManager.login(id, pwd);  // ← Stocke le user
-        return currentUser != null;
+    public boolean login(String email, String pwd) {
+        User user = userManager.login(email, pwd);
+        if (user != null) {
+            UserSession.getInstance().setUser(user);
+            return true;
+        }
+        return false;
+    }
+
+    public void logout() {
+        UserSession.getInstance().cleanSession();
+    }
+
+    public User getCurrentUser() {
+        return UserSession.getInstance().getUser();
+    }
+
+    public boolean isUserLoggedIn() {
+        return getCurrentUser() != null;
     }
 }
