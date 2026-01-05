@@ -1,0 +1,319 @@
+Index: UML/Reservation/reservation_class_diagram.puml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>@startuml\n\n' =======================\n'        PACKAGES\n' =======================\n\npackage \"ui\" {\n    class ReservationFrame {\n        - terrainIdField : TextField\n        - startDatePicker : DatePicker\n        - endDatePicker : DatePicker\n        - createButton : Button\n        - controller : ReservationController\n    }\n\n    class ReservationController {\n        - view : ReservationFrame\n        - reservationFacade : ReservationFacade\n        + createReservation()\n        + modifyReservation()\n        + cancelReservation()\n        + viewHistory()\n    }\n}\n\npackage \"façade\" {\n    class ReservationFacade {\n        - instance : ReservationFacade\n        - reservationManager : ReservationManager\n        + createReservation(userId, terrainId, startDate, endDate) : boolean\n        + modifyReservation(reservationId, newStartDate, newEndDate) : boolean\n        + cancelReservation(reservationId) : boolean\n        + getReservationHistory(userId) : List<Reservation>\n    }\n}\n\npackage \"domain\" {\n    class Reservation {\n        - id : Long\n        - userId : Long\n        - terrainId : Long\n        - startDate : Date\n        - endDate : Date\n        - totalPrice : BigDecimal\n        - status : ReservationStatus\n        - createdAt : Date\n        + getId()\n        + setId(Long)\n        + getUserId()\n        + setUserId(Long)\n        + getTerrainId()\n        + setTerrainId(Long)\n        + getStartDate()\n        + setStartDate(Date)\n        + getEndDate()\n        + setEndDate(Date)\n        + getTotalPrice()\n        + setTotalPrice(BigDecimal)\n        + getStatus()\n        + setStatus(ReservationStatus)\n        + getCreatedAt()\n        + setCreatedAt(Date)\n    }\n\n    enum ReservationStatus {\n        PENDING\n        CONFIRMED\n        CANCELLED\n        COMPLETED\n    }\n}\n\npackage \"persistance\" {\n\n    package \"dao\" {\n        interface ReservationDAO {\n            + getReservationById(id : Long) : Reservation\n            + getReservationsByUserId(userId : Long) : List<Reservation>\n            + getReservationsByTerrainId(terrainId : Long) : List<Reservation>\n            + saveReservation(r : Reservation) : void\n            + updateReservation(r : Reservation) : void\n            + deleteReservation(id : Long) : void\n        }\n\n        class ReservationDAOPostgres {\n            + getReservationById(id : Long) : Reservation\n            + getReservationsByUserId(userId : Long) : List<Reservation>\n            + getReservationsByTerrainId(terrainId : Long) : List<Reservation>\n            + saveReservation(r : Reservation) : void\n            + updateReservation(r : Reservation) : void\n            + deleteReservation(id : Long) : void\n        }\n    }\n\n    package \"factory\" {\n        class AbstractFactory {\n            + createUserDAO() : UserDAO\n            + createReservationDAO() : ReservationDAO\n        }\n\n        class PostgresFactory {\n            + createUserDAO() : UserDAO\n            + createReservationDAO() : ReservationDAO\n        }\n    }\n}\n\npackage \"services\" {\n    class ReservationManager {\n        - reservationDAO : ReservationDAO\n        + createReservation(userId, terrainId, startDate, endDate) : Reservation\n        + modifyReservation(reservationId, newStartDate, newEndDate) : Reservation\n        + cancelReservation(reservationId) : boolean\n        + getReservationHistory(userId) : List<Reservation>\n        + checkAvailability(terrainId, startDate, endDate) : boolean\n    }\n}\n\n' =======================\n'     RELATIONSHIPS\n' =======================\n\nReservationFrame --> ReservationController\nReservationController --> ReservationFacade : uses\n\nReservationFacade --> ReservationManager\nReservationManager --> ReservationDAO\n\nAbstractFactory <|-- PostgresFactory\nReservationDAO <|-- ReservationDAOPostgres\n\nPostgresFactory --> ReservationDAOPostgres : createReservationDAO()\n\nReservationManager --> Reservation : creates/returns\nReservation --> ReservationStatus : has\n\n@enduml
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/UML/Reservation/reservation_class_diagram.puml b/UML/Reservation/reservation_class_diagram.puml
+--- a/UML/Reservation/reservation_class_diagram.puml	(revision 7b66d3470fb3a2c52a2ee64618c33aac642559de)
++++ b/UML/Reservation/reservation_class_diagram.puml	(date 1767626378198)
+@@ -1,137 +1,123 @@
+ @startuml
++package "com.example.myarena.domain" {
++    class Reservation {
++        - Long id
++        - Long userId
++        - Long terrainId
++        - Date startDate
++        - Date endDate
++        - BigDecimal totalPrice
++        - ReservationStatus status
++        - Date createdAt
++        - int participants
++        - String purpose
++        + Reservation()
++        + Reservation(Long, Long, Date, Date, int, String)
++        + getters/setters()
++    }
++
++    enum ReservationStatus {
++        Pending
++        Confirmed
++        Cancelled
++        Completed
++    }
+ 
+-' =======================
+-'        PACKAGES
+-' =======================
++    class User {
++        - Long id
++        - String name
++        + getId()
++    }
+ 
+-package "ui" {
++    class Terrain {
++        - Long id
++        - String name
++        - double pricePerHour
++        + getId()
++        + getPricePerHour()
++    }
++}
++
++package "com.example.myarena.ui" {
+     class ReservationFrame {
+-        - terrainIdField : TextField
+-        - startDatePicker : DatePicker
+-        - endDatePicker : DatePicker
+-        - createButton : Button
+-        - controller : ReservationController
++        - ReservationController controller
++        - LocalTime selectedStartTime
++        + initialize()
++        - handleCreateReservation()
++        - updateSlots()
+     }
+ 
+     class ReservationController {
+-        - view : ReservationFrame
+-        - reservationFacade : ReservationFacade
+-        + createReservation()
+-        + modifyReservation()
+-        + cancelReservation()
+-        + viewHistory()
++        - ReservationFrame view
++        - ReservationFacade reservationFacade
++        + createReservation(Long, Long, Date, Date, int, String)
+     }
+ }
+ 
+-package "façade" {
++package "com.example.myarena.facade" {
+     class ReservationFacade {
+-        - instance : ReservationFacade
+-        - reservationManager : ReservationManager
+-        + createReservation(userId, terrainId, startDate, endDate) : boolean
+-        + modifyReservation(reservationId, newStartDate, newEndDate) : boolean
+-        + cancelReservation(reservationId) : boolean
+-        + getReservationHistory(userId) : List<Reservation>
++        - {static} ReservationFacade instance
++        - ReservationManager reservationManager
++        + {static} getInstance()
++        + createReservation(...)
++        + getAvailableSlots(...)
++        + getReservationHistory(...)
+     }
+ }
+-
+-package "domain" {
+-    class Reservation {
+-        - id : Long
+-        - userId : Long
+-        - terrainId : Long
+-        - startDate : Date
+-        - endDate : Date
+-        - totalPrice : BigDecimal
+-        - status : ReservationStatus
+-        - createdAt : Date
+-        + getId()
+-        + setId(Long)
+-        + getUserId()
+-        + setUserId(Long)
+-        + getTerrainId()
+-        + setTerrainId(Long)
+-        + getStartDate()
+-        + setStartDate(Date)
+-        + getEndDate()
+-        + setEndDate(Date)
+-        + getTotalPrice()
+-        + setTotalPrice(BigDecimal)
+-        + getStatus()
+-        + setStatus(ReservationStatus)
+-        + getCreatedAt()
+-        + setCreatedAt(Date)
+-    }
+ 
+-    enum ReservationStatus {
+-        PENDING
+-        CONFIRMED
+-        CANCELLED
+-        COMPLETED
++package "com.example.myarena.services" {
++    class ReservationManager {
++        - ReservationDAO reservationDAO
++        - TerrainDAO terrainDAO
++        - SubscriptionDAO subscriptionDAO
++        + createReservation(...)
++        + checkAvailability(...)
++        + getAvailableSlots(...)
+     }
+ }
+ 
+-package "persistance" {
+-
++package "com.example.myarena.persistance" {
+     package "dao" {
+         interface ReservationDAO {
+-            + getReservationById(id : Long) : Reservation
+-            + getReservationsByUserId(userId : Long) : List<Reservation>
+-            + getReservationsByTerrainId(terrainId : Long) : List<Reservation>
+-            + saveReservation(r : Reservation) : void
+-            + updateReservation(r : Reservation) : void
+-            + deleteReservation(id : Long) : void
++            + getReservationById(Long)
++            + getReservationByUserId(Long)
++            + saveReservation(Reservation)
++            + updateReservation(Reservation)
+         }
+ 
+         class ReservationDAOPostgres {
+-            + getReservationById(id : Long) : Reservation
+-            + getReservationsByUserId(userId : Long) : List<Reservation>
+-            + getReservationsByTerrainId(terrainId : Long) : List<Reservation>
+-            + saveReservation(r : Reservation) : void
+-            + updateReservation(r : Reservation) : void
+-            + deleteReservation(id : Long) : void
++            - getConnection()
++            + saveReservation(Reservation)
++        }
++
++        interface TerrainDAO {
++            + getTerrainByID(Long)
++        }
++
++        interface SubscriptionDAO {
++            + findActiveByUserId(Long)
+         }
+     }
+ 
+     package "factory" {
+-        class AbstractFactory {
+-            + createUserDAO() : UserDAO
+-            + createReservationDAO() : ReservationDAO
+-        }
+-
+         class PostgresFactory {
+-            + createUserDAO() : UserDAO
+-            + createReservationDAO() : ReservationDAO
++            + createReservationDAO()
++            + createTerrainDAO()
++            + createSubscriptionDAO()
+         }
+     }
+ }
+-
+-package "services" {
+-    class ReservationManager {
+-        - reservationDAO : ReservationDAO
+-        + createReservation(userId, terrainId, startDate, endDate) : Reservation
+-        + modifyReservation(reservationId, newStartDate, newEndDate) : Reservation
+-        + cancelReservation(reservationId) : boolean
+-        + getReservationHistory(userId) : List<Reservation>
+-        + checkAvailability(terrainId, startDate, endDate) : boolean
+-    }
+-}
+ 
+-' =======================
+-'     RELATIONSHIPS
+-' =======================
+-
++' Relationships
++Reservation --> ReservationStatus
+ ReservationFrame --> ReservationController
+-ReservationController --> ReservationFacade : uses
+-
+-ReservationFacade --> ReservationManager
++ReservationController --> ReservationFacade
++ReservationFacade o-- ReservationManager
+ ReservationManager --> ReservationDAO
+-
+-AbstractFactory <|-- PostgresFactory
+-ReservationDAO <|-- ReservationDAOPostgres
+-
+-PostgresFactory --> ReservationDAOPostgres : createReservationDAO()
+-
+-ReservationManager --> Reservation : creates/returns
+-Reservation --> ReservationStatus : has
++ReservationManager --> TerrainDAO
++ReservationManager --> SubscriptionDAO
++ReservationDAOPostgres ..|> ReservationDAO
++PostgresFactory ..> ReservationDAOPostgres : creates
++ReservationFrame ..> ReservationFacade : uses
+ 
+ @enduml
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"2f701746-b727-4275-9818-bea990ea29c6\" name=\"Changes\" comment=\"\">\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Class\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"GitHubPullRequestSearchHistory\">{\n  &quot;lastFilter&quot;: {\n    &quot;state&quot;: &quot;OPEN&quot;,\n    &quot;assignee&quot;: &quot;wassim-png&quot;\n  }\n}</component>\n  <component name=\"GithubPullRequestsUISettings\">{\n  &quot;selectedUrlAndAccountId&quot;: {\n    &quot;url&quot;: &quot;https://github.com/ismael-bny/MyArena.git&quot;,\n    &quot;accountId&quot;: &quot;60968e94-361e-447a-983f-502878570061&quot;\n  }\n}</component>\n  <component name=\"MavenImportPreferences\">\n    <option name=\"generalSettings\">\n      <MavenGeneralSettings>\n        <option name=\"mavenHomeTypeForPersistence\" value=\"WRAPPER\" />\n      </MavenGeneralSettings>\n    </option>\n  </component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;associatedIndex&quot;: 4\n}</component>\n  <component name=\"ProjectId\" id=\"36jmb9SEvV49L9SOw5AhkbgcYMI\" />\n  <component name=\"ProjectLevelVcsManager\">\n    <ConfirmationsSetting value=\"1\" id=\"Add\" />\n  </component>\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\"><![CDATA[{\n  \"keyToString\": {\n    \"Application.Launcher.executor\": \"Run\",\n    \"Application.TestLogin.executor\": \"Run\",\n    \"Maven.MyArena [clean].executor\": \"Run\",\n    \"Maven.MyArena [compile].executor\": \"Run\",\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\n    \"RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252\": \"true\",\n    \"RunOnceActivity.git.unshallow\": \"true\",\n    \"com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1\": \"true\",\n    \"git-widget-placeholder\": \"reservation__diagram\",\n    \"junie.onboarding.icon.badge.shown\": \"true\",\n    \"kotlin-language-version-configured\": \"true\",\n    \"last_opened_file_path\": \"/home/syrine/Desktop/S7/SD/Project/MyArena/UML\",\n    \"node.js.detected.package.eslint\": \"true\",\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\n    \"nodejs_package_manager_path\": \"npm\",\n    \"settings.editor.selected.configurable\": \"configurable.group.tools\",\n    \"to.speed.mode.migration.done\": \"true\",\n    \"vue.rearranger.settings.migration\": \"true\"\n  }\n}]]></component>\n  <component name=\"RecentsManager\">\n    <key name=\"MoveFile.RECENT_KEYS\">\n      <recent name=\"C:\\Users\\wassi\\Desktop\\IG4\\Software Design\\MyArena\\UML\\Reservation\" />\n      <recent name=\"C:\\Users\\wassi\\Desktop\\IG4\\Software Design\\MyArena\\UML\\Login\" />\n      <recent name=\"C:\\Users\\wassi\\Desktop\\IG4\\Software Design\\MyArena\\UML\" />\n    </key>\n  </component>\n  <component name=\"RunManager\" selected=\"Application.Launcher\">\n    <configuration name=\"Launcher\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\n      <option name=\"MAIN_CLASS_NAME\" value=\"com.example.myarena.Launcher\" />\n      <module name=\"MyArena\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"com.example.myarena.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"TestLogin\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\n      <option name=\"MAIN_CLASS_NAME\" value=\"com.example.myarena.TestLogin\" />\n      <module name=\"MyArena\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"com.example.myarena.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <recent_temporary>\n      <list>\n        <item itemvalue=\"Application.Launcher\" />\n        <item itemvalue=\"Application.TestLogin\" />\n      </list>\n    </recent_temporary>\n  </component>\n  <component name=\"SharedIndexes\">\n    <attachedChunks>\n      <set>\n        <option value=\"bundled-jdk-30f59d01ecdd-cffe25b9f5b3-intellij.indexing.shared.core-IU-253.28294.334\" />\n      </set>\n    </attachedChunks>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"2f701746-b727-4275-9818-bea990ea29c6\" name=\"Changes\" comment=\"\" />\n      <created>1765533615353</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1765533615353</updated>\n      <workItem from=\"1765533616646\" duration=\"5736000\" />\n    </task>\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 7b66d3470fb3a2c52a2ee64618c33aac642559de)
++++ b/.idea/workspace.xml	(date 1767626387571)
+@@ -5,7 +5,7 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="2f701746-b727-4275-9818-bea990ea29c6" name="Changes" comment="">
+-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/UML/Reservation/reservation_class_diagram.puml" beforeDir="false" afterPath="$PROJECT_DIR$/UML/Reservation/reservation_class_diagram.puml" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -40,6 +40,10 @@
+         <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+       </MavenGeneralSettings>
+     </option>
++  </component>
++  <component name="McpProjectServerCommands">
++    <commands />
++    <urls />
+   </component>
+   <component name="ProjectColorInfo">{
+   &quot;associatedIndex&quot;: 4
+@@ -52,29 +56,29 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "Application.Launcher.executor": "Run",
+-    "Application.TestLogin.executor": "Run",
+-    "Maven.MyArena [clean].executor": "Run",
+-    "Maven.MyArena [compile].executor": "Run",
+-    "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+-    "RunOnceActivity.git.unshallow": "true",
+-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+-    "git-widget-placeholder": "reservation__diagram",
+-    "junie.onboarding.icon.badge.shown": "true",
+-    "kotlin-language-version-configured": "true",
+-    "last_opened_file_path": "/home/syrine/Desktop/S7/SD/Project/MyArena/UML",
+-    "node.js.detected.package.eslint": "true",
+-    "node.js.selected.package.eslint": "(autodetect)",
+-    "node.js.selected.package.tslint": "(autodetect)",
+-    "nodejs_package_manager_path": "npm",
+-    "settings.editor.selected.configurable": "configurable.group.tools",
+-    "to.speed.mode.migration.done": "true",
+-    "vue.rearranger.settings.migration": "true"
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;Application.Launcher.executor&quot;: &quot;Run&quot;,
++    &quot;Application.TestLogin.executor&quot;: &quot;Run&quot;,
++    &quot;Maven.MyArena [clean].executor&quot;: &quot;Run&quot;,
++    &quot;Maven.MyArena [compile].executor&quot;: &quot;Run&quot;,
++    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
++    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
++    &quot;git-widget-placeholder&quot;: &quot;reservation__diagram&quot;,
++    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
++    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
++    &quot;last_opened_file_path&quot;: &quot;/home/syrine/Desktop/S7/SD/Project/MyArena/UML&quot;,
++    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
++    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
++    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
++    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
++    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.tools&quot;,
++    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
++    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+   }
+-}]]></component>
++}</component>
+   <component name="RecentsManager">
+     <key name="MoveFile.RECENT_KEYS">
+       <recent name="C:\Users\wassi\Desktop\IG4\Software Design\MyArena\UML\Reservation" />
