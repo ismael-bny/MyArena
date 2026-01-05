@@ -1,4 +1,4 @@
-package com.example.myarena.ui.subscription;
+package com.example.myarena.ui;
 
 import com.example.myarena.domain.SubscriptionPlan;
 import javafx.fxml.FXML;

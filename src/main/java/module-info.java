@@ -10,8 +10,7 @@ module com.example.myarena {
     opens com.example.myarena.ui to javafx.fxml;  // Pour LoginFrame
     exports com.example.myarena.ui;
 
-    opens com.example.myarena.ui.subscription to javafx.fxml;  // Pour SubscriptionPlansFrame
-    exports com.example.myarena.ui.subscription;
+    // Pour SubscriptionPlansFrame
 
     exports com.example.myarena.domain;  // Pour User, UserRole, UserStatus
 
