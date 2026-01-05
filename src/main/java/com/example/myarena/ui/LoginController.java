@@ -2,15 +2,14 @@ package com.example.myarena.ui;
 
 import com.example.myarena.domain.UserRole;
 import com.example.myarena.facade.SessionFacade;
+
 import com.example.myarena.ui.subscription.PlanManagementFrame;
 import com.example.myarena.ui.subscription.SubscriptionPlansFrame;
 
 public class LoginController {
-
     private LoginFrame view;
     private SessionFacade sessionFacade;
 
-    // This constructor IS REQUIRED for 'new LoginController(this)' to work
     public LoginController(LoginFrame view) {
         this.view = view;
         this.sessionFacade = SessionFacade.getInstance();
@@ -20,6 +19,8 @@ public class LoginController {
         String username = view.getUsername();
         String password = view.getPassword();
 
+        if (sessionFacade.login(username, password)) {
+            view.showMessage("Login successful", true);
         // Delegate to Facade
         boolean success = sessionFacade.login(username, password);
 
@@ -27,20 +28,21 @@ public class LoginController {
             view.showMessage("Login successful for user: " + username, true);
             System.out.println("Login successful for user: " + username);
 
-            view.closeWindow();
-
+            // Redirect based on role
             UserRole role = sessionFacade.getCurrentUser().getRole();
             if (role == UserRole.ADMIN || role == UserRole.OWNER) {
-                PlanManagementFrame.show();
+                // Admins/Owners go to management
+                view.navigateToMainMenu();
+                System.out.println("Admin Logged In");
             } else {
-                SubscriptionPlansFrame.show();
+                // Clients see plans or terrain list
+                view.navigateToMainMenu();
             }
         if (SessionFacade.getInstance().login(username, password)) {
             System.out.println("Login Successful - Redirecting ...");
             view.navigateToMainMenu(); // Navigate on success
         } else {
-            System.out.println("Login Failed");
-            view.showMessage("Invalid Credentials", false); // Show error to user
+            view.showMessage("Invalid Credentials", false);
         }
     }
 }

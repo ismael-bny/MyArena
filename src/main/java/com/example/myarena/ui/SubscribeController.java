@@ -1,22 +1,23 @@
-package com.example.myarena.ui.subscription;
+package com.example.myarena.ui;
 
 import com.example.myarena.domain.SubscriptionPlan;
-import com.example.myarena.facade.SessionFacade;
+import com.example.myarena.facade.SubscriptionFacade; // Import the correct Facade
+import javafx.application.Platform;
 
 public class SubscribeController {
 
     private final SubscribeFrame view;
-    private final SessionFacade sessionFacade;
+    private final SubscriptionFacade subscriptionFacade; // Use SubscriptionFacade
 
     public SubscribeController(SubscribeFrame view) {
         this.view = view;
-        this.sessionFacade = SessionFacade.getInstance();
+        this.subscriptionFacade = SubscriptionFacade.getInstance(); // Initialize SubscriptionFacade
     }
 
     public void confirmSubscription() {
         try {
             SubscriptionPlan plan = view.getPlan();
-            
+
             if (plan == null) {
                 view.showMessage("Erreur : Aucun plan sélectionné", false);
                 System.err.println("SubscribeController : Plan null");
@@ -27,7 +28,8 @@ public class SubscribeController {
             System.out.println("  → Plan ID : " + plan.getId());
             System.out.println("  → Renouvellement auto : " + view.isAutoRenewSelected());
 
-            boolean success = sessionFacade.subscribeToPlan(plan.getId());
+            // Call subscribeToPlan on subscriptionFacade instead of sessionFacade
+            boolean success = subscriptionFacade.subscribeToPlan(plan.getId());
 
             if (success) {
                 view.showMessage("Abonnement activé avec succès !", true);

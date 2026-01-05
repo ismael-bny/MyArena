@@ -1,9 +1,10 @@
-package com.example.myarena.ui.subscription;
+package com.example.myarena.ui;
 
 import com.example.myarena.domain.Subscription;
 import com.example.myarena.domain.SubscriptionPlan;
 import com.example.myarena.domain.UserRole;
 import com.example.myarena.facade.SessionFacade;
+import com.example.myarena.facade.SubscriptionFacade; // Import the new Facade
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -31,7 +32,7 @@ public class SubscriptionPlansFrame {
 
     @FXML
     private Label statusLabel;
-    
+
     private SubscriptionPlansController controller;
 
     public SubscriptionPlansFrame() {
@@ -44,9 +45,6 @@ public class SubscriptionPlansFrame {
         controller.loadPlans();
     }
 
-    /**
-     * Met à jour l'affichage des cards avec la liste des plans
-     */
     public void updateCards(List<SubscriptionPlan> plans) {
         cardsContainer.getChildren().clear();
 
@@ -63,23 +61,16 @@ public class SubscriptionPlansFrame {
         showMessage(plans.size() + " plan(s) chargé(s)", true);
     }
 
-    /**
-     * Affiche un message de statut
-     */
     public void showMessage(String message, boolean isSuccess) {
         statusLabel.setText(message);
         statusLabel.getStyleClass().removeAll("status-success", "status-error");
         statusLabel.getStyleClass().add(isSuccess ? "status-success" : "status-error");
     }
 
-
-    /**
-     * Construit une card complète pour un plan
-     */
     private VBox buildPlanCard(SubscriptionPlan plan) {
         VBox card = createCardContainer();
         addCardShadowEffect(card);
-        
+
         Label nameLabel = createNameLabel(plan.getName());
         Label priceLabel = createPriceLabel(plan.getPrice());
         Label durationLabel = createDurationLabel(plan.getDurationMonths());
@@ -91,9 +82,6 @@ public class SubscriptionPlansFrame {
         return card;
     }
 
-    /**
-     * Crée le conteneur de la card
-     */
     private VBox createCardContainer() {
         VBox card = new VBox(15);
         card.setPrefSize(250, 320);
@@ -103,29 +91,23 @@ public class SubscriptionPlansFrame {
         return card;
     }
 
-    /**
-     * Ajoute l'effet d'ombre et l'animation hover
-     */
     private void addCardShadowEffect(VBox card) {
         DropShadow normalShadow = new DropShadow(10, 0, 4, Color.rgb(0, 0, 0, 0.15));
         DropShadow hoverShadow = new DropShadow(15, 0, 6, Color.rgb(0, 0, 0, 0.25));
-        
+
         card.setEffect(normalShadow);
-        
+
         card.setOnMouseEntered(e -> {
             card.setEffect(hoverShadow);
             card.setTranslateY(-3);
         });
-        
+
         card.setOnMouseExited(e -> {
             card.setEffect(normalShadow);
             card.setTranslateY(0);
         });
     }
 
-    /**
-     * Crée le label du nom du plan
-     */
     private Label createNameLabel(String name) {
         Label label = new Label(name);
         label.getStyleClass().add("plan-name");
@@ -133,9 +115,6 @@ public class SubscriptionPlansFrame {
         return label;
     }
 
-    /**
-     * Crée le label du prix
-     */
     private Label createPriceLabel(double price) {
         DecimalFormat df = new DecimalFormat("0.00");
         Label label = new Label(df.format(price) + " €");
@@ -143,18 +122,12 @@ public class SubscriptionPlansFrame {
         return label;
     }
 
-    /**
-     * Crée le label de la durée
-     */
     private Label createDurationLabel(int months) {
         Label label = new Label(getDurationText(months));
         label.getStyleClass().add("plan-duration");
         return label;
     }
 
-    /**
-     * Convertit la durée en texte lisible
-     */
     private String getDurationText(int months) {
         switch (months) {
             case 1: return "Mensuel";
@@ -165,56 +138,47 @@ public class SubscriptionPlansFrame {
         }
     }
 
-    /**
-     * Crée la box avec le statut (actif/inactif)
-     */
     private HBox createStatusBox(boolean isActive) {
         HBox box = new HBox(8);
         box.setAlignment(Pos.CENTER);
-        
+
         Label bullet = new Label("●");
         bullet.getStyleClass().add(isActive ? "status-bullet-active" : "status-bullet-inactive");
-        
+
         Label text = new Label(isActive ? "Actif" : "Inactif");
         text.getStyleClass().add(isActive ? "status-text-active" : "status-text-inactive");
-        
+
         box.getChildren().addAll(bullet, text);
         return box;
     }
 
-    /**
-     * Crée le séparateur horizontal
-     */
     private Separator createSeparator() {
         Separator separator = new Separator();
         separator.setMaxWidth(200);
         return separator;
     }
 
-    /**
-     * Crée la box avec les boutons (S'inscrire ou Annuler)
-     */
     private HBox createCardButtons(SubscriptionPlan plan) {
         HBox box = new HBox(10);
         box.setAlignment(Pos.CENTER);
 
-        SessionFacade facade = SessionFacade.getInstance();
-        UserRole role = (facade.getCurrentUser() != null) ? facade.getCurrentUser().getRole() : null;
+        // SessionFacade for role/user check, SubscriptionFacade for logic
+        SessionFacade sessionFacade = SessionFacade.getInstance();
+        SubscriptionFacade subFacade = SubscriptionFacade.getInstance();
+
+        UserRole role = (sessionFacade.getCurrentUser() != null) ? sessionFacade.getCurrentUser().getRole() : null;
 
         if (role == UserRole.CLIENT || role == UserRole.ORGANIZER) {
-            Button button = createSubscribeOrCancelButton(plan, facade);
+            Button button = createSubscribeOrCancelButton(plan, subFacade);
             box.getChildren().add(button);
         }
 
         return box;
     }
 
-    /**
-     * Crée le bouton "S'inscrire" ou "Annuler" selon la situation
-     */
-    private Button createSubscribeOrCancelButton(SubscriptionPlan plan, SessionFacade facade) {
-        boolean isSubscribed = isUserSubscribedToThisPlan(plan, facade);
-        
+    private Button createSubscribeOrCancelButton(SubscriptionPlan plan, SubscriptionFacade subFacade) {
+        boolean isSubscribed = isUserSubscribedToThisPlan(plan, subFacade);
+
         if (isSubscribed) {
             return createCancelButton(plan);
         } else {
@@ -223,29 +187,23 @@ public class SubscriptionPlansFrame {
     }
 
     /**
-     * Vérifie si l'utilisateur est inscrit à ce plan
+     * Updated: Calls the no-argument version of getActiveSubscription()
      */
-    private boolean isUserSubscribedToThisPlan(SubscriptionPlan plan, SessionFacade facade) {
-        Subscription activeSubscription = facade.getActiveSubscription(facade.getCurrentUser().getId());
-        return (activeSubscription != null && 
+    private boolean isUserSubscribedToThisPlan(SubscriptionPlan plan, SubscriptionFacade subFacade) {
+        Subscription activeSubscription = subFacade.getActiveSubscription();
+        return (activeSubscription != null &&
                 activeSubscription.getPlan() != null &&
                 activeSubscription.getPlan().getId().equals(plan.getId()));
     }
 
-    /**
-     * Crée le bouton "S'inscrire"
-     */
     private Button createSubscribeButton(SubscriptionPlan plan) {
         Button button = new Button("S'inscrire");
         button.getStyleClass().addAll("crud-button", "btn-subscribe");
-        button.setDisable(!plan.isActive()); 
+        button.setDisable(!plan.isActive());
         button.setOnAction(e -> controller.handleSubscribe(plan));
         return button;
     }
 
-    /**
-     * Crée le bouton "Annuler"
-     */
     private Button createCancelButton(SubscriptionPlan plan) {
         Button button = new Button("Annuler");
         button.getStyleClass().addAll("crud-button", "btn-cancel-subscription");
@@ -256,7 +214,7 @@ public class SubscriptionPlansFrame {
     public static void show() {
         try {
             FXMLLoader loader = new FXMLLoader(
-                SubscriptionPlansFrame.class.getResource("/com/example/myarena/subscription-plans.fxml")
+                    SubscriptionPlansFrame.class.getResource("/com/example/myarena/subscription-plans.fxml")
             );
             Parent root = loader.load();
 

@@ -12,7 +12,7 @@
 
 <VBox xmlns:fx="http://javafx.com/fxml/1"
       xmlns="http://javafx.com/javafx/20"
-      fx:controller="com.example.myarena.ui.subscription.SubscribeFrame"
+      fx:controller="com.example.myarena.ui.SubscribeFrame"
       alignment="CENTER"
       spacing="25"
       style="-fx-background-color: #F8F9FA; -fx-padding: 40;">

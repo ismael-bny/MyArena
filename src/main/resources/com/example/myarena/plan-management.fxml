@@ -12,7 +12,7 @@
 
 <BorderPane xmlns:fx="http://javafx.com/fxml/1"
             xmlns="http://javafx.com/javafx/20"
-            fx:controller="com.example.myarena.ui.subscription.PlanManagementFrame"
+            fx:controller="com.example.myarena.ui.PlanManagementFrame"
             styleClass="page-background"
             stylesheets="@styles/myarena-styles.css">
 

@@ -4,17 +4,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
-import javafx.stage.Stage;
+import java.io.IOException;
 
 import java.io.IOException;
 
 public class LoginFrame {
-
     @FXML private TextField usernameField;
     @FXML private PasswordField pwdField;
     @FXML private Button loginButton;
@@ -33,27 +29,15 @@ public class LoginFrame {
     }
 
     private void handleLogin() {
-        if (controller != null) {
-            controller.login();
-        }
+        if (controller != null) controller.login();
     }
 
-    // Getters for the controller to access data
-    public String getUsername() {
-        return usernameField.getText();
-    }
-
-    public String getPassword() {
-        return pwdField.getText();
-    }
+    public String getUsername() { return usernameField.getText(); }
+    public String getPassword() { return pwdField.getText(); }
 
     public void showMessage(String message, boolean isSuccess) {
         messageLabel.setText(message);
-        if (isSuccess) {
-            messageLabel.setStyle("-fx-text-fill: green; -fx-font-size: 14px;");
-        } else {
-            messageLabel.setStyle("-fx-text-fill: red; -fx-font-size: 14px;");
-        }
+        messageLabel.setStyle(isSuccess ? "-fx-text-fill: green;" : "-fx-text-fill: red;");
     }
 
     public void closeWindow() {
@@ -75,12 +59,18 @@ public class LoginFrame {
                 scene.getStylesheets().add(getClass().getResource("/com/example/myarena/application.css").toExternalForm());
             }
 
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/myarena/main-menu.fxml"));
+            Parent root = loader.load();
             stage.setTitle("MyArena - Dashboard");
-            stage.setScene(scene);
-
+            stage.setScene(new Scene(root, 800, 600));
         } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Failed to load Main Menu");
+            System.err.println("Failed to load Main Menu: " + e.getMessage());
         }
     }
+
+    public void closeWindow() {
+        Stage stage = (Stage) loginButton.getScene().getWindow();
+        if (stage != null) stage.close();
+    }
+}
 }
