@@ -20,8 +20,8 @@
         <Button text="📅 Make a Reservation" fx:id="reservationButton" maxWidth="Infinity" styleClass="button"/>
         <Button text="📅 My Reservations" fx:id="myReservationsButton" maxWidth="Infinity" styleClass="button, secondary"/>
         <Button text="⛳ Manage Terrains" fx:id="terrainButton" maxWidth="Infinity" styleClass="button, secondary"/>
-
         <Button text="💎 Subscription Plans" fx:id="subscriptionButton" maxWidth="Infinity" styleClass="button, secondary"/>
+        <Button text="👤 My Profile" fx:id="profileButton" maxWidth="Infinity" styleClass="button, secondary"/>
         <Button text="🔔 Notification Center" fx:id="notificationCenterButton" maxWidth="Infinity" styleClass="button, secondary"/>
 
         <Button text="🚪 Logout" fx:id="logoutButton" maxWidth="Infinity" styleClass="button, destructive"/>
