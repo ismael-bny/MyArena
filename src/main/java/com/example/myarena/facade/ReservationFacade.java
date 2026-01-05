@@ -27,6 +27,18 @@ public class ReservationFacade {
         return r != null;
     }
 
+    public boolean updateReservation(Reservation reservation) {
+        return reservationManager.updateReservation(reservation);
+    }
+
+    public boolean deleteReservation(Long reservationId) {
+        return reservationManager.deleteReservation(reservationId);
+    }
+
+    public Reservation getReservationById(Long reservationId) {
+        return reservationManager.getReservationById(reservationId);
+    }
+
     public boolean cancelReservation(Long reservationId) {
         reservationManager.cancelReservation(reservationId);
         return true;
