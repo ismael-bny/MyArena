@@ -17,7 +17,7 @@ public class MainMenuFrame {
 
     @FXML private Button reservationButton;
     @FXML private Button terrainButton;
-    @FXML private Button subscriptionButton; // New FXML injection
+    @FXML private Button subscriptionButton;
     @FXML private Button logoutButton;
     @FXML private Label welcomeLabel;
     @FXML private Button myReservationsButton;
@@ -45,10 +45,13 @@ public class MainMenuFrame {
 
         // --- NEW: Subscription Navigation Logic ---
         if (subscriptionButton != null) {
-            if (role == UserRole.ADMIN || role == UserRole.OWNER) {
+            // FIX: Only ADMIN can Manage Plans (Create, Edit, Delete, Validate)
+            // OWNER acts as a customer regarding subscriptions (they buy them, they don't manage them)
+            if (role == UserRole.ADMIN) {
                 subscriptionButton.setText("💎 Manage Plans");
                 subscriptionButton.setOnAction(e -> navigate(e, "/com/example/myarena/plan-management.fxml"));
             } else {
+                // Owner, Client, Organizer see the subscription options
                 subscriptionButton.setText("💎 View Plans");
                 subscriptionButton.setOnAction(e -> navigate(e, "/com/example/myarena/subscription-plans.fxml"));
             }
@@ -76,6 +79,4 @@ public class MainMenuFrame {
         UserSession.getInstance().cleanSession();
         navigate(event, "/com/example/myarena/login-page.fxml");
     }
-
-
 }
