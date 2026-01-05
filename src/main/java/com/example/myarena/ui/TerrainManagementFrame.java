@@ -60,9 +60,6 @@ public class TerrainManagementFrame {
             // Create the scene
             Scene scene = new Scene(root);
 
-            String css = getClass().getResource("/com/example/myarena/application.css").toExternalForm();
-            scene.getStylesheets().add(css);
-
             stage.setScene(scene);
             stage.show();
         } catch (Exception e) {

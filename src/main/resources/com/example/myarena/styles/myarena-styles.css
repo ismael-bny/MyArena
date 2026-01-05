@@ -6,53 +6,24 @@
  */
 
 /* ============================================
-   COLOR SYSTEM - CSS Variables
+   COLOR SYSTEM & DESIGN TOKENS
    ============================================ */
-* {
-    /* Primary Colors */
-    -fx-primary: #030213;
-    -fx-primary-foreground: #ffffff;
-    
-    /* Secondary Colors */
-    -fx-secondary: #f3f3f5;
-    -fx-secondary-foreground: #030213;
-    
-    /* Accent Colors */
-    -fx-accent: #e9ebef;
-    -fx-accent-foreground: #030213;
-    
-    /* Destructive Colors */
-    -fx-destructive: #d4183d;
-    -fx-destructive-foreground: #ffffff;
-    
-    /* Neutral Colors */
-    -fx-background: #ffffff;
-    -fx-foreground: #030213;
-    -fx-muted: #ececf0;
-    -fx-muted-foreground: #717182;
-    -fx-border: rgba(0, 0, 0, 0.1);
-    
-    /* UI Elements */
-    -fx-card: #ffffff;
-    -fx-card-foreground: #030213;
-    -fx-input-background: #f3f3f5;
-    
-    /* Border Radius */
-    -fx-border-radius: 10px;
-    -fx-border-radius-sm: 6px;
-    -fx-border-radius-lg: 14px;
-    
-    /* Spacing & Typography */
-    -fx-font-size-base: 14px;
-    -fx-font-size-sm: 12px;
-    -fx-font-size-lg: 16px;
-    -fx-font-size-xl: 20px;
-    -fx-font-size-2xl: 28px;
-    
-    -fx-font-weight-normal: 400;
-    -fx-font-weight-medium: 500;
-    -fx-font-weight-semibold: 600;
-    -fx-font-weight-bold: 700;
+
+/* Primary Colors */
+.root {
+    -fx-color-primary: #030213;
+    -fx-color-primary-foreground: #ffffff;
+    -fx-color-secondary: #f3f3f5;
+    -fx-color-secondary-foreground: #030213;
+    -fx-color-accent: #e9ebef;
+    -fx-color-accent-foreground: #030213;
+    -fx-color-destructive: #d4183d;
+    -fx-color-destructive-foreground: #ffffff;
+    -fx-color-background: #ffffff;
+    -fx-color-foreground: #030213;
+    -fx-color-muted: #ececf0;
+    -fx-color-muted-foreground: #717182;
+    -fx-color-border: rgba(0, 0, 0, 0.1);
 }
 
 /* ============================================
@@ -60,10 +31,10 @@
    ============================================ */
 
 .root {
-    -fx-background-color: -fx-background;
-    -fx-text-fill: -fx-foreground;
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #030213;
     -fx-font-family: "Segoe UI", "Helvetica Neue", sans-serif;
-    -fx-font-size: -fx-font-size-base;
+    -fx-font-size: 14;
 }
 
 /* ============================================
@@ -75,19 +46,7 @@
 }
 
 .white-background {
-    -fx-background-color: -fx-background;
-}
-
-/* ============================================
-   PAGE LAYOUTS
-   ============================================ */
-
-.page-background {
-    -fx-background-color: #f8f9fa;
-}
-
-.white-background {
-    -fx-background-color: -fx-background;
+    -fx-background-color: #ffffff;
 }
 
 .page-container {
@@ -100,36 +59,36 @@
    ============================================ */
 
 .page-header {
-    -fx-background-color: -fx-card;
-    -fx-border-color: -fx-border;
+    -fx-background-color: #ffffff;
+    -fx-border-color: rgba(0, 0, 0, 0.1);
     -fx-border-width: 0 0 1 0;
     -fx-padding: 24 28;
     -fx-spacing: 20;
 }
 
 .page-title {
-    -fx-font-size: -fx-font-size-2xl;
-    -fx-font-weight: -fx-font-weight-semibold;
-    -fx-text-fill: -fx-foreground;
+    -fx-font-size: 28;
+    -fx-font-weight: bold;
+    -fx-text-fill: #030213;
     -fx-text-alignment: left;
 }
 
 .page-subtitle {
-    -fx-font-size: -fx-font-size-base;
-    -fx-text-fill: -fx-muted-foreground;
-    -fx-font-weight: -fx-font-weight-normal;
+    -fx-font-size: 14;
+    -fx-text-fill: #717182;
+    -fx-font-weight: normal;
 }
 
 .dialog-title {
-    -fx-font-size: -fx-font-size-xl;
-    -fx-font-weight: -fx-font-weight-semibold;
-    -fx-text-fill: -fx-foreground;
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+    -fx-text-fill: #030213;
 }
 
 .section-title {
-    -fx-font-size: -fx-font-size-lg;
-    -fx-font-weight: -fx-font-weight-semibold;
-    -fx-text-fill: -fx-foreground;
+    -fx-font-size: 16;
+    -fx-font-weight: bold;
+    -fx-text-fill: #030213;
 }
 
 /* ============================================
@@ -138,11 +97,11 @@
 
 .button {
     -fx-padding: 10 20;
-    -fx-font-size: -fx-font-size-base;
-    -fx-font-weight: -fx-font-weight-medium;
-    -fx-text-fill: -fx-primary-foreground;
-    -fx-background-color: -fx-primary;
-    -fx-background-radius: -fx-border-radius-sm;
+    -fx-font-size: 14;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+    -fx-background-color: #030213;
+    -fx-background-radius: 6;
     -fx-cursor: hand;
     -fx-border-color: transparent;
     -fx-border-width: 0;
@@ -150,12 +109,12 @@
 }
 
 .button:hover {
-    -fx-background-color: derive(-fx-primary, -10%);
+    -fx-background-color: #1a0f2e;
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 4, 0, 0, 2);
 }
 
 .button:pressed {
-    -fx-background-color: derive(-fx-primary, -20%);
+    -fx-background-color: #000000;
 }
 
 .button:disabled {
@@ -168,8 +127,8 @@
    ============================================ */
 
 .button.primary {
-    -fx-background-color: -fx-primary;
-    -fx-text-fill: -fx-primary-foreground;
+    -fx-background-color: #030213;
+    -fx-text-fill: #ffffff;
 }
 
 .button.primary:hover {
@@ -177,9 +136,9 @@
 }
 
 .button.secondary {
-    -fx-background-color: -fx-secondary;
-    -fx-text-fill: -fx-secondary-foreground;
-    -fx-border-color: -fx-border;
+    -fx-background-color: #f3f3f5;
+    -fx-text-fill: #030213;
+    -fx-border-color: rgba(0, 0, 0, 0.1);
     -fx-border-width: 1;
 }
 
@@ -188,8 +147,8 @@
 }
 
 .button.accent {
-    -fx-background-color: -fx-accent;
-    -fx-text-fill: -fx-accent-foreground;
+    -fx-background-color: #e9ebef;
+    -fx-text-fill: #030213;
 }
 
 .button.accent:hover {
@@ -197,8 +156,8 @@
 }
 
 .button.destructive {
-    -fx-background-color: -fx-destructive;
-    -fx-text-fill: -fx-destructive-foreground;
+    -fx-background-color: #d4183d;
+    -fx-text-fill: #ffffff;
 }
 
 .button.destructive:hover {
@@ -207,8 +166,8 @@
 
 .button.outline {
     -fx-background-color: transparent;
-    -fx-text-fill: -fx-primary;
-    -fx-border-color: -fx-primary;
+    -fx-text-fill: #030213;
+    -fx-border-color: #030213;
     -fx-border-width: 2;
 }
 
@@ -218,7 +177,7 @@
 
 .button.ghost {
     -fx-background-color: transparent;
-    -fx-text-fill: -fx-primary;
+    -fx-text-fill: #030213;
     -fx-border-color: transparent;
 }
 
@@ -228,20 +187,20 @@
 
 .button.large {
     -fx-padding: 14 28;
-    -fx-font-size: -fx-font-size-lg;
+    -fx-font-size: 16;
 }
 
 .button.small {
     -fx-padding: 6 12;
-    -fx-font-size: -fx-font-size-sm;
+    -fx-font-size: 12;
 }
 
 /* Special CRUD Buttons */
 .crud-button {
     -fx-padding: 8 16;
-    -fx-font-size: -fx-font-size-sm;
-    -fx-font-weight: -fx-font-weight-medium;
-    -fx-background-radius: -fx-border-radius-sm;
+    -fx-font-size: 12;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
     -fx-cursor: hand;
 }
 
@@ -255,7 +214,7 @@
 }
 
 .delete-button {
-    -fx-background-color: -fx-destructive;
+    -fx-background-color: #d4183d;
     -fx-text-fill: white;
 }
 
@@ -273,7 +232,7 @@
 }
 
 .btn-cancel-subscription {
-    -fx-background-color: -fx-destructive;
+    -fx-background-color: #d4183d;
     -fx-text-fill: white;
 }
 
@@ -306,17 +265,17 @@
 .text-field,
 .text-area {
     -fx-padding: 10 12;
-    -fx-font-size: -fx-font-size-base;
-    -fx-background-color: -fx-input-background;
-    -fx-text-fill: -fx-foreground;
-    -fx-border-color: -fx-border;
+    -fx-font-size: 14;
+    -fx-background-color: #f3f3f5;
+    -fx-text-fill: #030213;
+    -fx-border-color: rgba(0, 0, 0, 0.1);
     -fx-border-width: 1;
-    -fx-border-radius: -fx-border-radius-sm;
+    -fx-background-radius: 6;
 }
 
 .text-field:focused,
 .text-area:focused {
-    -fx-border-color: -fx-primary;
+    -fx-border-color: #030213;
     -fx-border-width: 2;
     -fx-effect: dropshadow(three-pass-box, rgba(3, 2, 19, 0.1), 4, 0, 0, 0);
 }
@@ -324,7 +283,7 @@
 .text-field:disabled,
 .text-area:disabled {
     -fx-opacity: 0.6;
-    -fx-background-color: -fx-muted;
+    -fx-background-color: #ececf0;
 }
 
 /* ============================================
@@ -332,28 +291,28 @@
    ============================================ */
 
 .label {
-    -fx-text-fill: -fx-foreground;
-    -fx-font-size: -fx-font-size-base;
-    -fx-font-weight: -fx-font-weight-normal;
+    -fx-text-fill: #030213;
+    -fx-font-size: 14;
+    -fx-font-weight: normal;
 }
 
 .label.strong {
-    -fx-font-weight: -fx-font-weight-semibold;
+    -fx-font-weight: bold;
 }
 
 .label.muted {
-    -fx-text-fill: -fx-muted-foreground;
-    -fx-font-size: -fx-font-size-sm;
+    -fx-text-fill: #717182;
+    -fx-font-size: 12;
 }
 
 .check-box {
     -fx-padding: 4;
-    -fx-font-size: -fx-font-size-base;
-    -fx-text-fill: -fx-foreground;
+    -fx-font-size: 14;
+    -fx-text-fill: #030213;
 }
 
 .check-box:selected {
-    -fx-text-fill: -fx-primary;
+    -fx-text-fill: #030213;
 }
 
 /* ============================================
@@ -361,72 +320,72 @@
    ============================================ */
 
 .plan-card {
-    -fx-background-color: -fx-card;
+    -fx-background-color: #ffffff;
     -fx-padding: 20;
-    -fx-border-color: -fx-border;
+    -fx-border-color: rgba(0, 0, 0, 0.1);
     -fx-border-width: 1;
-    -fx-border-radius: -fx-border-radius;
+    -fx-background-radius: 10;
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.05), 2, 0, 0, 1);
 }
 
 .plan-card:hover {
-    -fx-border-color: derive(-fx-border, -30%);
+    -fx-border-color: rgba(0, 0, 0, 0.3);
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.15), 4, 0, 0, 2);
 }
 
 .plan-name {
-    -fx-font-size: -fx-font-size-lg;
-    -fx-font-weight: -fx-font-weight-semibold;
-    -fx-text-fill: -fx-foreground;
+    -fx-font-size: 16;
+    -fx-font-weight: bold;
+    -fx-text-fill: #030213;
 }
 
 .plan-price {
-    -fx-font-size: -fx-font-size-xl;
-    -fx-font-weight: -fx-font-weight-bold;
-    -fx-text-fill: -fx-primary;
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+    -fx-text-fill: #030213;
 }
 
 .plan-duration {
-    -fx-font-size: -fx-font-size-base;
-    -fx-text-fill: -fx-muted-foreground;
-    -fx-font-weight: -fx-font-weight-medium;
+    -fx-font-size: 14;
+    -fx-text-fill: #717182;
+    -fx-font-weight: bold;
 }
 
 /* Status Indicators */
 .status-bullet-active {
     -fx-text-fill: #10b981;
-    -fx-font-size: 14px;
+    -fx-font-size: 14;
 }
 
 .status-bullet-inactive {
     -fx-text-fill: #f59e0b;
-    -fx-font-size: 14px;
+    -fx-font-size: 14;
 }
 
 .status-text-active {
     -fx-text-fill: #10b981;
-    -fx-font-weight: -fx-font-weight-medium;
+    -fx-font-weight: bold;
 }
 
 .status-text-inactive {
     -fx-text-fill: #f59e0b;
-    -fx-font-weight: -fx-font-weight-medium;
+    -fx-font-weight: bold;
 }
 
 .status-label {
-    -fx-font-size: -fx-font-size-base;
-    -fx-text-fill: -fx-foreground;
-    -fx-font-weight: -fx-font-weight-normal;
+    -fx-font-size: 14;
+    -fx-text-fill: #030213;
+    -fx-font-weight: normal;
 }
 
 .status-success {
     -fx-text-fill: #10b981;
-    -fx-font-weight: -fx-font-weight-medium;
+    -fx-font-weight: bold;
 }
 
 .status-error {
-    -fx-text-fill: -fx-destructive;
-    -fx-font-weight: -fx-font-weight-medium;
+    -fx-text-fill: #d4183d;
+    -fx-font-weight: bold;
 }
 
 /* ============================================
@@ -436,16 +395,16 @@
 .combo-box,
 .choice-box {
     -fx-padding: 8 12;
-    -fx-background-color: -fx-input-background;
-    -fx-border-color: -fx-border;
+    -fx-background-color: #f3f3f5;
+    -fx-border-color: rgba(0, 0, 0, 0.1);
     -fx-border-width: 1;
-    -fx-border-radius: -fx-border-radius-sm;
-    -fx-font-size: -fx-font-size-base;
+    -fx-background-radius: 6;
+    -fx-font-size: 14;
 }
 
 .combo-box:focused,
 .choice-box:focused {
-    -fx-border-color: -fx-primary;
+    -fx-border-color: #030213;
     -fx-border-width: 2;
 }
 
@@ -454,7 +413,7 @@
    ============================================ */
 
 .separator {
-    -fx-border-color: -fx-border;
+    -fx-border-color: rgba(0, 0, 0, 0.1);
 }
 
 .separator:vertical {
@@ -484,13 +443,13 @@
 
 .scroll-bar:vertical .thumb,
 .scroll-bar:horizontal .thumb {
-    -fx-background-color: -fx-muted;
+    -fx-background-color: #ececf0;
     -fx-background-radius: 10;
 }
 
 .scroll-bar:vertical .thumb:hover,
 .scroll-bar:horizontal .thumb:hover {
-    -fx-background-color: -fx-muted-foreground;
+    -fx-background-color: #717182;
 }
 
 /* ============================================
@@ -499,29 +458,29 @@
 
 .table-view,
 .list-view {
-    -fx-background-color: -fx-card;
-    -fx-border-color: -fx-border;
+    -fx-background-color: #ffffff;
+    -fx-border-color: rgba(0, 0, 0, 0.1);
     -fx-border-width: 1;
 }
 
 .table-view .table-row-cell,
 .list-view .list-cell {
     -fx-padding: 12 16;
-    -fx-text-fill: -fx-foreground;
-    -fx-font-size: -fx-font-size-base;
+    -fx-text-fill: #030213;
+    -fx-font-size: 14;
 }
 
 .table-view .table-row-cell:filled:selected,
 .list-view .list-cell:filled:selected {
-    -fx-background-color: -fx-accent;
-    -fx-text-fill: -fx-accent-foreground;
+    -fx-background-color: #e9ebef;
+    -fx-text-fill: #030213;
 }
 
 .table-view .column-header {
-    -fx-background-color: -fx-secondary;
-    -fx-border-color: -fx-border;
-    -fx-text-fill: -fx-foreground;
-    -fx-font-weight: -fx-font-weight-medium;
+    -fx-background-color: #f3f3f5;
+    -fx-border-color: rgba(0, 0, 0, 0.1);
+    -fx-text-fill: #030213;
+    -fx-font-weight: bold;
 }
 
 /* ============================================
@@ -529,7 +488,7 @@
    ============================================ */
 
 .dialog-pane {
-    -fx-background-color: -fx-card;
+    -fx-background-color: #ffffff;
     -fx-padding: 24;
 }
 
@@ -539,8 +498,8 @@
 }
 
 .dialog-pane .label {
-    -fx-font-size: -fx-font-size-base;
-    -fx-text-fill: -fx-foreground;
+    -fx-font-size: 14;
+    -fx-text-fill: #030213;
 }
 
 /* ============================================
@@ -548,32 +507,32 @@
    ============================================ */
 
 .tab-pane {
-    -fx-background-color: -fx-card;
-    -fx-border-color: -fx-border;
+    -fx-background-color: #ffffff;
+    -fx-border-color: rgba(0, 0, 0, 0.1);
 }
 
 .tab-pane .tab-header-background {
-    -fx-background-color: -fx-secondary;
-    -fx-border-color: -fx-border;
+    -fx-background-color: #f3f3f5;
+    -fx-border-color: rgba(0, 0, 0, 0.1);
     -fx-border-width: 0 0 1 0;
 }
 
 .tab-pane .tab {
     -fx-padding: 12 20;
     -fx-background-color: transparent;
-    -fx-text-fill: -fx-muted-foreground;
+    -fx-text-fill: #717182;
 }
 
 .tab-pane .tab:selected {
     -fx-background-color: transparent;
-    -fx-text-fill: -fx-primary;
-    -fx-border-color: -fx-primary;
+    -fx-text-fill: #030213;
+    -fx-border-color: #030213;
     -fx-border-width: 0 0 3 0;
 }
 
 .tab-pane .tab-content-area {
     -fx-padding: 16;
-    -fx-background-color: -fx-card;
+    -fx-background-color: #ffffff;
 }
 
 /* ============================================
@@ -582,14 +541,14 @@
 
 .context-menu,
 .menu-bar {
-    -fx-background-color: -fx-card;
-    -fx-border-color: -fx-border;
+    -fx-background-color: #ffffff;
+    -fx-border-color: rgba(0, 0, 0, 0.1);
     -fx-border-width: 1;
 }
 
 .menu-item:focused {
-    -fx-background-color: -fx-accent;
-    -fx-text-fill: -fx-accent-foreground;
+    -fx-background-color: #e9ebef;
+    -fx-text-fill: #030213;
 }
 
 /* ============================================
@@ -597,13 +556,13 @@
    ============================================ */
 
 .tooltip {
-    -fx-background-color: -fx-primary;
-    -fx-text-fill: -fx-primary-foreground;
-    -fx-border-color: -fx-border;
+    -fx-background-color: #030213;
+    -fx-text-fill: #ffffff;
+    -fx-border-color: rgba(0, 0, 0, 0.1);
     -fx-border-width: 1;
     -fx-padding: 8 12;
-    -fx-font-size: -fx-font-size-sm;
-    -fx-border-radius: -fx-border-radius-sm;
+    -fx-font-size: 12;
+    -fx-background-radius: 6;
 }
 
 /* ============================================
@@ -690,34 +649,34 @@
 
 /* Border */
 .border {
-    -fx-border-color: -fx-border;
+    -fx-border-color: rgba(0, 0, 0, 0.1);
     -fx-border-width: 1;
-    -fx-border-radius: -fx-border-radius-sm;
+    -fx-background-radius: 6;
 }
 
 .border-primary {
-    -fx-border-color: -fx-primary;
+    -fx-border-color: #030213;
     -fx-border-width: 2;
 }
 
 .border-destructive {
-    -fx-border-color: -fx-destructive;
+    -fx-border-color: #d4183d;
     -fx-border-width: 2;
 }
 
 .rounded {
-    -fx-background-radius: -fx-border-radius;
-    -fx-border-radius: -fx-border-radius;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
 }
 
 .rounded-sm {
-    -fx-background-radius: -fx-border-radius-sm;
-    -fx-border-radius: -fx-border-radius-sm;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
 }
 
 .rounded-lg {
-    -fx-background-radius: -fx-border-radius-lg;
-    -fx-border-radius: -fx-border-radius-lg;
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
 }
 
 /* ============================================
@@ -752,20 +711,20 @@
    ============================================ */
 
 .myarena-logo {
-    -fx-font-size: 24px;
-    -fx-font-weight: -fx-font-weight-bold;
-    -fx-text-fill: -fx-primary;
+    -fx-font-size: 24;
+    -fx-font-weight: bold;
+    -fx-text-fill: #030213;
 }
 
 .myarena-subtitle {
-    -fx-font-size: 12px;
-    -fx-text-fill: -fx-muted-foreground;
-    -fx-font-weight: -fx-font-weight-normal;
+    -fx-font-size: 12;
+    -fx-text-fill: #717182;
+    -fx-font-weight: normal;
 }
 
 .accent-text {
-    -fx-text-fill: -fx-primary;
-    -fx-font-weight: -fx-font-weight-semibold;
+    -fx-text-fill: #030213;
+    -fx-font-weight: bold;
 }
 
 .success-text {
@@ -773,7 +732,7 @@
 }
 
 .error-text {
-    -fx-text-fill: -fx-destructive;
+    -fx-text-fill: #d4183d;
 }
 
 .warning-text {

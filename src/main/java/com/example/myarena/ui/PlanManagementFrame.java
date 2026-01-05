@@ -63,9 +63,6 @@ public class PlanManagementFrame {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene scene = new Scene(root, 800, 600);
 
-            // Apply homogeneous CSS
-            scene.getStylesheets().add(getClass().getResource("/com/example/myarena/application.css").toExternalForm());
-
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
