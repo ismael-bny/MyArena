@@ -12,55 +12,39 @@
 
 <BorderPane xmlns:fx="http://javafx.com/fxml/1"
             xmlns="http://javafx.com/javafx/20"
-            fx:controller="com.example.myarena.ui.PlanManagementFrame"
+            fx:controller="com.example.myarena.ui.SubscriptionPlansFrame"
             styleClass="page-background"
             stylesheets="@styles/myarena-styles.css">
 
-    <!-- Header -->
     <top>
         <HBox alignment="CENTER_LEFT" spacing="20" styleClass="page-header">
-            
-            <!-- Titre -->
+            <Button text="← Back to Menu" onAction="#handleBackToMenu" styleClass="button, secondary" style="-fx-font-weight: bold;"/>
+
             <VBox spacing="5" HBox.hgrow="ALWAYS">
-                <Label text="Gestion des Plans d'Abonnement" styleClass="page-title"/>
-                <Label text="Créer, modifier ou supprimer des plans" styleClass="page-subtitle"/>
+                <Label text="Plans d'Abonnement" styleClass="page-title"/>
+                <Label text="Choisissez le plan qui corresponds à vos besoins" styleClass="page-subtitle"/>
+
+                <VBox fx:id="activePlanSection" spacing="5">
+                    <padding>
+                        <Insets top="10"/>
+                    </padding>
+                </VBox>
             </VBox>
-            
-            <!-- Bouton Créer un Plan -->
-            <Button text="+ Créer un Plan" styleClass="btn-primary" onAction="#handleCreate"/>
         </HBox>
     </top>
 
-    <!-- Zone centrale avec ScrollPane pour les cards -->
     <center>
         <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
             <padding>
                 <Insets top="20" right="20" bottom="20" left="20"/>
             </padding>
-            
-            <!-- TilePane : 4 cards par ligne (les cards seront ajoutées dynamiquement en Java) -->
-            <TilePane fx:id="cardsContainer" 
-                      prefColumns="4" 
-                      hgap="20" 
-                      vgap="20"
-                      alignment="CENTER"/>
+            <TilePane fx:id="cardsContainer" prefColumns="4" hgap="20" vgap="20" alignment="CENTER"/>
         </ScrollPane>
     </center>
 
-    <!-- Footer avec statut -->
     <bottom>
         <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 2 0 0 0; -fx-padding: 15;">
-            
-            <!-- Label de statut -->
-            <Label fx:id="statusLabel" text="Chargement..." 
-                   style="-fx-font-size: 14px; -fx-text-fill: #2E3A59; -fx-font-weight: bold;"/>
-            
-            <Region HBox.hgrow="ALWAYS"/>
-            
-            <!-- Nombre de plans -->
-            <Label fx:id="countLabel" text="0 plan(s)" 
-                   style="-fx-font-size: 13px; -fx-text-fill: #6C757D;"/>
+            <Label fx:id="statusLabel" text="Chargement..." styleClass="status-label"/>
         </HBox>
     </bottom>
-
 </BorderPane>

@@ -15,7 +15,8 @@
       fx:controller="com.example.myarena.ui.CancelSubscriptionFrame"
       alignment="CENTER"
       spacing="20"
-      style="-fx-background-color: #F8F9FA; -fx-padding: 30;">
+      style="-fx-background-color: #F8F9FA; -fx-padding: 30;"
+      stylesheets="@styles/myarena-styles.css">
 
     <!-- Titre principal -->
     <Label text="Mon Abonnement Actuel" 

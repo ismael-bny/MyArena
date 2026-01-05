@@ -7,14 +7,15 @@
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.example.myarena.ui.ReservationFrame"
       spacing="20" styleClass="root"
-      style="-fx-background-color: #f5f7fb;">
+      style="-fx-background-color: #f5f7fb;"
+      stylesheets="@styles/myarena-styles.css">
 
     <padding>
         <Insets top="40" left="40" right="40" bottom="40"/>
     </padding>
 
     <HBox spacing="15" alignment="CENTER_LEFT">
-        <Button fx:id="backButton" text="← Back" styleClass="button, secondary"/>
+        <Button fx:id="backButton" text="← Back to Menu" styleClass="button, secondary"/>
         <VBox spacing="5">
             <Label text="Make a Reservation" styleClass="label, h1" style="-fx-text-fill: #111827;"/>
             <Label text="Select a field and date to see available times." styleClass="label, text-muted"/>
