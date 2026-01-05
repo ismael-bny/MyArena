@@ -7,28 +7,22 @@
 <!--
     Vue pour gérer les plans d'abonnement (Admin/Owner).
     Use Case : Manage Plans (Admin/Owner) - Create, Update, Delete
-    Structure identique à subscription-plans.fxml
 -->
 
 <BorderPane xmlns:fx="http://javafx.com/fxml/1"
             xmlns="http://javafx.com/javafx/20"
-            fx:controller="com.example.myarena.ui.SubscriptionPlansFrame"
+            fx:controller="com.example.myarena.ui.PlanManagementFrame"
             styleClass="page-background"
             stylesheets="@styles/myarena-styles.css">
 
     <top>
         <HBox alignment="CENTER_LEFT" spacing="20" styleClass="page-header">
             <Button text="← Back to Menu" onAction="#handleBackToMenu" styleClass="button, secondary" style="-fx-font-weight: bold;"/>
+            <Button text="✚ Create New Plan" onAction="#handleCreate" styleClass="button, primary" style="-fx-font-weight: bold;"/>
 
             <VBox spacing="5" HBox.hgrow="ALWAYS">
-                <Label text="Plans d'Abonnement" styleClass="page-title"/>
-                <Label text="Choisissez le plan qui corresponds à vos besoins" styleClass="page-subtitle"/>
-
-                <VBox fx:id="activePlanSection" spacing="5">
-                    <padding>
-                        <Insets top="10"/>
-                    </padding>
-                </VBox>
+                <Label text="Plans Management" styleClass="page-title"/>
+                <Label fx:id="countLabel" text="Loading..." styleClass="page-subtitle"/>
             </VBox>
         </HBox>
     </top>
@@ -44,7 +38,7 @@
 
     <bottom>
         <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 2 0 0 0; -fx-padding: 15;">
-            <Label fx:id="statusLabel" text="Chargement..." styleClass="status-label"/>
+            <Label fx:id="statusLabel" text="Loading..." styleClass="status-label"/>
         </HBox>
     </bottom>
 </BorderPane>

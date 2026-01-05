@@ -1,0 +1,147 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+package "com.example.myarena.domain" {
+    class Reservation {
+        - Long id
+        - Long userId
+        - Long terrainId
+        - Date startDate
+        - Date endDate
+        - BigDecimal totalPrice
+        - ReservationStatus status
+        - Date createdAt
+        - int participants
+        - String purpose
+        + Reservation()
+        + getters/setters()
+    }
+
+    enum ReservationStatus {
+        Pending
+        Confirmed
+        Cancelled
+        Completed
+    }
+
+    class Subscription {
+        - Long id
+        - Long userId
+        - LocalDate startDate
+        - LocalDate endDate
+        - boolean autoRenew
+        - SubscriptionStatus status
+        - SubscriptionPlan plan
+        + Subscription()
+        + getters/setters()
+    }
+
+    enum SubscriptionStatus {
+        ACTIVE
+        CANCELLED
+        EXPIRED
+    }
+
+    class SubscriptionPlan {
+        - Long id
+        - String name
+        - double price
+        - int durationMonths
+        - boolean active
+        + SubscriptionPlan()
+        + getters/setters()
+    }
+
+    class User {
+        - Long id
+        - String name
+        - String email
+        + getId()
+    }
+
+    class Terrain {
+        - Long id
+        - String name
+        - double pricePerHour
+        + getId()
+    }
+}
+
+package "com.example.myarena.facade" {
+    class UserSession {
+        - {static} UserSession instance
+        - User user
+        + {static} getInstance(): UserSession
+        + setUser(User)
+        + getUser(): User
+        + cleanSession()
+    }
+
+    class ReservationFacade {
+        - {static} ReservationFacade instance
+        - ReservationManager reservationManager
+        + {static} getInstance(): ReservationFacade
+        + createReservation(...)
+        + getAvailableSlots(...)
+    }
+}
+
+package "com.example.myarena.services" {
+    class ReservationManager {
+        - ReservationDAO reservationDAO
+        - TerrainDAO terrainDAO
+        - SubscriptionDAO subscriptionDAO
+        + createReservation(...)
+        + checkAvailability(...)
+    }
+}
+
+package "com.example.myarena.ui" {
+    class ReservationFrame {
+        - ReservationController controller
+        - LocalTime selectedStartTime
+        + initialize()
+        - handleCreateReservation()
+    }
+
+    class ReservationController {
+        - ReservationFrame view
+        - ReservationFacade reservationFacade
+        + createReservation(...)
+    }
+}
+
+package "com.example.myarena.persistance.dao" {
+    interface ReservationDAO {
+        + saveReservation(Reservation)
+        + getReservationById(Long)
+    }
+
+    class ReservationDAOPostgres {
+        + saveReservation(Reservation)
+    }
+
+    interface SubscriptionDAO {
+        + findActiveByUserId(Long): Subscription
+    }
+}
+
+' Relationships
+Reservation --> ReservationStatus
+Subscription --> SubscriptionStatus
+Subscription --> SubscriptionPlan
+
+UserSession o-- User
+ReservationFrame --> ReservationController
+ReservationController --> ReservationFacade
+ReservationFacade o-- ReservationManager
+
+ReservationManager --> ReservationDAO
+ReservationManager --> SubscriptionDAO
+ReservationDAOPostgres ..|> ReservationDAO
+
+' UI logic interaction
+ReservationFrame ..> UserSession : "gets currentUser"
+ReservationManager ..> Subscription : "calculates discount"
+
+@enduml
