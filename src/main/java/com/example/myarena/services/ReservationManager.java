@@ -68,6 +68,47 @@ public class ReservationManager {
         }
     }
 
+    public boolean updateReservation(Reservation reservation) {
+        try {
+            // Validate availability for the new time slot
+            Reservation existing = reservationDAO.getReservationById(reservation.getId());
+            if (existing != null) {
+                // Check if the new time slot is available (excluding current reservation)
+                List<Reservation> conflicting = reservationDAO.getReservationByTerrainId(reservation.getTerrainId());
+                for (Reservation r : conflicting) {
+                    if (!r.getId().equals(reservation.getId()) && 
+                        r.getStatus() != ReservationStatus.Cancelled &&
+                        reservation.getStartDate().before(r.getEndDate()) && 
+                        reservation.getEndDate().after(r.getStartDate())) {
+                        return false; // Conflict found
+                    }
+                }
+                reservationDAO.updateReservation(reservation);
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean deleteReservation(Long reservationId) {
+        try {
+            Reservation r = reservationDAO.getReservationById(reservationId);
+            if (r != null) {
+                reservationDAO.deleteReservation(reservationId);
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public Reservation getReservationById(Long reservationId) {
+        return reservationDAO.getReservationById(reservationId);
+    }
+
     public List<Reservation> getReservationHistory(Long userId) {
         return reservationDAO.getReservationByUserId(userId);
     }
