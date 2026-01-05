@@ -161,11 +161,18 @@ public class TerrainManagementFrame {
         Label priceValue = new Label("$ " + t.getPricePerHour() + " / hour");
         priceValue.setStyle("-fx-font-size: 12px; -fx-text-fill: #374151;");
 
-        // Availability (placeholder pour l’instant)
+        // Availability (global on/off)
         Label availLabel = new Label("Availability:");
         availLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 12px; -fx-text-fill: #6b7280;");
-        Label availValue = new Label("Not configured");
-        availValue.setStyle("-fx-font-size: 12px; -fx-text-fill: #374151;");
+
+        Label availValue;
+        if (t.isAvailable()) {
+            availValue = new Label("Available");
+            availValue.setStyle("-fx-font-size: 12px; -fx-text-fill: #16a34a;"); // vert
+        } else {
+            availValue = new Label("Unavailable");
+            availValue.setStyle("-fx-font-size: 12px; -fx-text-fill: #dc2626;"); // rouge
+        }
 
         infoGrid.add(locLabel, 0, 0);
         infoGrid.add(locValue, 0, 1);

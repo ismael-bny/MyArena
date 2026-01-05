@@ -21,7 +21,7 @@ public class ReservationManager {
 
     public Reservation createReservation(Long userId, Long terrainId, Date start, Date end, int part, String purp) {
         Terrain terrain = terrainDAO.getTerrainByID(terrainId);
-        if (terrain == null || !checkAvailability(terrainId, start, end)) return null;
+        if (terrain == null || !terrain.isAvailable() || !checkAvailability(terrainId, start, end)) return null;
 
         // Base Price
         long hours = Math.max(1, (end.getTime() - start.getTime()) / (1000 * 60 * 60));
