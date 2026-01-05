@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!--
+    Vue pour afficher les plans d'abonnement en cards (style Netflix/Spotify)
+    Use Case : View Subscription Plans (Tous les rôles)
+    Couleurs MYARENA intégrées
+-->
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx/20"
+            fx:controller="com.example.myarena.ui.subscription.SubscriptionPlansFrame"
+            styleClass="page-background"
+            stylesheets="@styles/myarena-styles.css">
+
+    <!-- Header -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="20" styleClass="page-header">
+            
+            <!-- Titre -->
+            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                <Label text="Plans d'Abonnement" styleClass="page-title"/>
+                <Label text="Choisissez le plan qui corresponds à vos besoins" styleClass="page-subtitle"/>
+            </VBox>
+        </HBox>
+    </top>
+
+    <!-- Zone centrale avec ScrollPane pour les cards -->
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            
+            <!-- TilePane : 4 cards par ligne (les cards seront ajoutées dynamiquement en Java) -->
+            <TilePane fx:id="cardsContainer" 
+                      prefColumns="4" 
+                      hgap="20" 
+                      vgap="20"
+                      alignment="CENTER"/>
+        </ScrollPane>
+    </center>
+
+    <!-- Footer avec statut -->
+    <bottom>
+        <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 2 0 0 0; -fx-padding: 15;">
+            
+            <!-- Label de statut -->
+            <Label fx:id="statusLabel" text="Chargement..." styleClass="status-label"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

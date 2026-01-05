@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import javafx.stage.Stage;
 
 public class LoginFrame {
 
@@ -67,7 +68,6 @@ public class LoginFrame {
             if (getClass().getResource("/com/example/myarena/application.css") != null) {
                 scene.getStylesheets().add(getClass().getResource("/com/example/myarena/application.css").toExternalForm());
             }
-
             stage.setTitle("MyArena - Dashboard");
             stage.setScene(scene);
 
@@ -77,3 +77,10 @@ public class LoginFrame {
         }
     }
 }
+
+    public void closeWindow() {
+        Stage stage = (Stage) loginButton.getScene().getWindow();
+        stage.close();
+    }
+}
+

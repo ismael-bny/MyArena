@@ -1,0 +1,417 @@
+/*
+ * ============================================
+ * MYARENA - Feuille de style principale
+ * ============================================
+ * Toutes les couleurs et styles de l'application
+ */
+
+/* ============================================
+   PALETTE DE COULEURS
+   ============================================ */
+/* 
+   Bleu Marine: #2E3A59
+   Rouge:       #B71C3C
+   Vert Actif:  #28A745
+   Rouge Inactif: #DC3545
+   Gris:        #6C757D
+   Gris Clair:  #E0E0E0
+   Fond:        #F8F9FA
+*/
+
+
+/* ============================================
+   1. LAYOUTS GÉNÉRAUX
+   ============================================ */
+
+.page-background {
+    -fx-background-color: #F8F9FA;
+}
+
+.white-background {
+    -fx-background-color: white;
+}
+
+
+/* ============================================
+   2. HEADERS & TITRES
+   ============================================ */
+
+.page-header {
+    -fx-background-color: white;
+    -fx-border-color: #E0E0E0;
+    -fx-border-width: 0 0 2 0;
+    -fx-padding: 20;
+}
+
+.page-title {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2E3A59;
+}
+
+.page-subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: #6C757D;
+}
+
+.dialog-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2E3A59;
+}
+
+
+/* ============================================
+   3. BOUTONS
+   ============================================ */
+
+/* Bouton principal (rouge) */
+.btn-primary {
+    -fx-background-color: #B71C3C;
+    -fx-text-fill: white;
+    -fx-font-weight: 600;
+    -fx-font-size: 14px;
+    -fx-padding: 12 32;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.btn-primary:hover {
+    -fx-background-color: #D32F4B;
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+
+/* Bouton secondaire (bleu marine) */
+.btn-secondary {
+    -fx-background-color: #2E3A59;
+    -fx-text-fill: white;
+    -fx-font-weight: 600;
+    -fx-font-size: 14px;
+    -fx-padding: 12 32;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.btn-secondary:hover {
+    -fx-background-color: #4A5A7F;
+}
+
+/* Bouton annuler/outline */
+.btn-outline {
+    -fx-background-color: transparent;
+    -fx-text-fill: #6C757D;
+    -fx-font-weight: 500;
+    -fx-font-size: 14px;
+    -fx-padding: 12 32;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-border-color: #E0E0E0;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 8;
+}
+
+.btn-outline:hover {
+    -fx-background-color: #F8F9FA;
+    -fx-text-fill: #2E3A59;
+    -fx-border-color: #2E3A59;
+}
+
+/* Bouton de suppression */
+.btn-delete {
+    -fx-background-color: #DC3545;
+    -fx-text-fill: white;
+    -fx-font-weight: 600;
+    -fx-font-size: 14px;
+    -fx-padding: 12 32;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.btn-delete:hover {
+    -fx-background-color: #C82333;
+}
+
+/* Petits boutons CRUD dans les cards */
+.crud-button {
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 8 16;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+}
+
+.edit-button {
+    -fx-background-color: #2E3A59;
+}
+
+.edit-button:hover {
+    -fx-background-color: #4A5A7F;
+}
+
+.delete-button {
+    -fx-background-color: #DC3545;
+}
+
+.delete-button:hover {
+    -fx-background-color: #C82333;
+}
+
+.toggle-button-active {
+    -fx-background-color: #6C757D;
+}
+
+.toggle-button-active:hover {
+    -fx-background-color: #5A5F69;
+}
+
+.toggle-button-inactive {
+    -fx-background-color: #28A745;
+}
+
+.toggle-button-inactive:hover {
+    -fx-background-color: #218838;
+}
+
+
+/* ============================================
+   4. CARDS DE PLANS
+   ============================================ */
+
+.plan-card {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #2E3A59;
+    -fx-border-width: 2;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+}
+
+.plan-name {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2E3A59;
+    -fx-wrap-text: true;
+    -fx-text-alignment: center;
+}
+
+.plan-price {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #B71C3C;
+}
+
+.plan-duration {
+    -fx-font-size: 16px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #6C757D;
+}
+
+.status-bullet-active {
+    -fx-text-fill: #28A745;
+    -fx-font-size: 14px;
+}
+
+.status-bullet-inactive {
+    -fx-text-fill: #DC3545;
+    -fx-font-size: 14px;
+}
+
+.status-text-active {
+    -fx-text-fill: #28A745;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}
+
+.status-text-inactive {
+    -fx-text-fill: #DC3545;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}
+
+
+/* ============================================
+   5. FORMULAIRES
+   ============================================ */
+
+.form-container {
+    -fx-background-color: white;
+    -fx-padding: 30;
+    -fx-spacing: 20;
+}
+
+.form-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #2E3A59;
+    -fx-font-weight: 600;
+}
+
+.form-field {
+    -fx-padding: 10;
+    -fx-font-size: 14px;
+}
+
+.error-label {
+    -fx-text-fill: #DC3545;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+
+/* ============================================
+   6. DIALOGUES
+   ============================================ */
+
+.confirmation-dialog {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 20, 0, 0, 4);
+    -fx-padding: 30;
+}
+
+.dialog-message {
+    -fx-font-size: 15px;
+    -fx-text-fill: #2E3A59;
+}
+
+.dialog-plan-name {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #B71C3C;
+}
+
+.dialog-warning {
+    -fx-font-size: 14px;
+    -fx-text-fill: #6C757D;
+}
+
+/* Boutons des dialogues de confirmation */
+.confirmation-dialog .delete-button {
+    -fx-background-color: #B71C3C;
+    -fx-text-fill: white;
+    -fx-font-weight: 600;
+    -fx-font-size: 14px;
+    -fx-padding: 12 32;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(183,28,60,0.3), 8, 0, 0, 2);
+}
+
+.confirmation-dialog .delete-button:hover {
+    -fx-background-color: #D32F4B;
+    -fx-effect: dropshadow(gaussian, rgba(183,28,60,0.4), 12, 0, 0, 3);
+    -fx-scale-y: 1.02;
+    -fx-scale-x: 1.02;
+}
+
+.confirmation-dialog .cancel-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #6C757D;
+    -fx-font-weight: 500;
+    -fx-font-size: 14px;
+    -fx-padding: 12 32;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-border-color: #E0E0E0;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 8;
+}
+
+.confirmation-dialog .cancel-button:hover {
+    -fx-background-color: #F8F9FA;
+    -fx-text-fill: #2E3A59;
+    -fx-border-color: #2E3A59;
+}
+
+
+/* ============================================
+   7. FOOTER
+   ============================================ */
+
+.page-footer {
+    -fx-background-color: white;
+    -fx-border-color: #E0E0E0;
+    -fx-border-width: 2 0 0 0;
+    -fx-padding: 15;
+}
+
+.status-label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #6C757D;
+}
+
+.status-success {
+    -fx-text-fill: #28A745;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.status-error {
+    -fx-text-fill: #DC3545;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+
+/* ============================================
+   8. SUBSCRIPTION PLANS - CARD BUTTONS
+   ============================================ */
+
+/* Bouton S'inscrire (dans les cards) */
+.btn-subscribe {
+    -fx-background-color: #B71C3C;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 8 16;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+}
+
+.btn-subscribe:hover {
+    -fx-background-color: #D32F4B;
+}
+
+.btn-subscribe:disabled {
+    -fx-opacity: 0.5;
+    -fx-cursor: default;
+}
+
+/* Bouton Annuler (dans les cards) */
+.btn-cancel-subscription {
+    -fx-background-color: #DC3545;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 8 16;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+}
+
+.btn-cancel-subscription:hover {
+    -fx-background-color: #C82333;
+}
+
+/* Puces de statut (actif/inactif) */
+.status-bullet-active {
+    -fx-text-fill: #28A745;
+    -fx-font-size: 14px;
+}
+
+.status-bullet-inactive {
+    -fx-text-fill: #DC3545;
+    -fx-font-size: 14px;
+}
+
+.status-text-active {
+    -fx-text-fill: #28A745;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}
+
+.status-text-inactive {
+    -fx-text-fill: #DC3545;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}
