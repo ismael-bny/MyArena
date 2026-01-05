@@ -21,6 +21,7 @@ public class MainMenuFrame {
     @FXML private Button logoutButton;
     @FXML private Label welcomeLabel;
     @FXML private Button myReservationsButton;
+    @FXML private Button profileButton;
 
     @FXML
     public void initialize() {
@@ -32,6 +33,10 @@ public class MainMenuFrame {
         reservationButton.setOnAction(e -> navigate(e, "/com/example/myarena/reservation-page.fxml"));
         if (myReservationsButton != null) {
             myReservationsButton.setOnAction(e -> navigate(e, "/com/example/myarena/my-reservations.fxml"));
+        }
+
+        if (profileButton != null) {
+            profileButton.setOnAction(e -> navigate(e, "/com/example/myarena/profile-page.fxml"));
         }
 
         // Role-based visibility for Terrain Management

@@ -6,23 +6,57 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Separator?>
 
 <VBox alignment="CENTER" spacing="20.0"
       xmlns:fx="http://javafx.com/fxml/1"
       xmlns="http://javafx.com/javafx/20"
       fx:controller="com.example.myarena.ui.LoginFrame"
-      stylesheets="@styles/myarena-styles.css">
+      style="-fx-background-color: #f5f7fb;">
     <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+        <Insets bottom="40.0" left="40.0" right="40.0" top="40.0"/>
     </padding>
 
-    <Label text="MyArena Login" style="-fx-font-size: 24px;"/>
+    <!-- Title Section -->
+    <VBox spacing="5" alignment="CENTER">
+        <Label text="Welcome Back" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #030213;"/>
+        <Label text="Sign in to your MyArena account" style="-fx-font-size: 14px; -fx-text-fill: #717182;"/>
+    </VBox>
 
-    <Label fx:id="messageLabel" text="" style="-fx-font-size: 14px;"/>
+    <!-- Form Section -->
+    <VBox spacing="15" maxWidth="400" style="-fx-background-color: white; -fx-padding: 30; -fx-background-radius: 8;">
 
-    <TextField fx:id="usernameField" promptText="Username"/>
+        <!-- Username Field -->
+        <VBox spacing="8">
+            <Label text="Email Address" style="-fx-font-weight: bold; -fx-text-fill: #030213;"/>
+            <TextField fx:id="usernameField" promptText="Enter your email"
+                       style="-fx-padding: 12; -fx-background-radius: 6; -fx-border-color: #e5e7eb; -fx-border-radius: 6;"/>
+        </VBox>
 
-    <PasswordField fx:id="pwdField" promptText="Password"/>
+        <!-- Password Field -->
+        <VBox spacing="8">
+            <Label text="Password" style="-fx-font-weight: bold; -fx-text-fill: #030213;"/>
+            <PasswordField fx:id="pwdField" promptText="Enter your password"
+                           style="-fx-padding: 12; -fx-background-radius: 6; -fx-border-color: #e5e7eb; -fx-border-radius: 6;"/>
+        </VBox>
 
-    <Button fx:id="loginButton" text="Login"/>
+        <Separator/>
+
+        <!-- Login Button -->
+        <Button fx:id="loginButton" text="Sign In"
+                maxWidth="Infinity"
+                style="-fx-background-color: #030213; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 12; -fx-background-radius: 6; -fx-cursor: hand;"/>
+
+        <!-- Create Account Button -->
+        <Button fx:id="createAccountButton" text="Create Account"
+                maxWidth="Infinity"
+                style="-fx-background-color: transparent; -fx-border-color: #030213; -fx-border-width: 2; -fx-text-fill: #030213; -fx-font-weight: bold; -fx-padding: 10; -fx-background-radius: 6; -fx-border-radius: 6; -fx-cursor: hand;"/>
+
+        <!-- Message Label -->
+        <Label fx:id="messageLabel" text="" wrapText="true" alignment="CENTER" maxWidth="Infinity"
+               style="-fx-font-size: 14px;"/>
+    </VBox>
+
+    <!-- Footer Info -->
+    <Label text="MyArena © 2025" style="-fx-font-size: 11px; -fx-text-fill: #717182;"/>
 </VBox>
