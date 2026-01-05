@@ -13,12 +13,6 @@ public class Launcher extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("login-page.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 800, 600);
 
-        // Load the CSS immediately at startup
-        String cssPath = getClass().getResource("/com/example/myarena/application.css").toExternalForm();
-        if (cssPath != null) {
-            scene.getStylesheets().add(cssPath);
-        }
-
         stage.setTitle("MyArena - Login");
         stage.setScene(scene);
         stage.show();

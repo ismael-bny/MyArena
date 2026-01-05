@@ -142,9 +142,6 @@ public class ReservationFrame {
             Stage stage = (Stage) createButton.getScene().getWindow();
 
             Scene scene = new Scene(root);
-            // Apply CSS
-            String css = getClass().getResource("/com/example/myarena/application.css").toExternalForm();
-            scene.getStylesheets().add(css);
 
             stage.setScene(scene);
             stage.show();
@@ -174,10 +171,6 @@ public class ReservationFrame {
             Parent root = FXMLLoader.load(getClass().getResource("/com/example/myarena/main-menu.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);
-
-            // Re-load CSS
-            String css = getClass().getResource("/com/example/myarena/application.css").toExternalForm();
-            scene.getStylesheets().add(css);
 
             stage.setScene(scene);
             stage.show();
