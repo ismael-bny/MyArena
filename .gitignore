@@ -5,10 +5,7 @@ target/
 .kotlin
 
 ### IntelliJ IDEA ###
-.idea/modules.xml
-.idea/jarRepositories.xml
-.idea/compiler.xml
-.idea/libraries/
+*.idea/
 *.iws
 *.iml
 *.ipr
@@ -37,15 +34,29 @@ build/
 
 ### Mac OS ###
 .DS_Store
+*.swp
+*.swo
+*~
 
-.idea/workspace.xml
-README-SUBSCRIPTION-ALGORITHMS.md
-REFACTORING_CSS.md
+### Logs ###
+*.log
+logs/
 
-.idea/copilot.data.migration.agent.xml
-.idea/copilot.data.migration.ask2agent.xml
-.idea/copilot.data.migration.edit.xml
-.idea/copilotDiffState.xml
-.idea/shelf/Uncommitted_changes_before_Checkout_at_31_12_2025__11_39__Changes_.xml
-.idea/shelf/Uncommitted_changes_before_Checkout_at_31_12_2025,_11_39_\[Changes]/shelved.patch
-.idea/shelf/Uncommitted_changes_before_Checkout_at_31_12_2025,_11_39_\[Changes]1/shelved.patch
+### Compiled class files ###
+*.class
+
+### Pack*.rar
+
+### Database ###
+*.db
+*.sqlite
+*.h2.db
+
+### Temporary files ###
+*.tmp
+*.bak
+*.cache
+
+### OS specific ###
+Thumbs.db
+desktop.ini
