@@ -63,25 +63,21 @@ public class OrderController {
         return "User #" + userId;
     }
 
-    /** Get items count for an order */
     public int getItemsCount(Order order) {
         // TODO: Get from CartItems when implemented
         return 1;
     }
 
-    /** Handle view details action */
     public void handleViewDetails(Order order) {
         if (order.getStatus() != OrderStatus.PENDING) {
             frame.showInfo("This order has already been processed");
             return;
         }
 
-        // Create dialog
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setTitle("Order Details");
         dialog.setHeaderText("Order: " + order.getReferenceNumber());
 
-        // Content
         VBox content = new VBox(15);
         content.setPadding(new Insets(20));
         content.setPrefWidth(400);
@@ -95,14 +91,12 @@ public class OrderController {
 
         dialog.getDialogPane().setContent(content);
 
-        // Buttons
         ButtonType validateBtn = new ButtonType("Validate Payment", ButtonBar.ButtonData.OK_DONE);
         ButtonType rejectBtn = new ButtonType("Reject Order", ButtonBar.ButtonData.OTHER);
         ButtonType cancelBtn = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
 
         dialog.getDialogPane().getButtonTypes().addAll(validateBtn, rejectBtn, cancelBtn);
 
-        // Handle response
         dialog.showAndWait().ifPresent(response -> {
             if (response == validateBtn) {
                 validateOrder(order);
@@ -112,23 +106,22 @@ public class OrderController {
         });
     }
 
-    /** Validate order */
     private void validateOrder(Order order) {
         try {
             orderFacade.validateOrder(order);
             frame.showSuccess("Order validated successfully");
-            loadOrders(); // Refresh list
+            loadOrders(); 
         } catch (Exception e) {
             frame.showError("Failed to validate order: " + e.getMessage());
         }
     }
 
-    /** Reject order */
+
     private void rejectOrder(Order order) {
         try {
             orderFacade.rejectOrder(order);
             frame.showSuccess("Order rejected successfully");
-            loadOrders(); // Refresh list
+            loadOrders(); 
         } catch (Exception e) {
             frame.showError("Failed to reject order: " + e.getMessage());
         }

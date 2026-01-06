@@ -15,7 +15,6 @@ import javafx.scene.text.FontWeight;
 
 import java.util.List;
 
-/** Frame for order validation view - contains @FXML elements and UI construction */
 public class OrderFrame {
 
     @FXML
@@ -27,32 +26,28 @@ public class OrderFrame {
     private OrderController controller;
     private User currentUser;
 
-    /** Constructor - creates controller and passes itself */
+
     public OrderFrame() {
         this.controller = new OrderController(this);
         SessionFacade sessionFacade = SessionFacade.getInstance();
         this.currentUser = sessionFacade.getCurrentUser();
     }
 
-    /** Initialize method called after FXML loading */
     @FXML
     public void initialize() {
         System.out.println("OrderFrame initialized");
         
-        // Setup filters and load data
         if (controller != null) {
             setupFilters();
             controller.loadOrders();
         }
     }
 
-    /** Setup filter options */
     private void setupFilters() {
         statusFilter.getItems().addAll("All", "PENDING", "PAID", "CANCELLED");
         statusFilter.setValue("All");
     }
 
-    /** Handle filter change */
     @FXML
     public void handleFilterChange() {
         if (controller != null) {
@@ -60,7 +55,6 @@ public class OrderFrame {
         }
     }
 
-    /** Handle back to menu */
     @FXML
     public void handleBackToMenu() {
         try {
@@ -77,7 +71,6 @@ public class OrderFrame {
         }
     }
 
-    /** Display orders in the UI */
     public void updateOrders(List<Order> orders) {
         ordersContainer.getChildren().clear();
 
@@ -93,13 +86,11 @@ public class OrderFrame {
         }
     }
 
-    /** Create an order card matching the mockup */
     private VBox createOrderCard(Order order) {
         VBox card = new VBox(10);
         card.setPadding(new Insets(20));
         card.setStyle("-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #E5E7EB; -fx-border-radius: 8; -fx-border-width: 1;");
 
-        // Header row with order reference and status badges
         HBox headerRow = new HBox(15);
         headerRow.setAlignment(Pos.CENTER_LEFT);
 
@@ -107,17 +98,14 @@ public class OrderFrame {
         orderRef.setFont(Font.font("System", FontWeight.BOLD, 14));
         orderRef.setStyle("-fx-text-fill: #111827;");
 
-        // Status badge
         Label statusBadge = createStatusBadge(order.getStatus());
 
         headerRow.getChildren().addAll(orderRef, statusBadge);
 
-        // Details row
         HBox detailsRow = new HBox(40);
         detailsRow.setAlignment(Pos.CENTER_LEFT);
         detailsRow.setPadding(new Insets(10, 0, 0, 0));
 
-        // Customer info
         VBox customerBox = new VBox(5);
         Label customerLabel = new Label("Customer:");
         customerLabel.setStyle("-fx-text-fill: #6B7280; -fx-font-size: 12px;");
@@ -125,7 +113,6 @@ public class OrderFrame {
         customerName.setStyle("-fx-text-fill: #111827; -fx-font-size: 13px;");
         customerBox.getChildren().addAll(customerLabel, customerName);
 
-        // Date info
         VBox dateBox = new VBox(5);
         Label dateLabel = new Label("Date:");
         dateLabel.setStyle("-fx-text-fill: #6B7280; -fx-font-size: 12px;");
@@ -133,7 +120,6 @@ public class OrderFrame {
         dateValue.setStyle("-fx-text-fill: #111827; -fx-font-size: 13px;");
         dateBox.getChildren().addAll(dateLabel, dateValue);
 
-        // Items info
         VBox itemsBox = new VBox(5);
         Label itemsLabel = new Label("Items:");
         itemsLabel.setStyle("-fx-text-fill: #6B7280; -fx-font-size: 12px;");
@@ -149,11 +135,9 @@ public class OrderFrame {
         totalValue.setStyle("-fx-text-fill: #F59E0B; -fx-font-size: 13px; -fx-font-weight: bold;");
         totalBox.getChildren().addAll(totalLabel, totalValue);
 
-        // Spacer
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        // View Details button (only for Owner/Admin)
         if (currentUser != null && (currentUser.getRole() == UserRole.OWNER || currentUser.getRole() == UserRole.ADMIN)) {
             Button viewDetailsBtn = new Button("View Details");
             viewDetailsBtn.setStyle("-fx-background-color: #3B82F6; -fx-text-fill: white; -fx-background-radius: 6; -fx-padding: 8 16; -fx-font-size: 13px; -fx-cursor: hand;");
@@ -167,7 +151,6 @@ public class OrderFrame {
         return card;
     }
 
-    /** Create status badge */
     private Label createStatusBadge(OrderStatus status) {
         Label badge = new Label(status.toString());
         badge.setPadding(new Insets(4, 12, 4, 12));
@@ -191,7 +174,6 @@ public class OrderFrame {
         return badge;
     }
 
-    /** Show success message */
     public void showSuccess(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Success");
@@ -200,7 +182,6 @@ public class OrderFrame {
         alert.showAndWait();
     }
 
-    /** Show error message */
     public void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
@@ -209,7 +190,6 @@ public class OrderFrame {
         alert.showAndWait();
     }
 
-    /** Show info message */
     public void showInfo(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Information");
