@@ -1,11 +1,5 @@
 package com.example.myarena.persistance.factory;
 
-import com.example.myarena.persistance.dao.ReservationDAO;
-import com.example.myarena.persistance.dao.ReservationDAOPostgres;
-import com.example.myarena.persistance.dao.UserDAO;
-import com.example.myarena.persistance.dao.UserDAOPostgres;
-import com.example.myarena.persistance.dao.TerrainDAO;
-import com.example.myarena.persistance.dao.TerrainDAOPostgres;
 import com.example.myarena.persistance.dao.*;
 
 public class PostgresFactory extends AbstractFactory {
@@ -29,9 +23,30 @@ public class PostgresFactory extends AbstractFactory {
     public TerrainDAO createTerrainDAO() {
         return new TerrainDAOPostgres();
     }
+
     @Override
     public ReservationDAO createReservationDAO() {
         return new ReservationDAOPostgres();
     }
 
+    @Override
+    public DiscountDAO createDiscountDAO() {
+        return new DiscountDAOPostgres();
+    }
+
+    @Override
+    public ProductDAO createProductDAO() {
+        return new ProductDAOPostgres();
+    }
+
+    @Override
+    public CartDAO createCartDAO() {
+        return new CartDAOPostgres();
+    }
+
+    @Override
+    public OrderDAO createOrderDAO() {
+        return new OrderDAOPostgres();
+    }
 }
+

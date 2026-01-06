@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.myarena.ui.OrderFrame"
+            style="-fx-background-color: #F9FAFB;">
+
+    <!-- Header avec bouton retour -->
+    <top>
+        <VBox spacing="15">
+            <padding>
+                <Insets top="30" right="40" bottom="10" left="40"/>
+            </padding>
+            
+            <!-- Bouton retour -->
+            <Button text="← Back to Menu" onAction="#handleBackToMenu" 
+                    style="-fx-background-color: transparent; -fx-text-fill: #3B82F6; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 5 10;"/>
+            
+            <!-- Titre -->
+            <VBox spacing="8">
+                <Label text="Handle Orders" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
+                <Label text="Manage rental and purchase orders from customers" style="-fx-font-size: 14px; -fx-text-fill: #6B7280;"/>
+            </VBox>
+            
+            <!-- Filtre -->
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <Label text="Filter by status:" style="-fx-font-size: 13px; -fx-text-fill: #374151;"/>
+                <ComboBox fx:id="statusFilter" onAction="#handleFilterChange" prefWidth="150" 
+                          style="-fx-background-color: white; -fx-border-color: #D1D5DB; -fx-border-radius: 6; -fx-background-radius: 6;"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- Orders Container (ScrollPane) -->
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-border-color: transparent;">
+            <padding>
+                <Insets top="10" right="40" bottom="30" left="40"/>
+            </padding>
+            <VBox fx:id="ordersContainer" spacing="15"/>
+        </ScrollPane>
+    </center>
+
+</BorderPane>

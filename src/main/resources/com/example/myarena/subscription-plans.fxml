@@ -4,11 +4,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<!--
-    Vue pour afficher les plans d'abonnement en cards (style Netflix/Spotify)
-    Use Case : View Subscription Plans (Tous les rôles)
-    Couleurs MYARENA intégrées
--->
 
 <BorderPane xmlns:fx="http://javafx.com/fxml/1"
             xmlns="http://javafx.com/javafx/20"

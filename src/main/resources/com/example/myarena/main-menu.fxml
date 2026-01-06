@@ -23,6 +23,10 @@
 
         <Button text="💎 Subscription Plans" fx:id="subscriptionButton" maxWidth="Infinity" styleClass="button, secondary"/>
 
+        <Button text="🛒 Mon Panier" fx:id="cartButton" maxWidth="Infinity" styleClass="button, primary"/>
+        
+        <Button text="📦 Handle Orders" fx:id="ordersButton" maxWidth="Infinity" styleClass="button, secondary"/>
+
         <Button text="🚪 Logout" fx:id="logoutButton" maxWidth="Infinity" styleClass="button, destructive"/>
     </VBox>
 </VBox>
