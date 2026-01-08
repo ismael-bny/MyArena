@@ -224,6 +224,10 @@ public class TerrainManagementFrame {
         TextArea descriptionArea = new TextArea();
         descriptionArea.setPrefRowCount(3);
 
+        CheckBox availableCheck = new CheckBox("Field is available");
+        availableCheck.setSelected(true);
+
+
         if (existing != null) {
             nameField.setText(existing.getName());
             typeCombo.setValue(existing.getType());
@@ -231,6 +235,7 @@ public class TerrainManagementFrame {
             priceField.setText(String.valueOf(existing.getPricePerHour()));
             capacityField.setText(String.valueOf(existing.getCapacity()));
             descriptionArea.setText(existing.getDescription());
+            availableCheck.setSelected(existing.isAvailable());
         }
 
         VBox content = new VBox(8);
@@ -241,6 +246,7 @@ public class TerrainManagementFrame {
                 new Label("Location:"), locationField,
                 new Label("Price per hour:"), priceField,
                 new Label("Capacity:"), capacityField,
+                availableCheck,
                 new Label("Description:"), descriptionArea
         );
 
@@ -277,7 +283,7 @@ public class TerrainManagementFrame {
                 result.setDescription(desc);
                 result.setPricePerHour(price);
                 result.setCapacity(capacity);
-                result.setAvailable(true); // par défaut
+                result.setAvailable(availableCheck.isSelected());
                 // ownerId sera branché plus tard avec l'user connecté
 
                 return result;
