@@ -1,10 +1,6 @@
 package com.example.myarena.persistance.factory;
 
-import com.example.myarena.persistance.dao.ReservationDAO;
-import com.example.myarena.persistance.dao.SubscriptionDAO;
-import com.example.myarena.persistance.dao.SubscriptionPlanDAO;
-import com.example.myarena.persistance.dao.UserDAO;
-import com.example.myarena.persistance.dao.TerrainDAO;
+import com.example.myarena.persistance.dao.*;
 
 public abstract class AbstractFactory {
 
@@ -20,4 +16,6 @@ public abstract class AbstractFactory {
 
     // Retourne un TerrainDAO
     public abstract TerrainDAO createTerrainDAO();
+
+    public abstract NotificationDAO createNotificationDAO();
 }

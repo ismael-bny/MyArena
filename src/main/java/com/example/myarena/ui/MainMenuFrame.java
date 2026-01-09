@@ -21,6 +21,7 @@ public class MainMenuFrame {
     @FXML private Button logoutButton;
     @FXML private Label welcomeLabel;
     @FXML private Button myReservationsButton;
+    @FXML private Button notificationCenterButton;
 
     @FXML
     public void initialize() {
@@ -51,6 +52,31 @@ public class MainMenuFrame {
             } else {
                 subscriptionButton.setText("💎 View Plans");
                 subscriptionButton.setOnAction(e -> navigate(e, "/com/example/myarena/subscription-plans.fxml"));
+            }
+        }
+
+        // Notification Center
+        if (notificationCenterButton != null) {
+            notificationCenterButton.setOnAction(e ->
+                    navigate(e, "/com/example/myarena/notification-center.fxml")
+            );
+
+            try {
+                int unread = 0;
+                var notifs = com.example.myarena.facade.SessionFacade.getInstance().getNotifications();
+                for (var n : notifs) {
+                    if (n.getStatus() == com.example.myarena.domain.NotificationStatus.PENDING) {
+                        unread++;
+                    }
+                }
+
+                notificationCenterButton.setText(
+                        unread > 0
+                                ? "🔔 Notification Center (" + unread + ")"
+                                : "🔔 Notification Center"
+                );
+            } catch (Exception ignored) {
+                notificationCenterButton.setText("🔔 Notification Center");
             }
         }
 

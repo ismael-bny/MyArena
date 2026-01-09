@@ -34,4 +34,10 @@ public class PostgresFactory extends AbstractFactory {
         return new ReservationDAOPostgres();
     }
 
+    @Override
+    public NotificationDAO createNotificationDAO() {
+        return new NotificationDAOPostgres();
+    }
+
+
 }
