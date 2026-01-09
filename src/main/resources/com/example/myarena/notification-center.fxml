@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Region?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.myarena.ui.NotificationCenterFrame"
+      spacing="12"
+      style="-fx-background-color: #f5f7fb;"
+      stylesheets="@styles/myarena-styles.css">
+
+    <padding>
+        <Insets top="24" left="40" right="40" bottom="24"/>
+    </padding>
+
+    <!-- Header -->
+    <VBox spacing="4">
+        <Label text="Notification Center"
+               style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
+        <Label fx:id="subtitleLabel"
+               text="You have 0 unread notifications"
+               style="-fx-font-size: 13px; -fx-text-fill: #6b7280;"/>
+    </VBox>
+
+    <!-- Message global -->
+    <Label fx:id="messageLabel" style="-fx-font-size: 13px;"/>
+
+    <!-- Row: back + filters + refresh -->
+    <HBox spacing="12" alignment="CENTER_LEFT">
+        <Button fx:id="backButton"
+                text="← Back"
+                styleClass="button, secondary"
+                onAction="#goBack"/>
+
+        <HBox spacing="10"
+              style="-fx-background-color: white; -fx-border-color: #e5e7eb; -fx-border-radius: 16; -fx-background-radius: 16; -fx-padding: 10;">
+            <Button fx:id="allButton"
+                    text="All"
+                    style="-fx-background-color: #329aff; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 6 16; -fx-background-radius: 10;"/>
+            <Button fx:id="unreadButton"
+                    text="Unread (0)"
+                    style="-fx-background-color: #f3f4f6; -fx-text-fill: #111827; -fx-font-weight: bold; -fx-padding: 6 16; -fx-background-radius: 10;"/>
+        </HBox>
+
+        <Region HBox.hgrow="ALWAYS"/>
+
+    </HBox>
+
+    <!-- Cards list -->
+    <ScrollPane fitToWidth="true"
+                style="-fx-background-color: transparent;"
+                VBox.vgrow="ALWAYS">
+        <content>
+            <VBox fx:id="cardsContainer"
+                  spacing="12"
+                  style="-fx-background-color: transparent;">
+                <padding>
+                    <Insets top="10" left="4" right="4" bottom="10"/>
+                </padding>
+            </VBox>
+        </content>
+    </ScrollPane>
+
+</VBox>
