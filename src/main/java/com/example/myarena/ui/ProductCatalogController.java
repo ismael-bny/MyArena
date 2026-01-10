@@ -2,22 +2,31 @@ package com.example.myarena.ui;
 
 import com.example.myarena.domain.Product;
 import com.example.myarena.services.ProductManager;
+import com.example.myarena.ui.BuyProductDialog;
+import com.example.myarena.ui.RentProductDialog;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class ProductCatalogController {
 
+    @FXML private Button backButton;
     @FXML private TextField searchField;
     @FXML private TableView<Product> catalogTable;
     @FXML private TableColumn<Product, String> colName;
     @FXML private TableColumn<Product, String> colDesc;
-    @FXML private TableColumn<Product, Double> colPrice; // Sale Price
-    @FXML private TableColumn<Product, Double> colRentalPrice; // Rental Price
+    @FXML private TableColumn<Product, Double> colPrice;
+    @FXML private TableColumn<Product, Double> colRentalPrice;
     @FXML private TableColumn<Product, String> colStatus;
     @FXML private TableColumn<Product, Void> colAction;
 
@@ -26,10 +35,22 @@ public class ProductCatalogController {
 
     @FXML
     public void initialize() {
+        //Setup Navigation Logic
+        backButton.setOnAction(e -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/myarena/main-menu.fxml"));
+                Parent root = loader.load();
+                Stage stage = (Stage) backButton.getScene().getWindow();
+                stage.setScene(new Scene(root));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+
         setupTable();
         loadCatalog();
 
-        // Search/Filter Logic
+        // Search Logic
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(product -> {
                 if (newValue == null || newValue.isEmpty()) return true;
@@ -51,15 +72,14 @@ public class ProductCatalogController {
             return new SimpleObjectProperty<>(stock > 0 ? "Available (" + stock + ")" : "Out of Stock");
         });
 
-        // Add Action Buttons (Buy / Rent)
         colAction.setCellFactory(param -> new TableCell<>() {
             private final Button btnBuy = new Button("Buy");
             private final Button btnRent = new Button("Rent");
             private final HBox pane = new HBox(5, btnBuy, btnRent);
 
             {
-                btnBuy.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
-                btnRent.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white;");
+                btnBuy.getStyleClass().addAll("button", "primary", "small");
+                btnRent.getStyleClass().addAll("button", "secondary", "small");
 
                 btnBuy.setOnAction(event -> {
                     Product p = getTableView().getItems().get(getIndex());
@@ -68,7 +88,7 @@ public class ProductCatalogController {
 
                 btnRent.setOnAction(event -> {
                     Product p = getTableView().getItems().get(getIndex());
-                    RentProductDialog.showDialog(p.getId()); // Call the new Rent Dialog
+                    RentProductDialog.showDialog(p.getId());
                 });
             }
 
@@ -79,9 +99,15 @@ public class ProductCatalogController {
                     setGraphic(null);
                 } else {
                     Product p = getTableView().getItems().get(getIndex());
-                    // Hide buttons based on availability flags
                     btnBuy.setVisible(p.isSellable());
                     btnRent.setVisible(p.isRentable());
+
+                    // Disable if out of stock
+                    if(p.getStock() <= 0) {
+                        btnBuy.setDisable(true);
+                        btnRent.setDisable(true);
+                    }
+
                     setGraphic(pane);
                 }
             }
@@ -89,7 +115,6 @@ public class ProductCatalogController {
     }
 
     private void loadCatalog() {
-        // Load all products for the client
         var list = productManager.getAllProducts();
         filteredData = new FilteredList<>(FXCollections.observableArrayList(list), p -> true);
         catalogTable.setItems(filteredData);

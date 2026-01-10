@@ -3,28 +3,112 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.example.myarena.ui.MainMenuFrame" styleClass="root" style="-fx-background-color: #f5f7fb;"
-      stylesheets="@styles/myarena-styles.css">
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.myarena.ui.MainMenuFrame"
+            styleClass="dashboard-background" stylesheets="@styles/myarena-styles.css">
 
-    <padding>
-        <Insets bottom="40.0" left="40.0" right="40.0" top="40.0"/>
-    </padding>
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-background-color: #2c3e50; -fx-padding: 12 25;">
+            <Label text="MyArena" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: white;"/>
 
-    <Label text="Welcome to MyArena" styleClass="label, h1"/>
-    <Label fx:id="welcomeLabel" text="Select an option to continue" styleClass="label, text-muted"/>
+            <Region HBox.hgrow="ALWAYS"/>
 
-    <VBox spacing="15.0" maxWidth="300.0" styleClass="card" style="-fx-padding: 20; -fx-background-color: white;">
-        <Button text="📅 Make a Reservation" fx:id="reservationButton" maxWidth="Infinity" styleClass="button"/>
-        <Button text="📅 My Reservations" fx:id="myReservationsButton" maxWidth="Infinity" styleClass="button, secondary"/>
-        <Button text="⛳ Manage Terrains" fx:id="terrainButton" maxWidth="Infinity" styleClass="button, secondary"/>
-        <Button text="💎 Subscription Plans" fx:id="subscriptionButton" maxWidth="Infinity" styleClass="button, secondary"/>
-        <Button text="🔔 Notification Center" fx:id="notificationCenterButton" maxWidth="Infinity" styleClass="button, secondary"/>
-        <Button text="🛒 My Cart" fx:id="cartButton" maxWidth="Infinity" styleClass="button, primary"/>
-        <Button text="📦 Handle Orders" fx:id="ordersButton" maxWidth="Infinity" styleClass="button, secondary"/>
-        <Button text="👤 My Profile" fx:id="profileButton" maxWidth="Infinity" styleClass="button, secondary"/>
-        <Button text="🚪 Logout" fx:id="logoutButton" maxWidth="Infinity" styleClass="button, destructive"/>
-    </VBox>
-</VBox>
+            <HBox alignment="CENTER_RIGHT" spacing="20">
+                <Button fx:id="notificationCenterButton" text="🔔 Notifications" style="-fx-font-size: 13px; -fx-padding: 10 15; -fx-background-color: #34495e; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 4; -fx-cursor: hand;"/>
+                <Button fx:id="cartButton" text="🛒 Cart" style="-fx-font-size: 13px; -fx-padding: 10 15; -fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 4; -fx-cursor: hand;"/>
+                <Button fx:id="logoutButton" text="Logout ➜" style="-fx-font-size: 12px; -fx-padding: 8 12; -fx-background-color: transparent; -fx-text-fill: white; -fx-cursor: hand;"/>
+            </HBox>
+        </HBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;">
+            <VBox spacing="35" style="-fx-padding: 40;">
+
+                <VBox spacing="5">
+                    <Label fx:id="welcomeLabel" text="Welcome back!" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                    <Label text="Here is what's happening with your sports activities today." style="-fx-font-size: 16px; -fx-text-fill: #7f8c8d;"/>
+                </VBox>
+
+                <HBox spacing="20">
+                    <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
+                        <Label text="My Reservations" styleClass="stat-title"/>
+                        <Label text="Active" styleClass="stat-value"/>
+                        <Button fx:id="myReservationsButton" text="View Details →" styleClass="stat-link"/>
+                    </VBox>
+
+                    <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
+                        <Label text="Subscription Plan" styleClass="stat-title"/>
+                        <Label text="Standard" styleClass="stat-value"/>
+                        <Button fx:id="subscriptionButton" text="Manage Plan →" styleClass="stat-link"/>
+                    </VBox>
+
+                    <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
+                        <Label text="Profile Status" styleClass="stat-title"/>
+                        <Label text="Verified" styleClass="stat-value" style="-fx-text-fill: #27ae60;"/>
+                        <Button fx:id="profileButton" text="Edit Profile →" styleClass="stat-link"/>
+                    </VBox>
+                </HBox>
+
+                <Separator/>
+
+                <VBox spacing="15">
+                    <Label text="Quick Actions" styleClass="section-header"/>
+
+                    <FlowPane hgap="20" vgap="20" alignment="CENTER">
+
+                        <Button fx:id="reservationButton" styleClass="action-card" prefWidth="200">
+                            <graphic>
+                                <VBox alignment="CENTER" spacing="5">
+                                    <Label text="📅" styleClass="icon-large"/>
+                                    <Label text="Book a Field" styleClass="action-card-title"/>
+                                    <Label text="Find and reserve a terrain" styleClass="action-card-desc"/>
+                                </VBox>
+                            </graphic>
+                        </Button>
+
+                        <Button fx:id="equipmentButton" styleClass="action-card" prefWidth="200">
+                            <graphic>
+                                <VBox alignment="CENTER" spacing="5">
+                                    <Label text="🎾" styleClass="icon-large"/>
+                                    <Label text="Equipment" styleClass="action-card-title"/>
+                                    <Label text="Rent or buy gear" styleClass="action-card-desc"/>
+                                </VBox>
+                            </graphic>
+                        </Button>
+
+                        <Button fx:id="ordersButton" styleClass="action-card" prefWidth="200">
+                            <graphic>
+                                <VBox alignment="CENTER" spacing="5">
+                                    <Label text="📦" styleClass="icon-large"/>
+                                    <Label text="My Orders" styleClass="action-card-title"/>
+                                    <Label text="Track your purchases" styleClass="action-card-desc"/>
+                                </VBox>
+                            </graphic>
+                        </Button>
+
+                        <Button fx:id="terrainButton" styleClass="action-card" prefWidth="200">
+                            <graphic>
+                                <VBox alignment="CENTER" spacing="5">
+                                    <Label text="⛳" styleClass="icon-large"/>
+                                    <Label text="Manage Terrains" styleClass="action-card-title"/>
+                                    <Label text="Owner Management" styleClass="action-card-desc"/>
+                                </VBox>
+                            </graphic>
+                        </Button>
+
+                    </FlowPane>
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+    </center>
+</BorderPane>
