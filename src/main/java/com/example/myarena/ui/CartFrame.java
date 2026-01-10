@@ -112,6 +112,10 @@ public class CartFrame {
         return cmbPromotions != null ? cmbPromotions.getValue() : null;
     }
 
+    public Button getBtnContinueShopping() {
+        return btnContinueShopping;
+    }
+
     public void displayCartItems(List<CartItem> items, List<Product> products) {
         if (cartItemsListView == null) return;
 

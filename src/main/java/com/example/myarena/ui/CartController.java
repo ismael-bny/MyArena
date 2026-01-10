@@ -369,8 +369,13 @@ public class CartController {
                     null
             );
 
+            // Rafraîchir l'affichage du panier
+            loadCartData();
+
             dialogView.showSuccess("Le produit a été ajouté au panier.");
-            dialogView.closeDialog();
+            
+            // Naviguer vers le panier
+            navigateToCart(dialogView.getDialogStage());
 
         } catch (Exception e) {
             dialogView.showError("Erreur lors de l'ajout au panier : " + e.getMessage());
@@ -408,10 +413,50 @@ public class CartController {
                     rentalEnd
             );
 
+            // Rafraîchir l'affichage du panier
+            loadCartData();
+
             rentProductDialog.showAlert("Succès", "Le produit a été ajouté au panier pour location.");
+            
+            // Naviguer vers le panier
+            navigateToCart(rentProductDialog.getDialogStage());
 
         } catch (Exception e) {
             rentProductDialog.showAlert("Erreur", "Erreur lors de l'ajout au panier : " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Navigue vers la vue du panier
+     */
+    private void navigateToCart(javafx.stage.Stage dialogStage) {
+        try {
+            // Charger la vue du panier
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
+                    getClass().getResource("/com/example/myarena/cart-view.fxml")
+            );
+            javafx.scene.Parent root = loader.load();
+            
+            // Obtenir le stage de la fenêtre parent
+            javafx.stage.Stage stage;
+            if (dialogStage != null && dialogStage.getScene() != null) {
+                stage = (javafx.stage.Stage) dialogStage.getScene().getWindow();
+            } else if (view != null && view.getBtnContinueShopping() != null) {
+                stage = (javafx.stage.Stage) view.getBtnContinueShopping().getScene().getWindow();
+            } else {
+                stage = new javafx.stage.Stage();
+            }
+            
+            // Afficher le panier
+            stage.setScene(new javafx.scene.Scene(root));
+            
+            // Fermer le dialog
+            if (dialogStage != null) {
+                dialogStage.close();
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur lors de la navigation vers le panier : " + e.getMessage());
             e.printStackTrace();
         }
     }

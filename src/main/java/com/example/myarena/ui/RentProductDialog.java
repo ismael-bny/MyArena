@@ -90,6 +90,8 @@ public class RentProductDialog {
 
     public void setDialogStage(Stage stage) { this.dialogStage = stage; }
 
+    public Stage getDialogStage() { return dialogStage; }
+
     public void showAlert(String title, String msg) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setContentText(msg);

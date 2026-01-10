@@ -169,13 +169,17 @@ public class BuyProductDialog {
         }
     }
 
+    public Stage getDialogStage() {
+        return dialogStage;
+    }
+
     /**
      * Méthode statique pour ouvrir le dialog
      */
     public static void showDialog(Long productId) {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    BuyProductDialog.class.getResource("/com/example/myarena/cart/buy-product-dialog.fxml")
+                    BuyProductDialog.class.getResource("/com/example/myarena/buy-product-dialog.fxml")
             );
 
             Scene scene = new Scene(loader.load(), 500, 600);

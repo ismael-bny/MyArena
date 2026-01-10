@@ -13,6 +13,15 @@
         <Label text="🔧 Equipment &amp; Product Management" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #333;" BorderPane.alignment="CENTER">
             <padding><Insets top="20" bottom="20"/></padding>
         </Label>
+
+        <HBox spacing="20" alignment="CENTER_LEFT" styleClass="top-nav">
+            <Button fx:id="backButton" text="← Back to Menu"
+                    styleClass="button, secondary"
+                    style="-fx-font-size: 12px; -fx-padding: 8 15;"/>
+
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label text="MyArena Catalog" styleClass="logo-text" style="-fx-font-size: 18px;"/>
+        </HBox>
     </top>
 
     <center>

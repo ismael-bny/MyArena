@@ -6,11 +6,18 @@ import com.example.myarena.services.ProductManager;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class ProductManagementController {
 
+    @FXML Button backButton;
     @FXML private TableView<Product> productTable;
     @FXML private TableColumn<Product, Long> colId;
     @FXML private TableColumn<Product, String> colName;
@@ -49,6 +56,17 @@ public class ProductManagementController {
         saveButton.setOnAction(e -> handleSave());
         deleteButton.setOnAction(e -> handleDelete());
         clearButton.setOnAction(e -> clearForm());
+
+        backButton.setOnAction(e -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/myarena/main-menu.fxml"));
+                Parent root = loader.load();
+                Stage stage = (Stage) backButton.getScene().getWindow();
+                stage.setScene(new Scene(root));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
     }
 
     private void setupTable() {

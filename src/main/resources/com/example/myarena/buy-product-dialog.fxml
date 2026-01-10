@@ -48,11 +48,7 @@
                style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #333333;"/>
 
         <Spinner fx:id="quantitySpinner"
-                 initialValue="1"
-                 min="1"
-                 max="100"
                  prefWidth="400"
-                 editable="true"
                  style="-fx-background-color: white;"/>
     </VBox>
 
@@ -90,7 +86,7 @@
     </VBox>
 
     <!-- Note d'avertissement -->
-    <VBox style="-fx-background-color: #FFF9C4; -fx-padding: 15; -fx-background-radius: 5; -fx-border-color: #FBC02D; -fx-border-width: 1; -fx-border-radius: 5;">
+    <VBox style="-fx-background-color: #FFF9C4; -fx-padding: 15; -fx-background-radius: 5;">
         <Label text="Note: This is a one-time purchase. Once confirmed, the item will be added to your cart."
                wrapText="true"
                style="-fx-font-size: 12px; -fx-text-fill: #666666;"/>
@@ -99,13 +95,13 @@
     <!-- Boutons -->
     <HBox spacing="15" alignment="CENTER">
         <Button fx:id="btnConfirm"
-                text="🛒 Confirm Purchase"
+                text="Confirm Purchase"
                 prefWidth="180"
-                style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 12 25 12 25; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 10; -fx-background-radius: 5;"/>
 
         <Button fx:id="btnCancel"
                 text="Cancel"
                 prefWidth="120"
-                style="-fx-background-color: transparent; -fx-text-fill: #666666; -fx-border-color: #cccccc; -fx-border-width: 1; -fx-border-radius: 5; -fx-background-radius: 5; -fx-font-size: 14px; -fx-padding: 12 25 12 25; -fx-cursor: hand;"/>
+                style="-fx-background-color: transparent; -fx-text-fill: #666666; -fx-border-color: #cccccc; -fx-border-width: 1; -fx-border-radius: 5; -fx-font-size: 14px; -fx-padding: 10;"/>
     </HBox>
 </VBox>
