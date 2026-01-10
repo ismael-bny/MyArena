@@ -1,5 +1,8 @@
 package com.example.myarena.persistance.dao;
 import com.example.myarena.domain.User;
+import com.example.myarena.domain.UserRole;
+
+import java.util.List;
 
 public interface UserDAO {
 
@@ -20,4 +23,10 @@ public interface UserDAO {
 
     // Change user password
     void changePassword(Long userId, String newPasswordHash);
+
+    //Fetch all users for the list
+    List<User> getAllUsers();
+
+    //Update specific role
+    void updateUserRole(Long userId, UserRole newRole);
 }

@@ -163,7 +163,6 @@ public class NotificationCenterFrame {
             card.setStyle(card.getStyle() + "-fx-border-color: #ff8c00; -fx-border-width: 0 0 0 4;");
         }
 
-        // Top row : type pill + NEW pill + date + spacer + View
         HBox top = new HBox(10);
         top.setAlignment(Pos.CENTER_LEFT);
 
@@ -242,19 +241,18 @@ public class NotificationCenterFrame {
     }
 
     private String niceType(NotificationType t) {
-        // un rendu plus joli que RESERVATION / SUBSCRIPTION_CHANGE
         return switch (t) {
             case RESERVATION -> "Reservation";
             case CANCELLATION -> "Cancellation";
             case PAYMENT_VALIDATION -> "Payment";
             case TOURNAMENT_UPDATE -> "Tournament";
             case SUBSCRIPTION_CHANGE -> "Subscription";
+            case ACCOUNT_UPDATE -> "";
             case OTHER -> "System";
         };
     }
 
     private String[] typeColors(NotificationType t) {
-        // [textColor, bgColor]
         if (t == null) return new String[]{"#374151", "#f3f4f6"};
         return switch (t) {
             case PAYMENT_VALIDATION -> new String[]{"#166534", "#dcfce7"};     // vert doux
@@ -262,6 +260,7 @@ public class NotificationCenterFrame {
             case SUBSCRIPTION_CHANGE -> new String[]{"#6d28d9", "#ede9fe"};   // violet doux
             case CANCELLATION -> new String[]{"#b91c1c", "#fee2e2"};          // rouge doux
             case TOURNAMENT_UPDATE -> new String[]{"#0f766e", "#ccfbf1"};     // teal
+            case ACCOUNT_UPDATE -> new String[]{"#b45309", "#ffedd5"};       // orange doux
             case OTHER -> new String[]{"#374151", "#f3f4f6"};                 // gris
         };
     }

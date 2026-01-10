@@ -27,6 +27,7 @@ public class MainMenuFrame {
     @FXML private Button profileButton;
     @FXML private Button notificationCenterButton;
     @FXML private Button equipmentButton;
+    @FXML private Button btnUserManagement;
 
     @FXML
     public void initialize() {
@@ -77,6 +78,17 @@ public class MainMenuFrame {
         if (notificationCenterButton != null) {
             notificationCenterButton.setOnAction(e -> navigate(e, "/com/example/myarena/notification-center.fxml"));
             updateNotificationBadge();
+        }
+
+        //User Management Logic
+        if (btnUserManagement != null) {
+            if (role == UserRole.ADMIN) {
+                btnUserManagement.setOnAction(e -> navigate(e, "/com/example/myarena/user-management.fxml"));
+            } else {
+                // Hide for non-admins
+                btnUserManagement.setVisible(false);
+                btnUserManagement.setManaged(false);
+            }
         }
 
         if (logoutButton != null) logoutButton.setOnAction(this::handleLogout);

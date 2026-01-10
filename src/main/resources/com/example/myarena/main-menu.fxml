@@ -58,6 +58,16 @@
                     </VBox>
                 </HBox>
 
+                <Button fx:id="btnUserManagement" styleClass="action-card" prefWidth="200">
+                    <graphic>
+                        <VBox alignment="CENTER" spacing="5">
+                            <Label text="👥" styleClass="icon-large"/>
+                            <Label text="User Management" styleClass="action-card-title"/>
+                            <Label text="Manage roles &amp; users" styleClass="action-card-desc"/>
+                        </VBox>
+                    </graphic>
+                </Button>
+
                 <Separator/>
 
                 <VBox spacing="15">

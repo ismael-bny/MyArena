@@ -4,12 +4,14 @@ import com.example.myarena.persistance.dao.UserDAO;
 import com.example.myarena.domain.User;
 import com.example.myarena.domain.UserRole;
 import com.example.myarena.domain.UserStatus;
+import com.example.myarena.domain.NotificationType;
 import com.example.myarena.persistance.factory.AbstractFactory;
 import com.example.myarena.persistance.factory.PostgresFactory;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.List;
 
 public class UserManager {
     private final UserDAO userDAO;
@@ -160,6 +162,37 @@ public class UserManager {
 
         // Update current user object
         currentUser.setPwdHash(newHash);
+    }
+
+    //Get list for Admin
+    public List<User> getAllUsers() {
+        return userDAO.getAllUsers();
+    }
+
+    //Change role
+    public void changeUserRole(User adminUser, User targetUser, UserRole newRole) {
+        if (adminUser == null || targetUser == null) return;
+
+        //Security Check: Only Admin can perform this
+        if (adminUser.getRole() != UserRole.ADMIN) {
+            throw new SecurityException("Access Denied: Only Administrators can change roles.");
+        }
+
+        //Self-Modification Check: Admin cannot change their own role
+        if (adminUser.getId().equals(targetUser.getId())) {
+            throw new IllegalArgumentException("You cannot change your own role.");
+        }
+
+        //Update Database
+        userDAO.updateUserRole(targetUser.getId(), newRole);
+        targetUser.setRole(newRole); // Update local object
+
+        //Send Notification
+        NotificationManager notifManager = new NotificationManager();
+        String message = "Your account role has been updated to " + newRole + " by the Administrator.";
+        notifManager.createNotification(targetUser.getId(), NotificationType.ACCOUNT_UPDATE, "Role Updated", message);
+
+        System.out.println("LOG: Admin " + adminUser.getEmail() + " changed user " + targetUser.getEmail() + " to " + newRole);
     }
 }
 
