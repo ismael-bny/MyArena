@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.myarena.ui.ProductCatalogController"
+            stylesheets="@styles/myarena-styles.css">
+
+    <top>
+        <VBox spacing="10" style="-fx-padding: 20;">
+            <Label text="🛒 Equipment Catalog" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Search:"/>
+                <TextField fx:id="searchField" promptText="Search by name or category..." HBox.hgrow="ALWAYS"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <TableView fx:id="catalogTable" style="-fx-padding: 0 20 20 20;">
+            <columns>
+                <TableColumn fx:id="colName" text="Item" prefWidth="150"/>
+                <TableColumn fx:id="colDesc" text="Description" prefWidth="250"/>
+                <TableColumn fx:id="colStatus" text="Availability" prefWidth="100"/>
+                <TableColumn fx:id="colPrice" text="Buy Price" prefWidth="80"/>
+                <TableColumn fx:id="colRentalPrice" text="Rent/Day" prefWidth="80"/>
+                <TableColumn fx:id="colAction" text="Actions" prefWidth="140"/>
+            </columns>
+            <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
+        </TableView>
+    </center>
+</BorderPane>

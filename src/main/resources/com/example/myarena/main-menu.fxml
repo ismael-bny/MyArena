@@ -22,7 +22,7 @@
         <Button text="⛳ Manage Terrains" fx:id="terrainButton" maxWidth="Infinity" styleClass="button, secondary"/>
         <Button text="💎 Subscription Plans" fx:id="subscriptionButton" maxWidth="Infinity" styleClass="button, secondary"/>
         <Button text="🔔 Notification Center" fx:id="notificationCenterButton" maxWidth="Infinity" styleClass="button, secondary"/>
-        <Button text="🛒 Mon Panier" fx:id="cartButton" maxWidth="Infinity" styleClass="button, primary"/>
+        <Button text="🛒 My Cart" fx:id="cartButton" maxWidth="Infinity" styleClass="button, primary"/>
         <Button text="📦 Handle Orders" fx:id="ordersButton" maxWidth="Infinity" styleClass="button, secondary"/>
         <Button text="👤 My Profile" fx:id="profileButton" maxWidth="Infinity" styleClass="button, secondary"/>
         <Button text="🚪 Logout" fx:id="logoutButton" maxWidth="Infinity" styleClass="button, destructive"/>

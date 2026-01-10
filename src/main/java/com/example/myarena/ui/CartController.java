@@ -6,47 +6,49 @@ import com.example.myarena.domain.Order;
 import com.example.myarena.domain.Product;
 import com.example.myarena.domain.ItemType;
 import com.example.myarena.facade.CartFacade;
+import com.example.myarena.facade.SessionFacade;
 import com.example.myarena.persistance.dao.DiscountDAO;
 import com.example.myarena.persistance.factory.AbstractFactory;
 import com.example.myarena.persistance.factory.PostgresFactory;
+import com.example.myarena.services.CartManager;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Controller pour la vue Cart
- * Contient UNIQUEMENT la logique métier
- * USE CASE 1 : Make an Order (étapes 3-7)
- */
+
 public class CartController {
 
     private CartFrame view;
     private CartFacade cartFacade;
+    private CartManager cartManager;
     private DiscountDAO discountDAO;
+    private SessionFacade sessionFacade;
     private Long userId;
-    private Discount appliedDiscount; // Promotion appliquée
-    private List<Discount> availableDiscounts; // Promotions disponibles
+    private Discount appliedDiscount;
+    private List<Discount> availableDiscounts;
 
-    /**
-     * Constructeur - reçoit le Frame (view)
-     */
+
     public CartController(CartFrame view) {
         this.view = view;
         this.cartFacade = CartFacade.getInstance();
+        this.cartManager = CartManager.getInstance();
+        this.sessionFacade = SessionFacade.getInstance();
 
         // Utiliser AbstractFactory pour obtenir DiscountDAO
         AbstractFactory factory = new PostgresFactory();
         this.discountDAO = factory.createDiscountDAO();
 
-        // TODO: Récupérer le userId de la session
-        this.userId = 2L; // Temporaire - à remplacer par SessionFacade.getCurrentUser().getId()
+        // Récupérer le userId de la session
+        if (sessionFacade.getCurrentUser() != null) {
+            this.userId = sessionFacade.getCurrentUser().getId();
+        } else {
+            // Fallback in case no user is logged in
+            this.userId = null;
+        }
     }
 
-    /**
-     * Charge les données du panier
-     * USE CASE 1 : Make an Order (étape 4)
-     */
+
     public void loadCartData() {
         try {
             // Récupérer les articles du panier
@@ -87,14 +89,28 @@ public class CartController {
         }
     }
 
-    /**
-     * Incrémente la quantité d'un article
-     * USE CASE 1 : Make an Order (alternative flow A2)
-     */
     public void incrementQuantity(Long cartItemId) {
         try {
-            // TODO: Implémenter l'incrémentation dans CartManager
-            System.out.println("Increment quantity for item: " + cartItemId);
+            // Récupérer l'article actuel
+            List<CartItem> items = cartFacade.getCartItems(userId);
+            CartItem item = items.stream()
+                    .filter(ci -> ci.getId().equals(cartItemId))
+                    .findFirst()
+                    .orElse(null);
+
+            if (item == null) {
+                view.showError("Article non trouvé.");
+                return;
+            }
+
+            // Vérifier la disponibilité pour la nouvelle quantité
+            if (!cartFacade.checkProductAvailability(item.getProductId(), item.getItemType(), item.getQuantity() + 1)) {
+                view.showError("Stock insuffisant pour augmenter la quantité.");
+                return;
+            }
+
+            // Incrémenter la quantité
+            cartManager.updateCartItemQuantity(cartItemId, item.getQuantity() + 1);
 
             // Recharger le panier
             loadCartData();
@@ -105,14 +121,28 @@ public class CartController {
         }
     }
 
-    /**
-     * Décrémente la quantité d'un article
-     * USE CASE 1 : Make an Order (alternative flow A2)
-     */
     public void decrementQuantity(Long cartItemId) {
         try {
-            // TODO: Implémenter la décrémentation dans CartManager
-            System.out.println("Decrement quantity for item: " + cartItemId);
+            // Récupérer l'article actuel
+            List<CartItem> items = cartFacade.getCartItems(userId);
+            CartItem item = items.stream()
+                    .filter(ci -> ci.getId().equals(cartItemId))
+                    .findFirst()
+                    .orElse(null);
+
+            if (item == null) {
+                view.showError("Article non trouvé.");
+                return;
+            }
+
+            // Si la quantité est 1, supprimer l'article plutôt que de la réduire à 0
+            if (item.getQuantity() <= 1) {
+                removeItem(cartItemId);
+                return;
+            }
+
+            // Décrémenter la quantité
+            cartManager.updateCartItemQuantity(cartItemId, item.getQuantity() - 1);
 
             // Recharger le panier
             loadCartData();
@@ -123,10 +153,6 @@ public class CartController {
         }
     }
 
-    /**
-     * Supprime un article du panier
-     * USE CASE 1 : Make an Order (alternative flow A2)
-     */
     public void removeItem(Long cartItemId) {
         try {
             // Demander confirmation
@@ -150,9 +176,6 @@ public class CartController {
         }
     }
 
-    /**
-     * Charge les promotions disponibles
-     */
     public void loadPromotions() {
         try {
             // Récupérer les promotions actives depuis la base de données
@@ -178,10 +201,6 @@ public class CartController {
         }
     }
 
-    /**
-     * Applique une promotion
-     * USE CASE 1 : Make an Order (alternative flow A5)
-     */
     public void applyPromotion() {
         try {
             // Récupérer la promotion sélectionnée
@@ -220,10 +239,6 @@ public class CartController {
         }
     }
 
-    /**
-     * Passe à la validation de la commande
-     * USE CASE 1 : Make an Order (étapes 5-13)
-     */
     public void proceedToCheckout() {
         try {
             // Vérifier que le panier n'est pas vide (alternative flow A1)
@@ -264,7 +279,6 @@ public class CartController {
             // - Notification au Client (étape 11)
 
         } catch (Exception e) {
-            // Alternative flow A6 - Order Submission Failure
             view.showError(
                     "Erreur lors de la création de la commande : " + e.getMessage() + "\n\n" +
                             "Votre panier a été conservé. Veuillez réessayer plus tard."
@@ -273,12 +287,10 @@ public class CartController {
         }
     }
 
-    /**
-     * Continue les achats (retour au catalogue)
-     */
     public void continueShopping() {
-        System.out.println("Continue shopping");
-        // TODO: Naviguer vers le catalogue des produits
+        // Fermer la fenêtre du panier et revenir au catalogue
+        // Le catalogue sera affiché automatiquement par le gestionnaire de scènes
+        System.out.println("Continue shopping - returning to product catalog");
         view.closeWindow();
     }
 
@@ -287,17 +299,17 @@ public class CartController {
      */
     public void logout() {
         System.out.println("Logging out");
-        // TODO: Appeler SessionFacade.logout()
+        // Appeler SessionFacade.logout()
+        sessionFacade.logout();
+        // Fermer la fenêtre du panier
         view.closeWindow();
+        // NOTE: La navigation vers la page de login est gérée par le gestionnaire de scènes principal
     }
 
     // ============================================
     // MÉTHODES POUR BuyProductDialog
     // ============================================
 
-    /**
-     * Charge les données du produit pour le dialog d'achat
-     */
     public void loadProductDataForDialog(Long productId, BuyProductDialog dialogView) {
         try {
             Product product = cartFacade.getProductById(productId);
@@ -332,12 +344,7 @@ public class CartController {
             e.printStackTrace();
         }
     }
-
-    /**
-     * Confirme l'achat et ajoute au panier
-     *
-     * USE CASE 1 : Make an Order (étape 3 - SALE)
-     */
+    
     public void confirmPurchaseFromDialog(Long productId, int quantity, BuyProductDialog dialogView) {
         try {
             // Validation
@@ -367,6 +374,44 @@ public class CartController {
 
         } catch (Exception e) {
             dialogView.showError("Erreur lors de l'ajout au panier : " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void confirmRentalFromDialog(Long productId, Integer quantity, String rentalStart, String rentalEnd, RentProductDialog rentProductDialog) {
+        try {
+            // Validation
+            if (quantity == null || quantity < 1) {
+                rentProductDialog.showAlert("Erreur", "La quantité doit être au moins 1.");
+                return;
+            }
+
+            // Vérifier que les dates sont valides
+            if (rentalStart == null || rentalStart.isEmpty() || rentalEnd == null || rentalEnd.isEmpty()) {
+                rentProductDialog.showAlert("Erreur", "Les dates de location sont requises.");
+                return;
+            }
+
+            // Vérifier la disponibilité
+            if (!cartFacade.checkProductAvailability(productId, ItemType.RENTAL, quantity)) {
+                rentProductDialog.showAlert("Erreur", "Stock insuffisant pour cette quantité.");
+                return;
+            }
+
+            // Ajouter au panier via la Facade
+            cartFacade.addItemToCart(
+                    userId,
+                    productId,
+                    quantity,
+                    ItemType.RENTAL,
+                    rentalStart,
+                    rentalEnd
+            );
+
+            rentProductDialog.showAlert("Succès", "Le produit a été ajouté au panier pour location.");
+
+        } catch (Exception e) {
+            rentProductDialog.showAlert("Erreur", "Erreur lors de l'ajout au panier : " + e.getMessage());
             e.printStackTrace();
         }
     }

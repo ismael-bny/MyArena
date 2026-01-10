@@ -17,14 +17,15 @@ public class MainMenuFrame {
 
     @FXML private Button reservationButton;
     @FXML private Button terrainButton;
-    @FXML private Button subscriptionButton; // New FXML injection
-    @FXML private Button cartButton; // Bouton panier
-    @FXML private Button ordersButton; // Bouton gestion commandes
+    @FXML private Button subscriptionButton;
+    @FXML private Button cartButton;
+    @FXML private Button ordersButton;
     @FXML private Button logoutButton;
     @FXML private Label welcomeLabel;
     @FXML private Button myReservationsButton;
     @FXML private Button profileButton;
     @FXML private Button notificationCenterButton;
+    @FXML private Button equipmentButton;
 
     @FXML
     public void initialize() {
@@ -44,6 +45,19 @@ public class MainMenuFrame {
 
         // Role-based visibility for Terrain Management
         UserRole role = UserSession.getInstance().getUser().getRole();
+
+        //Equipment Management + Catalog logic
+        if (equipmentButton != null) {
+            if (role == UserRole.ADMIN || role == UserRole.OWNER) {
+                equipmentButton.setText("Manage Equipment");
+                equipmentButton.setOnAction(e -> navigate(e, "/com/example/myarena/product-management.fxml"));
+            } else {
+                equipmentButton.setText("Browse Catalog");
+                equipmentButton.setOnAction(e -> navigate(e, "/com/example/myarena/product-catalog.fxml"));
+            }
+        }
+
+
         if (role != UserRole.OWNER && role != UserRole.ADMIN) {
             terrainButton.setVisible(false);
             terrainButton.setManaged(false);
@@ -51,7 +65,7 @@ public class MainMenuFrame {
             terrainButton.setOnAction(e -> navigate(e, "/com/example/myarena/terrain-management.fxml"));
         }
 
-        // --- NEW: Subscription Navigation Logic ---
+        //Subscription Navigation Logic
         if (subscriptionButton != null) {
             if (role == UserRole.ADMIN || role == UserRole.OWNER) {
                 subscriptionButton.setText("💎 Manage Plans");
@@ -62,12 +76,12 @@ public class MainMenuFrame {
             }
         }
 
-        // --- Bouton Panier ---
+        //Bouton Panier
         if (cartButton != null) {
             cartButton.setOnAction(this::openCart);
         }
 
-        // --- Bouton Handle Orders ---
+        //Bouton Handle Orders
         if (ordersButton != null) {
             if (role == UserRole.ADMIN || role == UserRole.OWNER) {
                 ordersButton.setText("📦 Manage Orders");

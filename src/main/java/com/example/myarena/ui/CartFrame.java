@@ -24,13 +24,14 @@ public class CartFrame {
     @FXML private Label lblCartItemsCount;
     @FXML private ListView<HBox> cartItemsListView;
     @FXML private VBox emptyCartMessage;
-    @FXML private ComboBox<String> cmbPromotions; // ComboBox pour les promotions
+    @FXML private ComboBox<String> cmbPromotions; 
     @FXML private Button btnApplyPromotion;
     @FXML private Label lblPromotionStatus;
     @FXML private Label lblSubtotal;
     @FXML private Label lblTotal;
     @FXML private Button btnProceedToCheckout;
     @FXML private Button btnContinueShopping;
+    @FXML private Button btnBackToMenu;
 
     private CartController controller;
 
@@ -52,6 +53,7 @@ public class CartFrame {
         btnApplyPromotion.setOnAction(event -> handleApplyPromotion());
         btnProceedToCheckout.setOnAction(event -> handleProceedToCheckout());
         btnContinueShopping.setOnAction(event -> handleContinueShopping());
+        btnBackToMenu.setOnAction(event -> handleBackToMenu());
 
         // Charger les données
         if (controller != null) {
@@ -93,6 +95,24 @@ public class CartFrame {
             stage.show();
         } catch (Exception e) {
             System.err.println("Erreur navigation vers catalogue: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Handler pour "Back to Menu"
+     */
+    private void handleBackToMenu() {
+        try {
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
+                getClass().getResource("/com/example/myarena/main-menu.fxml")
+            );
+            javafx.scene.Parent root = loader.load();
+            javafx.stage.Stage stage = (javafx.stage.Stage) btnBackToMenu.getScene().getWindow();
+            stage.setScene(new javafx.scene.Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            System.err.println("Erreur navigation vers menu principal: " + e.getMessage());
             e.printStackTrace();
         }
     }
