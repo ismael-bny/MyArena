@@ -18,6 +18,8 @@ public class MainMenuFrame {
     @FXML private Button reservationButton;
     @FXML private Button terrainButton;
     @FXML private Button subscriptionButton; // New FXML injection
+    @FXML private Button cartButton; // Bouton panier
+    @FXML private Button ordersButton; // Bouton gestion commandes
     @FXML private Button logoutButton;
     @FXML private Label welcomeLabel;
     @FXML private Button myReservationsButton;
@@ -58,6 +60,21 @@ public class MainMenuFrame {
                 subscriptionButton.setText("💎 View Plans");
                 subscriptionButton.setOnAction(e -> navigate(e, "/com/example/myarena/subscription-plans.fxml"));
             }
+        }
+
+        // --- Bouton Panier ---
+        if (cartButton != null) {
+            cartButton.setOnAction(this::openCart);
+        }
+
+        // --- Bouton Handle Orders ---
+        if (ordersButton != null) {
+            if (role == UserRole.ADMIN || role == UserRole.OWNER) {
+                ordersButton.setText("📦 Manage Orders");
+            } else {
+                ordersButton.setText("📦 My Orders");
+            }
+            ordersButton.setOnAction(e -> navigate(e, "/com/example/myarena/order-validation-view.fxml"));
         }
 
         // Notification Center
@@ -108,5 +125,12 @@ public class MainMenuFrame {
         navigate(event, "/com/example/myarena/login-page.fxml");
     }
 
-
+    private void openCart(ActionEvent event) {
+        try {
+            navigate(event, "/com/example/myarena/cart-view.fxml");
+        } catch (Exception e) {
+            System.err.println("Erreur ouverture panier: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }

@@ -12,10 +12,24 @@ public abstract class AbstractFactory {
 
     // Retourne un SubscriptionPlanDAO
     public abstract SubscriptionPlanDAO createSubscriptionPlanDAO();
+
+    // Retourne un ReservationDAO
     public abstract ReservationDAO createReservationDAO();
 
     // Retourne un TerrainDAO
     public abstract TerrainDAO createTerrainDAO();
+
+    // Retourne un DiscountDAO
+    public abstract DiscountDAO createDiscountDAO();
+
+    // Retourne un ProductDAO
+    public abstract ProductDAO createProductDAO();
+
+    // Retourne un CartDAO
+    public abstract CartDAO createCartDAO();
+
+    // Retourne un OrderDAO
+    public abstract OrderDAO createOrderDAO();
 
     public abstract NotificationDAO createNotificationDAO();
 }
