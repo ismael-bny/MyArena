@@ -32,6 +32,7 @@ public class MainMenuFrame {
     @FXML private Button createTournamentButton;
     @FXML private Button approveTournamentsButton;
     @FXML private Button manageRegistrationsButton;
+    @FXML private Button myTournamentsButton;
 
     @FXML
     public void initialize() {
@@ -98,6 +99,11 @@ public class MainMenuFrame {
         // Tournament Button
         if (tournamentButton != null) {
             tournamentButton.setOnAction(e -> navigate(e, "/com/example/myarena/tournament-list.fxml"));
+        }
+
+        // My Tournaments Button
+        if (myTournamentsButton != null) {
+            myTournamentsButton.setOnAction(e -> navigate(e, "/com/example/myarena/my-tournament-registrations.fxml"));
         }
 
         // Create Tournament Button (Organisateur only)
