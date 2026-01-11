@@ -29,6 +29,8 @@ public class MainMenuFrame {
     @FXML private Button equipmentButton;
     @FXML private Button btnUserManagement;
     @FXML private Button tournamentButton;
+    @FXML private Button createTournamentButton;
+    @FXML private Button approveTournamentsButton;
 
     @FXML
     public void initialize() {
@@ -95,6 +97,27 @@ public class MainMenuFrame {
         // Tournament Button
         if (tournamentButton != null) {
             tournamentButton.setOnAction(e -> navigate(e, "/com/example/myarena/tournament-list.fxml"));
+        }
+
+        // Create Tournament Button (Organisateur only)
+        if (createTournamentButton != null) {
+            if (role == UserRole.ORGANIZER || role == UserRole.ADMIN) {
+                createTournamentButton.setOnAction(e -> navigate(e, "/com/example/myarena/create-tournament.fxml"));
+            }
+            else{
+                createTournamentButton.setVisible(false);
+                createTournamentButton.setManaged(false);
+            }
+        }
+
+        // Approve Tournaments Button (Admin only)
+        if (approveTournamentsButton != null) {
+            if (role == UserRole.ADMIN){
+                approveTournamentsButton.setOnAction(e -> navigate(e, "/com/example/myarena/approve-tournaments.fxml"));
+            } else {
+                approveTournamentsButton.setVisible(false);
+                approveTournamentsButton.setManaged(false);
+            }
         }
 
         if (logoutButton != null) logoutButton.setOnAction(this::handleLogout);

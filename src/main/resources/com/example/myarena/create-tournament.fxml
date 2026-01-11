@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.myarena.ui.CreateTournamentFrame"
+            styleClass="dashboard-background" stylesheets="@styles/myarena-styles.css">
+
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-background-color: #2c3e50; -fx-padding: 12 25;">
+            <Label text="MyArena" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+            <Label text=" | Create Tournament" style="-fx-font-size: 16px; -fx-text-fill: #ecf0f1;"/>
+        </HBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;">
+            <VBox spacing="25" style="-fx-padding: 30;">
+
+                <!-- Header -->
+                <VBox spacing="8">
+                    <Label text="Create New Tournament" 
+                           style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                    <Label text="Fill in the details below. Your tournament will be submitted for admin approval." 
+                           style="-fx-font-size: 14px; -fx-text-fill: #7f8c8d;"/>
+                </VBox>
+
+                <!-- Form -->
+                <VBox spacing="20" style="-fx-background-color: white; -fx-padding: 30; -fx-background-radius: 8;">
+
+                    <!-- Basic Information -->
+                    <Label text="📋 Basic Information" 
+                           style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+                    <GridPane hgap="15" vgap="15">
+                        <Label text="Tournament Name *" GridPane.columnIndex="0" GridPane.rowIndex="0"
+                               style="-fx-font-weight: bold; -fx-text-fill: #34495e;"/>
+                        <TextField fx:id="txtName" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                                   promptText="e.g., Summer Championship 2026" prefWidth="350"
+                                   style="-fx-font-size: 13px;"/>
+
+                        <Label text="Sport / Category *" GridPane.columnIndex="0" GridPane.rowIndex="1"
+                               style="-fx-font-weight: bold; -fx-text-fill: #34495e;"/>
+                        <TextField fx:id="txtSport" GridPane.columnIndex="1" GridPane.rowIndex="1"
+                                   promptText="e.g., Football, Basketball, Tennis" prefWidth="350"
+                                   style="-fx-font-size: 13px;"/>
+
+                        <Label text="Location *" GridPane.columnIndex="0" GridPane.rowIndex="2"
+                               style="-fx-font-weight: bold; -fx-text-fill: #34495e;"/>
+                        <TextField fx:id="txtLocation" GridPane.columnIndex="1" GridPane.rowIndex="2"
+                                   promptText="e.g., Stade Municipal, Marseille" prefWidth="350"
+                                   style="-fx-font-size: 13px;"/>
+                    </GridPane>
+
+                    <Separator/>
+
+                    <!-- Dates & Time -->
+                    <Label text="📅 Dates and Time"
+                           style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+                    <GridPane hgap="15" vgap="15">
+                        <Label text="Start Date *" GridPane.columnIndex="0" GridPane.rowIndex="0"
+                               style="-fx-font-weight: bold; -fx-text-fill: #34495e;"/>
+                        <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <DatePicker fx:id="dateStart" prefWidth="200" style="-fx-font-size: 13px;"/>
+                            <TextField fx:id="txtStartTime" promptText="HH:MM" prefWidth="80"
+                                       style="-fx-font-size: 13px;"/>
+                        </HBox>
+
+                        <Label text="End Date *" GridPane.columnIndex="0" GridPane.rowIndex="1"
+                               style="-fx-font-weight: bold; -fx-text-fill: #34495e;"/>
+                        <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <DatePicker fx:id="dateEnd" prefWidth="200" style="-fx-font-size: 13px;"/>
+                            <TextField fx:id="txtEndTime" promptText="HH:MM" prefWidth="80"
+                                       style="-fx-font-size: 13px;"/>
+                        </HBox>
+                    </GridPane>
+
+                    <Separator/>
+
+                    <!-- Participants & Fees -->
+                    <Label text="👥 Participants and Fees"
+                           style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+                    <GridPane hgap="15" vgap="15">
+                        <Label text="Max Participants *" GridPane.columnIndex="0" GridPane.rowIndex="0"
+                               style="-fx-font-weight: bold; -fx-text-fill: #34495e;"/>
+                        <TextField fx:id="txtMaxParticipants" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                                   promptText="e.g., 16, 32, 64" prefWidth="150"
+                                   style="-fx-font-size: 13px;"/>
+
+                        <Label text="Registration Fee (€)" GridPane.columnIndex="0" GridPane.rowIndex="1"
+                               style="-fx-font-weight: bold; -fx-text-fill: #34495e;"/>
+                        <TextField fx:id="txtRegistrationFee" GridPane.columnIndex="1" GridPane.rowIndex="1"
+                                   promptText="e.g., 10.00" prefWidth="150"
+                                   style="-fx-font-size: 13px;"/>
+
+                        <Label text="Prize" GridPane.columnIndex="0" GridPane.rowIndex="2"
+                               style="-fx-font-weight: bold; -fx-text-fill: #34495e;"/>
+                        <TextField fx:id="txtPrize" GridPane.columnIndex="1" GridPane.rowIndex="2"
+                                   promptText="e.g., Trophy + 500€" prefWidth="350"
+                                   style="-fx-font-size: 13px;"/>
+
+                        <Label text="Terrain ID (optional)" GridPane.columnIndex="0" GridPane.rowIndex="3"
+                               style="-fx-font-weight: bold; -fx-text-fill: #34495e;"/>
+                        <TextField fx:id="txtTerrainId" GridPane.columnIndex="1" GridPane.rowIndex="3"
+                                   promptText="Leave empty if not linked to a specific terrain"
+                                   prefWidth="350" style="-fx-font-size: 13px;"/>
+                    </GridPane>
+
+                    <Separator/>
+
+                    <!-- Description & Rules -->
+                    <Label text="📝 Description and Rules"
+                           style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+                    <VBox spacing="10">
+                        <Label text="Description" style="-fx-font-weight: bold; -fx-text-fill: #34495e;"/>
+                        <TextArea fx:id="txtDescription" prefRowCount="4" wrapText="true"
+                                  promptText="Describe your tournament (target audience, level, special features...)"
+                                  style="-fx-font-size: 13px;"/>
+                    </VBox>
+
+                    <VBox spacing="10">
+                        <Label text="Rules" style="-fx-font-weight: bold; -fx-text-fill: #34495e;"/>
+                        <TextArea fx:id="txtRules" prefRowCount="4" wrapText="true"
+                                  promptText="Specify tournament rules and regulations"
+                                  style="-fx-font-size: 13px;"/>
+                    </VBox>
+
+                </VBox>
+
+                <!-- Buttons -->
+                <HBox spacing="15" alignment="CENTER_RIGHT" style="-fx-padding: 0 0 20 0;">
+                    <Button fx:id="btnCancel" text="← Back To Menu"
+                            style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 12 30; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                    <Button fx:id="btnCreate" text="Create Tournament 🏆" 
+                            style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 12 30; -fx-background-radius: 5; -fx-cursor: hand; -fx-font-weight: bold;"/>
+                </HBox>
+
+                <!-- Info -->
+                <VBox alignment="CENTER" spacing="5" style="-fx-padding: 10; -fx-background-color: #ecf0f1; -fx-background-radius: 5;">
+                    <Label text="ℹ️ Important Information" style="-fx-font-weight: bold; -fx-font-size: 13px;"/>
+                    <Label text="Fields marked with * are required. Your tournament will be submitted for admin approval before becoming visible to clients." 
+                           style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d; -fx-text-alignment: center;" wrapText="true"/>
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>
