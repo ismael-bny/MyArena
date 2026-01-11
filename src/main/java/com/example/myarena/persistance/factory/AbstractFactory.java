@@ -32,4 +32,11 @@ public abstract class AbstractFactory {
     public abstract OrderDAO createOrderDAO();
 
     public abstract NotificationDAO createNotificationDAO();
+
+    // Retourne un TournamentDAO
+    public abstract TournamentDAO createTournamentDAO();
+
+    // Retourne un TournamentRegistrationDAO
+    public abstract TournamentRegistrationDAO createTournamentRegistrationDAO();
+
 }

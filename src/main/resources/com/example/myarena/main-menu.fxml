@@ -115,6 +115,16 @@
                             </graphic>
                         </Button>
 
+                        <Button fx:id="tournamentButton" styleClass="action-card" prefWidth="200">
+                            <graphic>
+                                <VBox alignment="CENTER" spacing="5">
+                                    <Label text="🏆" styleClass="icon-large"/>
+                                    <Label text="Tournaments" styleClass="action-card-title"/>
+                                    <Label text="Browse &amp; register" styleClass="action-card-desc"/>
+                                </VBox>
+                            </graphic>
+                        </Button>
+
                     </FlowPane>
                 </VBox>
 

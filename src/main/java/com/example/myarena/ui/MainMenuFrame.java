@@ -28,6 +28,7 @@ public class MainMenuFrame {
     @FXML private Button notificationCenterButton;
     @FXML private Button equipmentButton;
     @FXML private Button btnUserManagement;
+    @FXML private Button tournamentButton;
 
     @FXML
     public void initialize() {
@@ -89,6 +90,11 @@ public class MainMenuFrame {
                 btnUserManagement.setVisible(false);
                 btnUserManagement.setManaged(false);
             }
+        }
+
+        // Tournament Button
+        if (tournamentButton != null) {
+            tournamentButton.setOnAction(e -> navigate(e, "/com/example/myarena/tournament-list.fxml"));
         }
 
         if (logoutButton != null) logoutButton.setOnAction(this::handleLogout);
