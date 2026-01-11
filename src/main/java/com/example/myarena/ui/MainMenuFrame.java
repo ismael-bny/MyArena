@@ -31,6 +31,7 @@ public class MainMenuFrame {
     @FXML private Button tournamentButton;
     @FXML private Button createTournamentButton;
     @FXML private Button approveTournamentsButton;
+    @FXML private Button manageRegistrationsButton;
 
     @FXML
     public void initialize() {
@@ -107,6 +108,16 @@ public class MainMenuFrame {
             else{
                 createTournamentButton.setVisible(false);
                 createTournamentButton.setManaged(false);
+            }
+        }
+
+        // Manage Registrations Button (Organisateur only)
+        if (manageRegistrationsButton != null) {
+            if (role == UserRole.ORGANIZER || role == UserRole.ADMIN) {
+                manageRegistrationsButton.setOnAction(e -> navigate(e, "/com/example/myarena/manage-tournament-registrations.fxml"));
+            } else {
+                manageRegistrationsButton.setVisible(false);
+                manageRegistrationsButton.setManaged(false);
             }
         }
 

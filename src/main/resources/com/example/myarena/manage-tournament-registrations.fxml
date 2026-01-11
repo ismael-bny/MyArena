@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.myarena.ui.ManageTournamentRegistrationsFrame"
+            styleClass="dashboard-background" stylesheets="@styles/myarena-styles.css">
+
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-background-color: #2c3e50; -fx-padding: 12 25;">
+            <Label text="MyArena" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+            <Label text=" | Manage Registrations" style="-fx-font-size: 16px; -fx-text-fill: #ecf0f1;"/>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="20" style="-fx-padding: 30;">
+            
+            <!-- Header -->
+            <HBox alignment="CENTER_LEFT" spacing="20">
+                <Label text="Tournament Registrations" 
+                       style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                <Label text="✓" style="-fx-font-size: 32px;"/>
+                
+                <HBox HBox.hgrow="ALWAYS"/>
+                
+                <Button fx:id="btnRefresh" text="🔄 Refresh" 
+                        style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                <Button fx:id="btnBack" text="← Back to Menu" 
+                        style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand;"/>
+            </HBox>
+
+            <!-- Tournament selector -->
+            <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 8;">
+                <Label text="Select Tournament" style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                <ComboBox fx:id="cmbTournaments" prefWidth="400" promptText="Choose a tournament..." 
+                          style="-fx-font-size: 13px;"/>
+            </VBox>
+
+            <!-- Stats bar -->
+            <HBox spacing="20">
+                <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-background-color: #3498db; -fx-padding: 12; -fx-background-radius: 5;">
+                    <Label text="📊" style="-fx-font-size: 14px;"/>
+                    <Label fx:id="lblCount" text="Total: 0 registration(s)" 
+                           style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+                </HBox>
+                
+                <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-background-color: #f39c12; -fx-padding: 12; -fx-background-radius: 5;">
+                    <Label text="⏳" style="-fx-font-size: 14px;"/>
+                    <Label fx:id="lblPending" text="Pending: 0" 
+                           style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+                </HBox>
+            </HBox>
+
+            <!-- Table -->
+            <TableView fx:id="registrationTable" VBox.vgrow="ALWAYS" 
+                       style="-fx-background-color: white; -fx-background-radius: 8;">
+                <columns>
+                    <TableColumn fx:id="colRegistrationId" text="Reg ID" prefWidth="70" style="-fx-alignment: CENTER;"/>
+                    <TableColumn fx:id="colUserId" text="Client Name" prefWidth="180"/>
+                    <TableColumn fx:id="colStatus" text="Status" prefWidth="140" style="-fx-alignment: CENTER;"/>
+                    <TableColumn fx:id="colRegisteredAt" text="Registered At" prefWidth="150" style="-fx-alignment: CENTER;"/>
+                    <TableColumn fx:id="colActions" text="Actions" prefWidth="180" style="-fx-alignment: CENTER;"/>
+                </columns>
+                
+                <placeholder>
+                    <VBox alignment="CENTER" spacing="10" style="-fx-padding: 40;">
+                        <Label text="📝" style="-fx-font-size: 48px;"/>
+                        <Label text="No registrations for this tournament" 
+                               style="-fx-font-size: 18px; -fx-text-fill: #7f8c8d;"/>
+                        <Label text="Registrations will appear here when users sign up!" 
+                               style="-fx-font-size: 13px; -fx-text-fill: #95a5a6;"/>
+                    </VBox>
+                </placeholder>
+            </TableView>
+
+            <!-- Instructions -->
+            <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 10 0 0 0;">
+                <Label text="ℹ️" style="-fx-font-size: 14px;"/>
+                <Label text="Click '✓ Validate' to approve a registration or '✗ Reject' to decline with a reason. Users will be notified." 
+                       style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d;"/>
+            </HBox>
+
+        </VBox>
+    </center>
+
+</BorderPane>

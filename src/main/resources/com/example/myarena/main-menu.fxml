@@ -135,7 +135,7 @@
                                 </VBox>
                             </graphic>
                         </Button>
-                    </FlowPane>
+
 
                         <Button fx:id="myTournamentsButton" styleClass="action-card" prefWidth="200">
                             <graphic>
@@ -146,17 +146,30 @@
                                 </VBox>
                             </graphic>
                         </Button>
-                </VBox>
 
-                        <Button fx:id="approveTournamentsButton" styleClass="action-card" prefWidth="200">
+                        <Button fx:id="manageRegistrationsButton" styleClass="action-card" prefWidth="200">
                             <graphic>
                                 <VBox alignment="CENTER" spacing="5">
                                     <Label text="✓" styleClass="icon-large"/>
-                                    <Label text="Approve" styleClass="action-card-title"/>
-                                    <Label text="Validate tournaments" styleClass="action-card-desc"/>
+                                    <Label text="Manage Registrations" styleClass="action-card-title"/>
+                                    <Label text="Validate participants" styleClass="action-card-desc"/>
                                 </VBox>
                             </graphic>
                         </Button>
+
+                    <Button fx:id="approveTournamentsButton" styleClass="action-card" prefWidth="200">
+                        <graphic>
+                            <VBox alignment="CENTER" spacing="5">
+                                <Label text="✓" styleClass="icon-large"/>
+                                <Label text="Approve" styleClass="action-card-title"/>
+                                <Label text="Validate tournaments" styleClass="action-card-desc"/>
+                            </VBox>
+                        </graphic>
+                    </Button>
+
+                    </FlowPane>
+
+                </VBox>
 
             </VBox>
         </ScrollPane>
