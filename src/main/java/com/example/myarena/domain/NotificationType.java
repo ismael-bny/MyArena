@@ -6,6 +6,7 @@ public enum NotificationType {
     PAYMENT_VALIDATION,
     TOURNAMENT_UPDATE,
     SUBSCRIPTION_CHANGE,
+    ACCOUNT_UPDATE,
     OTHER
 }
 

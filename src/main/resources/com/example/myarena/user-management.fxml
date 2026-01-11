@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.myarena.ui.UserManagementController"
+            styleClass="dashboard-background" stylesheets="@styles/myarena-styles.css">
+
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="20" styleClass="top-nav">
+            <Button fx:id="btnBack" text="← Back to Dashboard" styleClass="button, secondary"/>
+            <Label text="👥 User Management" styleClass="logo-text"/>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="20" style="-fx-padding: 30;">
+
+            <HBox spacing="15" styleClass="stat-card" alignment="CENTER_LEFT">
+                <Label text="Selected User Action:" style="-fx-font-weight: bold;"/>
+                <ComboBox fx:id="roleComboBox" promptText="Select New Role" prefWidth="150"/>
+                <Button fx:id="btnUpdateRole" text="Update Role" disable="true" styleClass="button, primary"/>
+                <Label fx:id="lblStatus" text="" style="-fx-font-size: 13px;"/>
+            </HBox>
+
+            <VBox VBox.vgrow="ALWAYS" styleClass="stat-card">
+                <Label text="All Registered Users" styleClass="section-header"/>
+                <TableView fx:id="userTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="colId" text="ID" prefWidth="50"/>
+                        <TableColumn fx:id="colName" text="Name" prefWidth="150"/>
+                        <TableColumn fx:id="colEmail" text="Email" prefWidth="200"/>
+                        <TableColumn fx:id="colRole" text="Current Role" prefWidth="120"/>
+                        <TableColumn fx:id="colStatus" text="Status" prefWidth="100"/>
+                    </columns>
+                    <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
+                </TableView>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>

@@ -49,7 +49,7 @@ public class User {
     public void setPwdHash(String pwdHash) { this.pwdHash = pwdHash; }
     public void setPhone(String phone) { this.phone = phone; }
     public void setRole(UserRole role) { this.role = role; }
-    public void setStatus(UserStatus status) { this.status = status; }
+    public void setStatus(UserStatus status) {this.status = status; }
 
     public boolean isActive() {
         return status == UserStatus.ACTIVE;

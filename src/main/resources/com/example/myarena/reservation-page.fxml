@@ -1,64 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.ColumnConstraints?>
 
-<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.example.myarena.ui.ReservationFrame"
-      spacing="20" styleClass="root"
-      style="-fx-background-color: #f5f7fb;"
-      stylesheets="@styles/myarena-styles.css">
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.myarena.ui.ReservationFrame"
+            styleClass="dashboard-background" stylesheets="@styles/myarena-styles.css">
 
-    <padding>
-        <Insets top="40" left="40" right="40" bottom="40"/>
-    </padding>
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="20" styleClass="top-nav">
+            <Button fx:id="backButton" text="← Back to Menu" styleClass="button, secondary"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label text="📅 Book a Field" styleClass="logo-text"/>
+        </HBox>
+    </top>
 
-    <HBox spacing="15" alignment="CENTER_LEFT">
-        <Button fx:id="backButton" text="← Back to Menu" styleClass="button, secondary"/>
-        <VBox spacing="5">
-            <Label text="Make a Reservation" styleClass="label, h1" style="-fx-text-fill: #111827;"/>
-            <Label text="Select a field and date to see available times." styleClass="label, text-muted"/>
-        </VBox>
-    </HBox>
+    <center>
+        <HBox spacing="30" style="-fx-padding: 30;">
 
-    <HBox spacing="20">
-        <VBox spacing="20" maxWidth="400" HBox.hgrow="ALWAYS" styleClass="card" style="-fx-background-color: white; -fx-padding: 30;">
+            <VBox spacing="20" styleClass="stat-card" minWidth="320" maxWidth="400">
+                <Label text="Reservation Details" styleClass="section-header"/>
 
-            <VBox spacing="8">
-                <Label text="1. Select Field" styleClass="label" style="-fx-font-weight: bold;"/>
-                <ComboBox fx:id="terrainComboBox" promptText="Choose a field..." maxWidth="Infinity" styleClass="combo-box"/>
+                <GridPane vgap="15" hgap="10">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="100"/>
+                    </columnConstraints>
+
+                    <VBox spacing="5" GridPane.rowIndex="0">
+                        <Label text="Select Terrain:" style="-fx-font-weight: bold;"/>
+                        <ComboBox fx:id="terrainComboBox" promptText="Choose a field..." maxWidth="Infinity"/>
+                    </VBox>
+
+                    <VBox spacing="5" GridPane.rowIndex="1">
+                        <Label text="Select Date:" style="-fx-font-weight: bold;"/>
+                        <DatePicker fx:id="datePicker" promptText="Pick a date" maxWidth="Infinity"/>
+                    </VBox>
+
+                    <VBox spacing="5" GridPane.rowIndex="2">
+                        <Label text="Number of Participants:" style="-fx-font-weight: bold;"/>
+                        <TextField fx:id="participantsField" promptText="e.g. 10"/>
+                    </VBox>
+
+                    <VBox spacing="5" GridPane.rowIndex="3">
+                        <Label text="Activity / Purpose:" style="-fx-font-weight: bold;"/>
+                        <TextField fx:id="purposeField" promptText="e.g. Football Match"/>
+                    </VBox>
+                </GridPane>
+
+                <Region VBox.vgrow="ALWAYS"/>
+                <Label text="* Select a date to view available slots" style="-fx-text-fill: gray; -fx-font-size: 11px;"/>
             </VBox>
 
-            <VBox spacing="8">
-                <Label text="2. Select Date" styleClass="label" style="-fx-font-weight: bold;"/>
-                <DatePicker fx:id="datePicker" maxWidth="Infinity" styleClass="date-picker"/>
+            <VBox spacing="15" styleClass="stat-card" HBox.hgrow="ALWAYS">
+                <HBox alignment="CENTER_LEFT">
+                    <Label text="Available Time Slots" styleClass="section-header"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="statusLabel" text="Select a slot" style="-fx-font-weight: bold; -fx-text-fill: #7f8c8d;"/>
+                </HBox>
+
+                <ListView fx:id="slotsListView" VBox.vgrow="ALWAYS" style="-fx-background-color: #f8f9fa; -fx-border-color: #e0e0e0;"/>
+
+                <HBox alignment="CENTER_RIGHT" spacing="15" style="-fx-padding: 10 0 0 0;">
+                    <Button fx:id="createButton" text="Confirm Reservation"
+                            styleClass="button, primary"
+                            style="-fx-font-size: 14px; -fx-padding: 10 25;"/>
+                </HBox>
             </VBox>
 
-            <HBox spacing="10">
-                <VBox spacing="5" HBox.hgrow="ALWAYS">
-                    <Label text="Participants" styleClass="label"/>
-                    <TextField fx:id="participantsField" promptText="Num" styleClass="text-field"/>
-                </VBox>
-                <VBox spacing="5" HBox.hgrow="ALWAYS">
-                    <Label text="Purpose" styleClass="label"/>
-                    <TextField fx:id="purposeField" promptText="e.g. Match" styleClass="text-field"/>
-                </VBox>
-            </HBox>
-
-            <Button fx:id="createButton" text="Confirm Reservation"
-                    maxWidth="Infinity"
-                    styleClass="button"
-                    style="-fx-background-color: #18181b; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 12;"/>
-
-            <Label fx:id="statusLabel" text="" styleClass="label, text-muted" alignment="CENTER" maxWidth="Infinity"/>
-        </VBox>
-
-        <VBox spacing="10" maxWidth="300" HBox.hgrow="ALWAYS" styleClass="card" style="-fx-background-color: white; -fx-padding: 20;">
-            <Label text="Available Times" styleClass="label, h3"/>
-            <Label text="Click a slot to select it" styleClass="label, text-muted"/>
-
-            <ListView fx:id="slotsListView" VBox.vgrow="ALWAYS" style="-fx-border-color: #e4e4e7; -fx-background-radius: 5;"/>
-        </VBox>
-    </HBox>
-</VBox>
+        </HBox>
+    </center>
+</BorderPane>
