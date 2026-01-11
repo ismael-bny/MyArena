@@ -54,6 +54,11 @@ public class PostgresFactory extends AbstractFactory {
         return new NotificationDAOPostgres();
     }
 
+    @Override
+    public TournamentDAO createTournamentDAO() { return new TournamentDAOPostgres(); }
+
+    @Override
+    public TournamentRegistrationDAO createTournamentRegistrationDAO() { return new TournamentRegistrationDAOPostgres();}
 
 }
 

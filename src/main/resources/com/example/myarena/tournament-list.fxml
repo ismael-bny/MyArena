@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.myarena.ui.TournamentListFrame"
+            styleClass="dashboard-background" stylesheets="@styles/myarena-styles.css">
+
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-background-color: #2c3e50; -fx-padding: 12 25;">
+            <Label text="MyArena" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+            <Label text=" | Tournaments" style="-fx-font-size: 16px; -fx-text-fill: #ecf0f1;"/>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="20" style="-fx-padding: 30;">
+            
+            <!-- Header -->
+            <HBox alignment="CENTER_LEFT" spacing="20">
+                <Label fx:id="lblTitle" text="Available Tournaments" 
+                       style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                <Label text="🏆" style="-fx-font-size: 32px;"/>
+                
+                <HBox HBox.hgrow="ALWAYS"/>
+                
+                <Button fx:id="btnRefresh" text="🔄 Refresh" 
+                        style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                <Button fx:id="btnBack" text="← Back to Menu" 
+                        style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand;"/>
+            </HBox>
+
+            <!-- Table -->
+            <TableView fx:id="tournamentTable" VBox.vgrow="ALWAYS" 
+                       style="-fx-background-color: white; -fx-background-radius: 8;">
+                <columns>
+                    <TableColumn fx:id="colId" text="ID" prefWidth="50" style="-fx-alignment: CENTER;"/>
+                    <TableColumn fx:id="colName" text="Tournament Name" prefWidth="180"/>
+                    <TableColumn fx:id="colSport" text="Sport" prefWidth="100"/>
+                    <TableColumn fx:id="colDate" text="Start Date" prefWidth="130" style="-fx-alignment: CENTER;"/>
+                    <TableColumn fx:id="colLocation" text="Location" prefWidth="140"/>
+                    <TableColumn fx:id="colParticipants" text="Participants" prefWidth="90" style="-fx-alignment: CENTER;"/>
+                    <TableColumn fx:id="colStatus" text="Status" prefWidth="110" style="-fx-alignment: CENTER;"/>
+                    <TableColumn fx:id="colActions" text="Actions" prefWidth="180" style="-fx-alignment: CENTER;"/>
+                </columns>
+                
+                <placeholder>
+                    <VBox alignment="CENTER" spacing="10" style="-fx-padding: 40;">
+                        <Label text="🏆" style="-fx-font-size: 48px;"/>
+                        <Label text="No tournaments available" 
+                               style="-fx-font-size: 18px; -fx-text-fill: #7f8c8d;"/>
+                        <Label text="Check back later for upcoming tournaments!" 
+                               style="-fx-font-size: 13px; -fx-text-fill: #95a5a6;"/>
+                    </VBox>
+                </placeholder>
+            </TableView>
+
+            <!-- Footer info -->
+            <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 10 0 0 0;">
+                <Label text="ℹ️" style="-fx-font-size: 14px;"/>
+                <Label text="Click 'Details' to see more information. Click 'Register' to join a tournament." 
+                       style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d;"/>
+            </HBox>
+
+        </VBox>
+    </center>
+
+</BorderPane>

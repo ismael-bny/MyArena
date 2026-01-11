@@ -115,7 +115,60 @@
                             </graphic>
                         </Button>
 
+
+                        <Button fx:id="tournamentButton" styleClass="action-card" prefWidth="200">
+                            <graphic>
+                                <VBox alignment="CENTER" spacing="5">
+                                    <Label text="🏆" styleClass="icon-large"/>
+                                    <Label text="Tournaments" styleClass="action-card-title"/>
+                                    <Label text="Browse &amp; register" styleClass="action-card-desc"/>
+                                </VBox>
+                            </graphic>
+                        </Button>
+
+                        <Button fx:id="createTournamentButton" styleClass="action-card" prefWidth="200">
+                            <graphic>
+                                <VBox alignment="CENTER" spacing="5">
+                                    <Label text="➕" styleClass="icon-large"/>
+                                    <Label text="Create Tournament" styleClass="action-card-title"/>
+                                    <Label text="Create tournaments" styleClass="action-card-desc"/>
+                                </VBox>
+                            </graphic>
+                        </Button>
+
+
+                        <Button fx:id="myTournamentsButton" styleClass="action-card" prefWidth="200">
+                            <graphic>
+                                <VBox alignment="CENTER" spacing="5">
+                                    <Label text="🎫" styleClass="icon-large"/>
+                                    <Label text="My Tournaments" styleClass="action-card-title"/>
+                                    <Label text="View my registrations" styleClass="action-card-desc"/>
+                                </VBox>
+                            </graphic>
+                        </Button>
+
+                        <Button fx:id="manageRegistrationsButton" styleClass="action-card" prefWidth="200">
+                            <graphic>
+                                <VBox alignment="CENTER" spacing="5">
+                                    <Label text="✓" styleClass="icon-large"/>
+                                    <Label text="Manage Registrations" styleClass="action-card-title"/>
+                                    <Label text="Validate participants" styleClass="action-card-desc"/>
+                                </VBox>
+                            </graphic>
+                        </Button>
+
+                    <Button fx:id="approveTournamentsButton" styleClass="action-card" prefWidth="200">
+                        <graphic>
+                            <VBox alignment="CENTER" spacing="5">
+                                <Label text="✓" styleClass="icon-large"/>
+                                <Label text="Approve" styleClass="action-card-title"/>
+                                <Label text="Validate tournaments" styleClass="action-card-desc"/>
+                            </VBox>
+                        </graphic>
+                    </Button>
+
                     </FlowPane>
+
                 </VBox>
 
             </VBox>

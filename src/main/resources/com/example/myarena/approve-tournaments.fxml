@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.myarena.ui.ApproveTournamentsFrame"
+            styleClass="dashboard-background" stylesheets="@styles/myarena-styles.css">
+
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-background-color: #2c3e50; -fx-padding: 12 25;">
+            <Label text="MyArena" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+            <Label text=" | Admin - Approve Tournaments" style="-fx-font-size: 16px; -fx-text-fill: #ecf0f1;"/>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="20" style="-fx-padding: 30;">
+            
+            <!-- Header -->
+            <HBox alignment="CENTER_LEFT" spacing="20">
+                <Label text="Pending Tournaments" 
+                       style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                <Label text="⏳" style="-fx-font-size: 32px;"/>
+                
+                <HBox HBox.hgrow="ALWAYS"/>
+                
+                <Button fx:id="btnRefresh" text="🔄 Refresh" 
+                        style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                <Button fx:id="btnBack" text="← Back to Menu" 
+                        style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-size: 13px; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand;"/>
+            </HBox>
+
+            <!-- Info bar -->
+            <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-background-color: #fff3cd; -fx-padding: 12; -fx-background-radius: 5; -fx-border-color: #ffc107; -fx-border-width: 1; -fx-border-radius: 5;">
+                <Label text="⚠️" style="-fx-font-size: 14px;"/>
+                <Label fx:id="lblCount" text="Pending: 0 tournament(s)" 
+                       style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #856404;"/>
+            </HBox>
+
+            <!-- Table -->
+            <TableView fx:id="tournamentTable" VBox.vgrow="ALWAYS" 
+                       style="-fx-background-color: white; -fx-background-radius: 8;">
+                <columns>
+                    <TableColumn fx:id="colId" text="ID" prefWidth="50" style="-fx-alignment: CENTER;"/>
+                    <TableColumn fx:id="colName" text="Tournament Name" prefWidth="180"/>
+                    <TableColumn fx:id="colSport" text="Sport" prefWidth="100"/>
+                    <TableColumn fx:id="colDate" text="Start Date" prefWidth="100" style="-fx-alignment: CENTER;"/>
+                    <TableColumn fx:id="colLocation" text="Location" prefWidth="120"/>
+                    <TableColumn fx:id="colOrganiser" text="Organiser ID" prefWidth="100" style="-fx-alignment: CENTER;"/>
+                    <TableColumn fx:id="colActions" text="Actions" prefWidth="280" style="-fx-alignment: CENTER;"/>
+                </columns>
+                
+                <placeholder>
+                    <VBox alignment="CENTER" spacing="10" style="-fx-padding: 40;">
+                        <Label text="✓" style="-fx-font-size: 48px; -fx-text-fill: #27ae60;"/>
+                        <Label text="No pending tournaments" 
+                               style="-fx-font-size: 18px; -fx-text-fill: #7f8c8d;"/>
+                        <Label text="All tournaments have been reviewed!" 
+                               style="-fx-font-size: 13px; -fx-text-fill: #95a5a6;"/>
+                    </VBox>
+                </placeholder>
+            </TableView>
+
+            <!-- Info -->
+            <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 10 0 0 0;">
+                <Label text="ℹ️" style="-fx-font-size: 14px;"/>
+                <Label text="Click 'Details' to review full tournament info. Approve to make it visible to clients, or Reject with a reason." 
+                       style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d;"/>
+            </HBox>
+
+        </VBox>
+    </center>
+
+</BorderPane>

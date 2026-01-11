@@ -28,6 +28,11 @@ public class MainMenuFrame {
     @FXML private Button notificationCenterButton;
     @FXML private Button equipmentButton;
     @FXML private Button btnUserManagement;
+    @FXML private Button tournamentButton;
+    @FXML private Button createTournamentButton;
+    @FXML private Button approveTournamentsButton;
+    @FXML private Button manageRegistrationsButton;
+    @FXML private Button myTournamentsButton;
 
     @FXML
     public void initialize() {
@@ -88,6 +93,47 @@ public class MainMenuFrame {
                 // Hide for non-admins
                 btnUserManagement.setVisible(false);
                 btnUserManagement.setManaged(false);
+            }
+        }
+
+        // Tournament Button
+        if (tournamentButton != null) {
+            tournamentButton.setOnAction(e -> navigate(e, "/com/example/myarena/tournament-list.fxml"));
+        }
+
+        // My Tournaments Button
+        if (myTournamentsButton != null) {
+            myTournamentsButton.setOnAction(e -> navigate(e, "/com/example/myarena/my-tournament-registrations.fxml"));
+        }
+
+        // Create Tournament Button (Organisateur only)
+        if (createTournamentButton != null) {
+            if (role == UserRole.ORGANIZER || role == UserRole.ADMIN) {
+                createTournamentButton.setOnAction(e -> navigate(e, "/com/example/myarena/create-tournament.fxml"));
+            }
+            else{
+                createTournamentButton.setVisible(false);
+                createTournamentButton.setManaged(false);
+            }
+        }
+
+        // Manage Registrations Button (Organisateur only)
+        if (manageRegistrationsButton != null) {
+            if (role == UserRole.ORGANIZER || role == UserRole.ADMIN) {
+                manageRegistrationsButton.setOnAction(e -> navigate(e, "/com/example/myarena/manage-tournament-registrations.fxml"));
+            } else {
+                manageRegistrationsButton.setVisible(false);
+                manageRegistrationsButton.setManaged(false);
+            }
+        }
+
+        // Approve Tournaments Button (Admin only)
+        if (approveTournamentsButton != null) {
+            if (role == UserRole.ADMIN){
+                approveTournamentsButton.setOnAction(e -> navigate(e, "/com/example/myarena/approve-tournaments.fxml"));
+            } else {
+                approveTournamentsButton.setVisible(false);
+                approveTournamentsButton.setManaged(false);
             }
         }
 
