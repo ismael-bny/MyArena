@@ -1,0 +1,208 @@
+@startuml
+actor Client
+participant "CartFrame\n(ui)" as UI
+participant "CartController\n(control)" as Controller
+participant "CartFacade\n(facade)" as Facade
+participant "ProductManager\n(services)" as ProductMgr
+participant "CartManager\n(services)" as CartMgr
+participant "DiscountManager\n(services)" as DiscountMgr
+participant "OrderManager\n(services)" as OrderMgr
+participant "NotificationManager\n(services)" as NotifMgr
+participant "AbstractFactory\n(persistance.factory)" as Factory
+participant "PostgresFactory\n(persistance.factory)" as PgFactory
+participant "ProductDAOPostgres\n(dao)" as ProductDAO
+participant "CartDAOPostgres\n(dao)" as CartDAO
+participant "OrderDAOPostgres\n(dao)" as OrderDAO
+database "Postgres DB" as DB
+participant "Product\n(domain)" as Product
+participant "Cart\n(domain)" as Cart
+participant "CartItem\n(domain)" as CartItem
+participant "Order\n(domain)" as Order
+
+== Client Browses and Adds Items to Cart ==
+
+Client -> UI : browseProducts()
+UI -> Controller : loadProducts()
+Controller -> Facade : getAllProducts()
+Facade -> ProductMgr : getAllProducts()
+
+
+ProductMgr -> Factory : createProductDAO()
+Factory -> PgFactory : new PostgresFactory()
+PgFactory -> ProductDAO : new ProductDAOPostgres()
+ProductDAO --> ProductMgr : ProductDAOPostgres
+
+ProductMgr -> ProductDAO : getAllProducts()
+ProductDAO -> DB : SELECT * FROM products
+DB --> ProductDAO : product data
+
+
+ProductDAO -> Product : new Product(id, name, description,\nprice, availableQuantity)
+Product --> ProductDAO : Product
+ProductDAO --> ProductMgr : List<Product>
+ProductMgr --> Facade : List<Product>
+Facade --> Controller : List<Product>
+Controller --> UI : List<Product>
+UI --> Client : display products
+
+Client -> UI : selectProduct(productId, quantity, duration)
+UI -> Controller : addItemToCart(productId, quantity, duration)
+Controller -> Facade : addProduct(productId, quantity, duration)
+
+Facade -> ProductMgr : checkAvailability(productId, quantity)
+ProductMgr -> ProductDAO : checkAvailability(productId, quantity)
+ProductDAO -> DB : SELECT availableQuantity FROM products\nWHERE id = productId
+DB --> ProductDAO : availableQuantity
+ProductDAO --> ProductMgr : boolean
+ProductMgr --> Facade : boolean (available)
+
+alt Product Not Available
+    Facade --> Controller : false
+    Controller --> UI : displayError("Product unavailable")
+    UI --> Client : show error message
+else Product Available
+    Facade -> ProductMgr : getProductById(productId)
+    ProductMgr -> ProductDAO : getProductById(productId)
+    ProductDAO -> DB : SELECT * FROM products WHERE id = productId
+    DB --> ProductDAO : product data
+    ProductDAO -> Product : new Product(...)
+    Product --> ProductDAO : Product
+    ProductDAO --> ProductMgr : Product
+    ProductMgr --> Facade : Product
+
+
+    Facade -> CartMgr : addCartItem(product, quantity, duration)
+
+
+    CartMgr -> Factory : createCartDAO()
+    Factory -> PgFactory : new PostgresFactory()
+    PgFactory -> CartDAO : new CartDAOPostgres()
+    CartDAO --> CartMgr : CartDAOPostgres
+
+    CartMgr -> CartDAO : getCartByUserId(userId)
+    CartDAO -> DB : SELECT * FROM carts WHERE user_id = userId
+    DB --> CartDAO : cart data
+    CartDAO -> Cart : new Cart(id, userId)
+    Cart --> CartDAO : Cart
+    CartDAO --> CartMgr : Cart
+
+    CartMgr -> CartItem : new CartItem(cartId, productId,\nquantity, duration, unitPrice, subtotal)
+    CartItem --> CartMgr : CartItem
+
+    CartMgr -> CartDAO : saveCart(cart)
+    CartDAO -> DB : INSERT INTO cart_items VALUES (...)
+    DB --> CartDAO : success
+    CartDAO --> CartMgr : Cart
+    CartMgr --> Facade : CartItem
+    Facade --> Controller : boolean (success)
+    Controller --> UI : updateCartDisplay()
+    UI --> Client : show updated cart
+end
+
+== Apply Promotion ==
+
+Facade -> DiscountMgr : getApplicableDiscounts(cart)
+
+DiscountMgr -> Factory : createDiscountDAO()
+Factory -> PgFactory : new PostgresFactory()
+PgFactory --> DiscountMgr : DiscountDAO
+
+DiscountMgr -> DB : SELECT * FROM discounts WHERE active = true
+DB --> DiscountMgr : discount data
+DiscountMgr --> Facade : List<Discount>
+
+alt Discounts Available
+    Facade -> DiscountMgr : applyDiscount(cart, discount)
+    DiscountMgr --> Facade : void
+    Facade --> Controller : discountApplied
+    Controller --> UI : displayDiscountedPrice()
+    UI --> Client : show discounted price
+end
+
+== Client Submits Order ==
+
+Client -> UI : clickOrderButton()
+UI -> Controller : submitOrder()
+
+
+Controller -> Facade : submitOrder(userId)
+
+Facade -> CartMgr : getCart(userId)
+CartMgr -> CartDAO : getCartByUserId(userId)
+CartDAO -> DB : SELECT * FROM carts c\nJOIN cart_items ci ON c.id = ci.cart_id\nWHERE c.user_id = userId
+DB --> CartDAO : cart and items data
+CartDAO --> CartMgr : Cart
+CartMgr --> Facade : Cart
+
+alt Cart is Empty
+    Facade --> Controller : exception (empty cart)
+    Controller --> UI : displayError("Cart is empty")
+    UI --> Client : show error message
+else Cart has Items
+    UI -> Client : show confirmation dialog
+    Client -> UI : confirmOrder()
+    UI -> Controller : confirmSubmitOrder()
+
+
+    loop for each item in cart
+        Facade -> ProductMgr : checkAvailability(productId, quantity)
+        ProductMgr -> ProductDAO : checkAvailability(productId, quantity)
+        ProductDAO -> DB : SELECT availableQuantity FROM products
+        DB --> ProductDAO : availableQuantity
+        ProductDAO --> ProductMgr : boolean
+        ProductMgr --> Facade : boolean (available)
+    end
+
+    alt Items Unavailable
+        Facade --> Controller : exception (items unavailable)
+        Controller --> UI : displayUnavailableItems()
+        UI --> Client : show unavailable items
+    else Items Available
+
+        Facade -> OrderMgr : createOrder(cart, user)
+
+
+        OrderMgr -> Factory : createOrderDAO()
+        Factory -> PgFactory : new PostgresFactory()
+        PgFactory -> OrderDAO : new OrderDAOPostgres()
+        OrderDAO --> OrderMgr : OrderDAOPostgres
+
+        OrderMgr -> Order : new Order(userId, referenceNumber,\ntotalAmount, PENDING_VALIDATION)
+        Order --> OrderMgr : Order
+
+        OrderMgr -> OrderDAO : saveOrder(order)
+        OrderDAO -> DB : INSERT INTO orders VALUES (...)
+        DB --> OrderDAO : order data
+        OrderDAO --> OrderMgr : Order
+
+
+        OrderMgr -> OrderDAO : assignToOwner(order)
+        OrderDAO -> DB : UPDATE orders SET owner_id = ...
+        DB --> OrderDAO : success
+        OrderDAO --> OrderMgr : boolean
+
+        OrderMgr --> Facade : Order
+
+
+        Facade -> OrderMgr : notifyOwner and Client
+        OrderMgr -> NotifMgr : notifyOwner(order)
+        NotifMgr --> OrderMgr : success
+
+        OrderMgr -> NotifMgr : sendOrderConfirmation(order)
+        NotifMgr --> OrderMgr : success
+
+
+        Facade -> CartMgr : clearCart(userId)
+        CartMgr -> CartDAO : clearCart(cartId)
+        CartDAO -> DB : DELETE FROM cart_items\nWHERE cart_id = cartId
+        DB --> CartDAO : success
+        CartDAO --> CartMgr : boolean
+        CartMgr --> Facade : boolean
+
+        Facade --> Controller : Order
+        Controller --> UI : displaySuccess(order)
+        UI --> Client : show success message\nwith reference number
+    end
+end
+
+@enduml
