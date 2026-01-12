@@ -41,7 +41,7 @@ public class TournamentUseCaseTest {
 
             // Ensure test users exist
             String createOrganiser = "INSERT INTO users (id, name, email, password_hash, phone, role, status) " +
-                    "VALUES (" + testOrganiserId + ", 'Test Organiser', 'organiser@test.com', 'hash123', '00000001', 'ORGANISATEUR', 'ACTIVE') " +
+                    "VALUES (" + testOrganiserId + ", 'Test Organiser', 'organiser@test.com', 'hash123', '00000001', 'ORGANIZER', 'ACTIVE') " +
                     "ON CONFLICT (id) DO NOTHING";
             stmt.executeUpdate(createOrganiser);
 
