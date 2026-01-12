@@ -21,7 +21,7 @@
 
     <HBox spacing="10" alignment="CENTER_LEFT">
         <Label text="Rate: " style="-fx-font-weight: bold;"/>
-        <Label fx:id="lblDailyPrice" text="$0.00 / day"/>
+        <Label fx:id="lblDailyPrice" text="/$0.00 per day"/>
     </HBox>
 
     <Separator/>
@@ -46,7 +46,7 @@
         </VBox>
         <VBox alignment="CENTER">
             <Label text="Total Cost" style="-fx-text-fill: gray;"/>
-            <Label fx:id="lblTotalPrice" text="$0.00" style="-fx-font-size: 16px; -fx-text-fill: #4CAF50; -fx-font-weight: bold;"/>
+            <Label fx:id="lblTotalPrice" text="/$0.00" style="-fx-font-size: 16px; -fx-text-fill: #4CAF50; -fx-font-weight: bold;"/>
         </VBox>
     </HBox>
 
